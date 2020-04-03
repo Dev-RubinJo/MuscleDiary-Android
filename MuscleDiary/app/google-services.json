@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "389808981105",
+    "firebase_url": "https://musclediary-180ce.firebaseio.com",
+    "project_id": "musclediary-180ce",
+    "storage_bucket": "musclediary-180ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389808981105:android:c0fe35e56584e61ca487d0",
+        "android_client_info": {
+          "package_name": "com.munchkin.musclediary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389808981105-i8v2hnkutea6i3gd0nrp9v1qarh8k5sk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH8wh3VlvWqxZpYRXKUQkYH9dOA7AO6ug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389808981105-i8v2hnkutea6i3gd0nrp9v1qarh8k5sk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
