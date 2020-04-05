@@ -1,4 +1,4 @@
-package com.munchkin.musclediary.signin;
+package com.munchkin.musclediary.src.signin;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;

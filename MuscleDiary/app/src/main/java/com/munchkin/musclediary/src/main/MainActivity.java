@@ -1,4 +1,4 @@
-package com.munchkin.musclediary.main;
+package com.munchkin.musclediary.src.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.munchkin.musclediary.R;
-import com.munchkin.musclediary.signin.LoginActivity;
+import com.munchkin.musclediary.src.signin.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 

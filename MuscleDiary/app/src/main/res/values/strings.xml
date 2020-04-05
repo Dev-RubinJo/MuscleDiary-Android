@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">MuscleDiary</string>
+
+    <!-- SignIn -->
     <string name="login_enter_password">비밀번호를 입력하세요</string>
     <string name="login_enter_email">이메일을 입력하세요</string>
     <string name="login_str_login_btn">로그인</string>
+
+    <!-- Config String -->
+    <string name="loading">로딩중입니다.</string>
+    <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>
+
 </resources>
