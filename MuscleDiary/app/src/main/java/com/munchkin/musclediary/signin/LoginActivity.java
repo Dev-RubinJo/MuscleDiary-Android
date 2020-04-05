@@ -1,7 +1,9 @@
-package com.munchkin.musclediary;
+package com.munchkin.musclediary.signin;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.munchkin.musclediary.R;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
