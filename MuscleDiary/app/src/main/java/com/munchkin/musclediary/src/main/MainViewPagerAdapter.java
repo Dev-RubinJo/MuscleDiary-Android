@@ -37,6 +37,4 @@ public class MainViewPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragmentList.size() ;
     }
-
-
 }

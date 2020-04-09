@@ -18,19 +18,22 @@ public class SignInActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-
+        // set UI Component
         mSignInButton = findViewById(R.id.login_btn_login);
-        final Intent goToMain = new Intent(this, MainActivity.class);
 
-        //move to main with out function
+        // set listener method
+        this.initOnClickListener();
+    }
+
+    private void initOnClickListener() {
+        final Intent signInIntent = new Intent(this, MainActivity.class);
+
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(goToMain);
+                startActivity(signInIntent);
                 finish();
             }
         });
-
-
     }
 }
