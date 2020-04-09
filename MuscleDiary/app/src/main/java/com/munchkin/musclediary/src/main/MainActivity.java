@@ -23,11 +23,15 @@ public class MainActivity extends BaseActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs_main);
         tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     //텝레이아웃에 추가할 때 여기에 추가하는 함수
     public void setupViewPager(ViewPager viewPager) {
-        //mAdapter.addFragment(new ExampleFragment(), "예시");
+        mAdapter.addFragment(new HomeFragment(), "음식");
+        mAdapter.addFragment(new ExerciseFragment(), "운동");
+        mAdapter.addFragment(new ChartFragment(), "기록");
+        mAdapter.addFragment(new SettingFragment(), "설정");
         viewPager.setAdapter(mAdapter);
     }
 }

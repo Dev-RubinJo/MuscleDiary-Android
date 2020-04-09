@@ -10,8 +10,11 @@
     <string name="loading">로딩중입니다.</string>
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>
 
-    <!-- Excercise fragment 김태훈 연습용 -->
-    <string name="fragment_excercise_title">운동프레그먼트</string>
+    <!-- Excercise fragment -->
+    <string name="fragment_excercise_title">운동</string>
+
+    <!-- Home fragment -->
+    <string name="fragment_Home_title">음식&amp;칼로리</string>
 
 
 </resources>
