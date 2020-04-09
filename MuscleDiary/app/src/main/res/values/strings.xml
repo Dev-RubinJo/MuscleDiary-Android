@@ -16,5 +16,9 @@
     <!-- Home fragment -->
     <string name="fragment_Home_title">음식&amp;칼로리</string>
 
+    <!-- Chart fragment -->
+    <string name="chart_type">분석종류 변경(체지방, 체중)</string>
+    <string name="chart_term">기간설정</string>
+
 
 </resources>
