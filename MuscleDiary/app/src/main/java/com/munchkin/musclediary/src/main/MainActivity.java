@@ -1,8 +1,8 @@
 package com.munchkin.musclediary.src.main;
 
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.munchkin.musclediary.R;
