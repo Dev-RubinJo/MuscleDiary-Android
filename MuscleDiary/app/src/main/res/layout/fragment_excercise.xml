@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fragment_excercise_title"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+
+        />
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/calendarView"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="@color/colorAccent"
+        app:mcv_calendarMode="week"
+        app:mcv_arrowColor="@android:color/transparent"
+        app:mcv_tileHeight="35dp"
+        />
+
+
+</LinearLayout>
