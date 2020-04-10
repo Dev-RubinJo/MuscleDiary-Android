@@ -13,8 +13,8 @@
     <!-- Excercise fragment -->
     <string name="fragment_excercise_title">운동</string>
 
-    <!-- Home fragment -->
-    <string name="fragment_Home_title">음식&amp;칼로리</string>
+    <!-- Food fragment -->
+    <string name="fragment_Food_title">음식&amp;칼로리</string>
 
     <!-- Chart fragment -->
     <string name="chart_type">분석종류 변경</string>
