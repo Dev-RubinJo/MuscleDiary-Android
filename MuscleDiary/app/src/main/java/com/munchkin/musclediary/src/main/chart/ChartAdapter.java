@@ -27,7 +27,7 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
         TextView tvDate;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvLevel = itemView.findViewById(R.id.tv_analysis_chart_item);
+            tvLevel = itemView.findViewById(R.id.tv_level_chart_item);
             tvDate = itemView.findViewById(R.id.tv_date_chart_item);
         }
     }
