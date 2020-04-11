@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -22,6 +25,9 @@ import java.util.List;
 public class ChartFragment extends BaseFragment {
 
     private LineChart mLineChart;
+//    private LineChart lineChart;
+    //리사이클러뷰 아이템 리스트
+    private ArrayList<ChartItem> items;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -29,11 +35,23 @@ public class ChartFragment extends BaseFragment {
         setComponentView(view);
         return view;
     }
-
     // 생성될 차트 프레그먼트에 대한 컴포넌트 세팅
     @Override
     public void setComponentView(View v) {
         mLineChart = (LineChart)v.findViewById(R.id.line_chart);
+        //더미데이터 넣는 함수 실행
+        addRecyclerList();
+
+        //리사이클러뷰 생성, 레이아웃 매니저 적용
+        RecyclerView chartRecyclerView = v.findViewById(R.id.recycler_chart);
+        chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //리사이클러뷰 어뎁터 생성, 적용
+        ChartAdapter adapter = new ChartAdapter(getContext(), items);
+        chartRecyclerView.setAdapter(adapter);
+
+        //예시용 그래프 라이브러리
+//        mLineChart = (LineChart)view.findViewById(R.id.line_chart);
 
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
         List<Entry> entries = new ArrayList<>();
@@ -87,5 +105,18 @@ public class ChartFragment extends BaseFragment {
 
     // 분석 종류, 기간에 따라 리스트 만들고 리턴해주기
 
+    //리사이클러뷰 리스트 아이템 채우는 함수
+    private void addRecyclerList(){
+        //더미데이터들
+        String levelList[] = {"75.5Kg", "74.5Kg","75.7Kg","74.9Kg","75.1Kg","74.5Kg"};
+        String dateList[] = {"2020년 04월 9일", "2020년 04월 10일","2020년 04월 11일","2020년 04월 12일","2020년 04월 13일","2020년 04월 14일"};
+        items = new ArrayList<>();
 
+        for(int i = 0; i < levelList.length; i++){
+            ChartItem item = new ChartItem();
+            item.setLevel(levelList[i]);
+            item.setDate(dateList[i]);
+            items.add(item);
+        }
+    }
 }
