@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_up_str_title"
+            android:text="@string/sign_up_action_bar_title"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textSize="18sp"
@@ -145,7 +145,7 @@
         android:layout_height="55dp"
         android:background="@color/colorPrimaryDark"
         android:layout_alignParentBottom="true"
-        android:text="입력 완료"
+        android:text="@string/sign_up_btn_title"
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"
         android:textSize="17sp"/>
