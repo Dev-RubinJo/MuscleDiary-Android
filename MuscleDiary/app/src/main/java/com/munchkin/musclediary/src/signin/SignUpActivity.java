@@ -4,49 +4,50 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
-import com.munchkin.musclediary.src.main.MainActivity;
 
-public class SignInActivity extends BaseActivity {
+public class SignUpActivity extends BaseActivity {
+    //complete button
+    Button mBtnComplete;
 
-    //log in button
-    Button mSignInButton;
-    //Sign up button
-    TextView mSignUpText;
-
+    //back button
+    ImageButton mBtnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_sign_up);
         // set UI Component
-        mSignInButton = findViewById(R.id.login_btn_login);
-        mSignUpText = findViewById(R.id.login_tv_sign_up);
+        mBtnComplete = findViewById(R.id.sign_up_btn_complete);
+        mBtnBack = findViewById(R.id.sign_up_btn_back);
 
         // set listener method
         this.initOnClickListener();
     }
 
     private void initOnClickListener() {
-        final Intent signInIntent = new Intent(this, MainActivity.class);
-        final Intent signUpIntent = new Intent(this, SignUpActivity.class);
+        final Intent signInIntent = new Intent(this, SignInActivity.class);
 
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
+        mBtnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"임시 : 로그인 해주세요",Toast.LENGTH_LONG).show();
                 startActivity(signInIntent);
                 finish();
             }
         });
 
-        mSignUpText.setOnClickListener(new View.OnClickListener() {
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(signUpIntent);
+                finish();
             }
         });
+
+
     }
 }
