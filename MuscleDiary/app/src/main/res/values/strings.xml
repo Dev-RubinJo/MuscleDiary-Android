@@ -28,6 +28,17 @@
     <string name="chart_type">분석종류 변경</string>
     <string name="chart_term">기간설정</string>
 
+    <!-- Setting fragment -->
+    <string name="fragment_setting_title">설정</string>
+    <string name="setting_weight_goal">체중목표</string>
+    <string name="setting_kcal_goal">영양목표</string>
+    <string name="setting_food">식사 종류 설정</string>
+    <string name="setting_start_weight">시작체중 - </string>
+    <string name="setting_now_weight">현재체중 - </string>
+    <string name="setting_goal_weight">목표체중 - </string>
+    <string name="setting_week_weight">주간목표 - 매주 </string>
+    <string name="setting_kg">Kg</string>
+
     <!-- Config String -->
     <string name="loading">로딩중입니다.</string>
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>
