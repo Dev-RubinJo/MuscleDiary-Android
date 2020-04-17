@@ -9,5 +9,7 @@
     <color name="colorCarboProgressBar">#6A47FF</color>
     <color name="colorProteinProgressBar">#60C596</color>
     <color name="colorFatProgressBar">#F4DD3B</color>
+    <color name="colorProgressBarBackground">#b6bbd8</color>
+    <color name="colorMealBackground">#E6E6E6</color>
 
 </resources>

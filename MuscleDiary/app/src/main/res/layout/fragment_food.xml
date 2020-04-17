@@ -127,7 +127,7 @@
                 android:id="@+id/fragment_food_pb_carbo"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_color="@color/colorProgressBarBackground"
                 app:cpb_background_progressbar_width="5dp"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progressbar_color="@color/colorCarboProgressBar"
@@ -144,13 +144,13 @@
                 android:id="@+id/fragment_food_pb_protein"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_color="@color/colorProgressBarBackground"
                 app:cpb_background_progressbar_width="5dp"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progressbar_color="@color/colorProteinProgressBar"
                 app:cpb_progressbar_width="7dp"
                 app:cpb_round_border="true"
-                app:cpb_progress="30"
+                app:cpb_progress="40"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -161,13 +161,13 @@
                 android:id="@+id/fragment_food_pb_fat"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_color="@color/colorProgressBarBackground"
                 app:cpb_background_progressbar_width="5dp"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progressbar_color="@color/colorFatProgressBar"
                 app:cpb_progressbar_width="7dp"
                 app:cpb_round_border="true"
-                app:cpb_progress="30"
+                app:cpb_progress="80"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -177,8 +177,9 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_food_rv_meal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
