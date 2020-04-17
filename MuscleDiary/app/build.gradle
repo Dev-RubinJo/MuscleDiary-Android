@@ -55,4 +55,7 @@ dependencies {
 
     // https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // https://github.com/lopspower/CircularProgressBar
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
 }

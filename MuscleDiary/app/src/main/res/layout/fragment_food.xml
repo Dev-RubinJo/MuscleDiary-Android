@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,7 +11,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/fragment_home_tv_title"
+            android:id="@+id/fragment_food_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_food_title"
@@ -22,8 +23,7 @@
             />
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/fragment_home_calendarView"
+            android:id="@+id/fragment_food_calendarView"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -36,6 +36,7 @@
             />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="@drawable/fragment_food_calories_back"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginStart="30dp"
@@ -44,55 +45,70 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/fragment_home_tv_goal_cal"
+                android:id="@+id/fragment_food_tv_goal_cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="5dp"
+
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/fragment_home_tv_minus"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_minus"
                 android:text="목표칼로리" />
 
             <TextView
-                android:id="@+id/fragment_home_tv_minus"
+                android:id="@+id/fragment_food_tv_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_goal_cal"
-                app:layout_constraintEnd_toStartOf="@+id/fragment_home_tv_eaten_cal"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="5dp"
+
+                app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_goal_cal"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_eaten_cal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="-" />
 
             <TextView
-                android:id="@+id/fragment_home_tv_eaten_cal"
+                android:id="@+id/fragment_food_tv_eaten_cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_minus"
-                app:layout_constraintEnd_toStartOf="@+id/fragment_home_tv_equal"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="5dp"
+
+                app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_minus"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_equal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="섭취칼로리" />
 
             <TextView
-                android:id="@+id/fragment_home_tv_equal"
+                android:id="@+id/fragment_food_tv_equal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_eaten_cal"
-                app:layout_constraintEnd_toStartOf="@+id/fragment_home_tv_left_cal"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="5dp"
+
+                app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_eaten_cal"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_left_cal"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="=" />
 
             <TextView
-                android:id="@+id/fragment_home_tv_left_cal"
+                android:id="@+id/fragment_food_tv_left_cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                app:layout_constraintStart_toEndOf="@+id/fragment_home_tv_equal"
+                android:textColor="@color/colorAccent"
+                android:layout_margin="5dp"
+
+                app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_equal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -100,6 +116,70 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_food_cl_progress"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/fragment_food_pb_carbo"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress_direction="to_left"
+                app:cpb_progressbar_color="@color/colorCarboProgressBar"
+                app:cpb_progressbar_width="7dp"
+                app:cpb_round_border="true"
+                app:cpb_progress="30"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_protein" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/fragment_food_pb_protein"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress_direction="to_left"
+                app:cpb_progressbar_color="@color/colorProteinProgressBar"
+                app:cpb_progressbar_width="7dp"
+                app:cpb_round_border="true"
+                app:cpb_progress="30"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fragment_food_pb_carbo"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_fat"/>
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/fragment_food_pb_fat"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress_direction="to_left"
+                app:cpb_progressbar_color="@color/colorFatProgressBar"
+                app:cpb_progressbar_width="7dp"
+                app:cpb_round_border="true"
+                app:cpb_progress="30"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/fragment_food_pb_protein"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

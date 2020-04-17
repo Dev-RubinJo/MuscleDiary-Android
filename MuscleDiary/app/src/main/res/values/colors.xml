@@ -5,4 +5,9 @@
     <color name="colorPrimaryDark">#2B3252</color>
     <color name="colorAccent">#F9D643</color>
 
+    <!--fragment food color-->
+    <color name="colorCarboProgressBar">#6A47FF</color>
+    <color name="colorProteinProgressBar">#60C596</color>
+    <color name="colorFatProgressBar">#F4DD3B</color>
+
 </resources>
