@@ -36,7 +36,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             tvMealTitle = itemView.findViewById(R.id.fragment_food_item_tv_meal_title);
             tvTotalCalories = itemView.findViewById(R.id.fragment_food_item_tv_total_calories);
             btnAddFood = itemView.findViewById(R.id.fragment_food_item_btn_add_food);
-            iBtnExpand = itemView.findViewById(R.id.fragment_food_item_btn_expand);
         }
     }
 

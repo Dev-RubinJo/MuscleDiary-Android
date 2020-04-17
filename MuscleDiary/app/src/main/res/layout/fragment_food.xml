@@ -118,7 +118,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragment_food_cl_progress"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -136,7 +136,7 @@
                 app:cpb_progress="30"
 
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_carbo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_protein" />
 
@@ -153,7 +153,7 @@
                 app:cpb_progress="40"
 
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_protein"
                 app:layout_constraintStart_toEndOf="@+id/fragment_food_pb_carbo"
                 app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_fat"/>
 
@@ -170,9 +170,100 @@
                 app:cpb_progress="80"
 
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_fat"
                 app:layout_constraintStart_toEndOf="@id/fragment_food_pb_protein"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_carbo_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="40/120g"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_food_pb_carbo"
+                app:layout_constraintStart_toStartOf="@+id/fragment_food_pb_carbo"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_food_pb_carbo"/>
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_protein_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50/120g"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_food_pb_protein"
+                app:layout_constraintStart_toStartOf="@id/fragment_food_pb_protein"
+                app:layout_constraintEnd_toEndOf="@id/fragment_food_pb_protein"/>
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_fat_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="80/100g"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_food_pb_fat"
+                app:layout_constraintStart_toStartOf="@id/fragment_food_pb_fat"
+                app:layout_constraintEnd_toEndOf="@id/fragment_food_pb_fat"/>
+
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_carbo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="탄수화물"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                android:layout_marginTop="5dp"
+
+                app:layout_constraintTop_toBottomOf="@+id/fragment_food_pb_carbo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/fragment_food_pb_carbo"
+                app:layout_constraintEnd_toEndOf="@+id/fragment_food_pb_carbo"/>
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_protein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="단백질"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                android:layout_marginTop="5dp"
+
+                app:layout_constraintTop_toBottomOf="@id/fragment_food_pb_protein"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/fragment_food_pb_protein"
+                app:layout_constraintEnd_toEndOf="@id/fragment_food_pb_protein"/>
+
+            <TextView
+                android:id="@+id/fragment_food_tv_str_fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지방"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+
+                android:layout_marginTop="5dp"
+
+                app:layout_constraintTop_toBottomOf="@id/fragment_food_pb_fat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/fragment_food_pb_fat"
+                app:layout_constraintEnd_toEndOf="@id/fragment_food_pb_fat"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
