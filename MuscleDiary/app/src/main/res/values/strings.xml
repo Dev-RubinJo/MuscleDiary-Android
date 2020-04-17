@@ -38,6 +38,7 @@
     <string name="setting_goal_weight">목표체중 - </string>
     <string name="setting_week_weight">주간목표 - 매주 </string>
     <string name="setting_kg">Kg</string>
+    <string name="setting_sign_out">로그아웃</string>
 
     <!-- Config String -->
     <string name="loading">로딩중입니다.</string>
