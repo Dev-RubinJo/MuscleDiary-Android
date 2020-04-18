@@ -79,7 +79,7 @@ public class InputChartActivity extends BaseActivity {
         Calendar c1 = Calendar.getInstance();
 
         List<String> dates = new ArrayList<String>();
-        DateFormat dateFormat = new SimpleDateFormat("MMM dd일 EEEE");
+        DateFormat dateFormat = new SimpleDateFormat("MM월 dd일");
         dates.add(dateFormat.format(c1.getTime()));
 
 
