@@ -5,14 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
+import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
 
@@ -30,12 +31,16 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         TextView tvMealTitle;
         TextView tvTotalCalories;
         Button btnAddFood;
-        ImageButton iBtnExpand;
+
+        RecyclerView rvMenuList;
+
         public ViewHolder(@NonNull View itemView){
             super(itemView);
-            tvMealTitle = itemView.findViewById(R.id.fragment_food_item_tv_meal_title);
-            tvTotalCalories = itemView.findViewById(R.id.fragment_food_item_tv_total_calories);
-            btnAddFood = itemView.findViewById(R.id.fragment_food_item_btn_add_food);
+            tvMealTitle = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_title);
+            tvTotalCalories = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_calories);
+            btnAddFood = (Button) itemView.findViewById(R.id.fragment_food_item_btn_delete_menu);
+
+            rvMenuList = (RecyclerView) itemView.findViewById(R.id.fragmetn_food_item_rv_menu);
         }
     }
 
@@ -51,7 +56,17 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MealItem mealItem = mMealItems.get(position);
         holder.tvMealTitle.setText(mealItem.getMealTitle());
-        holder.tvTotalCalories.setText(Double.toString(mealItem.getMealTotalCalories())+" kcal");
+        holder.tvTotalCalories.setText(mealItem.getMealTotalCalories()+" kcal");
+
+        //끼니 리사이클러 뷰 속 메뉴 리사이클러 뷰 정의 - 어뎁터 생성,등록 등등
+        ArrayList<MenuItem> menuItems = mMealItems.get(position).getMenuItemList();
+        MenuAdapter menuAdapter = new MenuAdapter(mContext, menuItems);
+        holder.rvMenuList.setHasFixedSize(true);
+        holder.rvMenuList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        holder.rvMenuList.setAdapter(menuAdapter);
+
+        holder.rvMenuList.setNestedScrollingEnabled(false); // 중요
+
     }
 
     @Override
