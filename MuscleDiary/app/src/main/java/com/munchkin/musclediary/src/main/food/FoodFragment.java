@@ -29,6 +29,7 @@ public class FoodFragment extends BaseFragment {
     // 생성될 음식 프레그먼트에 대한 컴포넌트 세팅
     @Override
     public void setComponentView(View v) {
+        //더미데이터 생성
         addMealList();
 
         //리사이클러뷰 생성, 레이아웃 매니저 적용
