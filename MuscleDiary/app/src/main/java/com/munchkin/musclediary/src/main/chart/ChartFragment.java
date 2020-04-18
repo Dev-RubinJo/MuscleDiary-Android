@@ -1,10 +1,12 @@
 package com.munchkin.musclediary.src.main.chart;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,7 @@ public class ChartFragment extends BaseFragment {
 //    private LineChart lineChart;
     //리사이클러뷰 아이템 리스트
     private ArrayList<ChartItem> items;
+    private ImageButton mBtnAddData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -39,6 +42,10 @@ public class ChartFragment extends BaseFragment {
     @Override
     public void setComponentView(View v) {
         mLineChart = (LineChart)v.findViewById(R.id.line_chart);
+        mBtnAddData =  v.findViewById(R.id.bt_add_list_chart);
+        //버튼 리스터 초기화
+        initOnClickListener();
+
         //더미데이터 넣는 함수 실행
         addRecyclerList();
 
@@ -118,5 +125,16 @@ public class ChartFragment extends BaseFragment {
             item.setDate(dateList[i]);
             items.add(item);
         }
+    }
+
+    private void initOnClickListener(){
+        final Intent inputChartIntent = new Intent(getContext(), InputChartActivity.class);
+
+        mBtnAddData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(inputChartIntent);
+            }
+        });
     }
 }

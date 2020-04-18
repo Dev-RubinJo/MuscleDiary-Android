@@ -10,4 +10,38 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--Activity_input_chart numberpicker theme-->
+    <style name="AppTheme.PickerDate" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <!--To remove divider of the number picker-->
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="AppTheme.PickerTime" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <!--To remove divider of the number picker-->
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!--투명배경을 위한 스타일-->
+    <style name="Transparent" parent="@style/Theme.AppCompat">
+        <!--Titlebar 없애는 옵션
+            true : Titlebar x
+            false : Titlebar o
+        -->
+        <item name="windowNoTitle">true</item>
+        <!-- 투명정도를 나타내는 색-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <!--
+        android:backgroundDimEnabled
+        true - 반투명 검정 /  false - 완전 투명
+        -->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
 </resources>

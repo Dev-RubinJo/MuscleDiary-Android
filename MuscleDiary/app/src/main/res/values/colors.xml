@@ -13,4 +13,7 @@
     <color name="colorMealBackground">#E6E6E6</color>
     <color name="colorMenuBackground">#C6C6C6</color>
 
+    <!--activity_input_chart_color-->
+    <color name="colorChartInputBackground">#0DB1B1B1</color>
+
 </resources>
