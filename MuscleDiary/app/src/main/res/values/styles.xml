@@ -12,7 +12,7 @@
 
     <!--Activity_input_chart numberpicker theme-->
     <style name="AppTheme.PickerDate" parent="Theme.AppCompat.Light.NoActionBar" >
-        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
         <!--To remove divider of the number picker-->
         <item name="colorControlNormal">@color/colorPrimaryDark</item>
         <item name="android:textSize">17sp</item>
