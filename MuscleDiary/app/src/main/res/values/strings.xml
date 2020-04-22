@@ -40,6 +40,9 @@
     <string name="setting_kg">Kg</string>
     <string name="setting_sign_out">로그아웃</string>
 
+    <!--setting input activity-->
+    <string name="input_setting_hint">추가하고 싶은 끼니를 입력하세요.</string>
+
     <!-- Config String -->
     <string name="loading">로딩중입니다.</string>
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>

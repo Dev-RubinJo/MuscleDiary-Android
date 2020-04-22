@@ -16,4 +16,7 @@
     <!--activity_input_chart_color-->
     <color name="colorChartInputBackground">#0DB1B1B1</color>
 
+    <!--activity_input_setting_color-->
+    <color name="colorSettingInputBackground">#0DB1B1B1</color>
+
 </resources>

@@ -203,6 +203,13 @@
             android:id="@+id/recycler_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_add_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="추가"/>
         
         <Button
             android:layout_width="match_parent"
