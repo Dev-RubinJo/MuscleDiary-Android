@@ -48,5 +48,6 @@
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>
     <string name="chart_input_str_input_data">수치를 입력하세요</string>
     <string name="chart_input_str_complete">입력완료</string>
+    <string name="fragment_exercise_title">운동일지</string>
 
 </resources>

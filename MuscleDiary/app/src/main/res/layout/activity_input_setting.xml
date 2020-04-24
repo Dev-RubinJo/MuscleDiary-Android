@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/input_setting_title"
-        android:text="끼니 설정"
+        android:text="끼니 추가"
         android:textStyle="bold"
         android:textSize="21sp"
         android:textColor="@color/colorPrimaryDark"
