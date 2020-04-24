@@ -20,7 +20,7 @@
         android:id="@+id/tv_date_chart_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#555555"
+        android:textColor="@color/colorChartItemDescription"
         android:textSize="16sp"
         tools:text="2020년 04월 11일"/>
     <View

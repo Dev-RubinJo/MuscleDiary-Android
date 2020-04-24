@@ -70,7 +70,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             super(itemView);
             tvMenuTitle = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_title);
             tvMenuCalories = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_calories);
-            btnDeleteMenu = (Button) itemView.findViewById(R.id.fragment_food_item_btn_delete_menu);
+            btnDeleteMenu = (Button) itemView.findViewById(R.id.fragment_food_item_btn_add_menu);
 
             itemView.setOnClickListener(this);
         }

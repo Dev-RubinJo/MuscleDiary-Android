@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.food.InputMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
@@ -38,7 +40,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             super(itemView);
             tvMealTitle = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_title);
             tvTotalCalories = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_calories);
-            btnAddFood = (Button) itemView.findViewById(R.id.fragment_food_item_btn_delete_menu);
+            btnAddFood = (Button) itemView.findViewById(R.id.fragment_food_item_btn_add_menu);
 
             rvMenuList = (RecyclerView) itemView.findViewById(R.id.fragmetn_food_item_rv_menu);
         }
@@ -54,9 +56,18 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MealItem mealItem = mMealItems.get(position);
+        final MealItem mealItem = mMealItems.get(position);
         holder.tvMealTitle.setText(mealItem.getMealTitle());
         holder.tvTotalCalories.setText(mealItem.getMealTotalCalories()+" kcal");
+
+        holder.btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inputMenuIntent = new Intent(mContext, InputMenuActivity.class);
+                inputMenuIntent.putExtra("mealTitle",mealItem.getMealTitle());
+                mContext.startActivity(inputMenuIntent);
+            }
+        });
 
         //끼니 리사이클러 뷰 속 메뉴 리사이클러 뷰 정의 - 어뎁터 생성,등록 등등
         ArrayList<MenuItem> menuItems = mMealItems.get(position).getMenuItemList();
@@ -64,7 +75,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         holder.rvMenuList.setHasFixedSize(true);
         holder.rvMenuList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         holder.rvMenuList.setAdapter(menuAdapter);
-
         holder.rvMenuList.setNestedScrollingEnabled(false); // 중요
 
     }

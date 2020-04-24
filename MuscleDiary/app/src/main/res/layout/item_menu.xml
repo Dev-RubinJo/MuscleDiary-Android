@@ -8,7 +8,9 @@
     android:background="@drawable/fragment_food_menu_back"
     android:paddingTop="3dp"
     android:paddingBottom="3dp"
-    android:layout_margin="3dp">
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp">
 
     <TextView
         android:id="@+id/fragment_food_item_tv_menu_title"
@@ -43,7 +45,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/fragment_food_item_btn_delete_menu"
+        android:id="@+id/fragment_food_item_btn_add_menu"
         android:layout_width="40dp"
         android:layout_height="20dp"
         android:background="@drawable/fragment_food_meal_back"
