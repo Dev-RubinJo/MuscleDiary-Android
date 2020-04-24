@@ -24,6 +24,19 @@
         app:layout_constraintTop_toBottomOf="@id/bt_back_input_setting"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <TextView
+        android:id="@+id/input_setting_title"
+        android:text="끼니 설정"
+        android:textStyle="bold"
+        android:textSize="21sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@id/space_input_setting"
+        app:layout_constraintBottom_toTopOf="@id/et_input_setting"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        />
 
     <EditText
         android:id="@+id/et_input_setting"
