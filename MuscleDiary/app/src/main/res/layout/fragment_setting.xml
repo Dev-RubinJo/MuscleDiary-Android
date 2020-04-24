@@ -198,7 +198,6 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold"/>
-        
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_setting"
             android:layout_width="match_parent"
