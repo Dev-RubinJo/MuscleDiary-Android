@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#00E4E4E4"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="#00E4E4E4">
 
     <Button
         android:id="@+id/bt_back_height_setting"
@@ -29,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="키 설정"
+            android:text="@string/setting_height"
             android:textSize="23sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -51,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="."
+            android:text="@string/dot"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="@id/picker_integer_height_setting"
@@ -73,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
-            android:text="cm"
+            android:text="@string/setting_height_cm"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="@id/picker_integer_height_setting"
@@ -99,7 +98,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
-                android:text="취소"
+                android:text="@string/cancle"
                 android:textColor="@color/colorPrimaryDark" />
 
             <View
@@ -115,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="완료"
+                android:text="@string/select"
                 android:textColor="@color/colorPrimaryDark"
                 android:clickable="true"
                 android:focusable="true"/>

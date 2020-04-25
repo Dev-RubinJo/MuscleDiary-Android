@@ -43,6 +43,28 @@
     <!--setting input activity-->
     <string name="input_setting_hint">추가하고 싶은 끼니를 입력하세요.</string>
 
+    <!--setting dialog-->
+    <string name="cancle">취소</string>
+    <string name="select">완료</string>
+    <string name="dot">.</string>
+
+    <!--setting age activity-->
+    <string name="setting_age">생년월일 설정</string>
+
+    <!--setting gender activity-->
+    <string name="setting_gender">성별 선택</string>
+    <string name="setting_gender_male">남성</string>
+    <string name="setting_gender_female">여성</string>
+
+    <!--setting height activity-->
+    <string name="setting_height">키 설정</string>
+    <string name="setting_height_cm">cm</string>
+
+    <!--setting weight activity-->
+    <string name="setting_weight">몸무게 설정</string>
+    <string name="setting_weight_kg">kg</string>
+
+
     <!-- Config String -->
     <string name="loading">로딩중입니다.</string>
     <string name="network_error">네트워크 연결이 원활하지 않습니다.</string>

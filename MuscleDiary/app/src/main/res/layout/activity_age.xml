@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="생년월일 설정"
+            android:text="@string/setting_age"
             android:textSize="23sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="취소"
+                android:text="@string/cancle"
                 android:textColor="@color/colorPrimaryDark"
                 android:clickable="true"
                 android:focusable="true"/>
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="완료"
+                android:text="@string/select"
                 android:textColor="@color/colorPrimaryDark"
                 android:clickable="true"
                 android:focusable="true"/>
