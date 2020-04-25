@@ -33,8 +33,13 @@ public class GenderActivity extends BaseActivity implements View.OnClickListener
 
         btCancle.setOnClickListener(this);
         btSelect.setOnClickListener(this);
+
+        //배경 클릭 설정
+        Button btBack = findViewById(R.id.bt_back_gender_setting);
+        btBack.setOnClickListener(this);
     }
 
+    //라디오 그룹 리스너 설정
     private RadioGroup.OnCheckedChangeListener listener = (new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -57,6 +62,9 @@ public class GenderActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.bt_back_gender_setting:
+                finish();
+                break;
             case R.id.bt_cancle_gender:
                 finish();
                 break;

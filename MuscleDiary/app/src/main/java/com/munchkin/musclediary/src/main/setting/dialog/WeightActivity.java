@@ -3,6 +3,7 @@ package com.munchkin.musclediary.src.main.setting.dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -30,8 +31,13 @@ public class WeightActivity extends BaseActivity implements View.OnClickListener
 
         btCancle.setOnClickListener(this);
         btSelect.setOnClickListener(this);
+
+        //배경 클릭 설정
+        Button btBack = findViewById(R.id.bt_back_weight_setting);
+        btBack.setOnClickListener(this);
     }
 
+    //picker 생성, 초기값 설정해주는 함수
     private void createPickers(){
         Intent intent = getIntent();
         int integer = intent.getIntExtra("integer", 0);
@@ -53,6 +59,9 @@ public class WeightActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.bt_back_weight_setting:
+                finish();
+                break;
             case R.id.bt_cancle_weight:
                 finish();
                 break;

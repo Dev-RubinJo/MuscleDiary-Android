@@ -3,6 +3,7 @@ package com.munchkin.musclediary.src.main.setting.dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -47,6 +48,10 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
 
         btCancle.setOnClickListener(this);
         btSelect.setOnClickListener(this);
+
+        //배경 클릭 설정
+        Button btBack = findViewById(R.id.bt_back_age_setting);
+        btBack.setOnClickListener(this);
     }
 
     //팝업창 열어서 dateformat만드는 함수
@@ -152,6 +157,9 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.bt_back_age_setting:
+                finish();
+                break;
             case R.id.bt_cancle_age:
                 finish();
                 break;
