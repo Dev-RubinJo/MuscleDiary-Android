@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00E4E4E4"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Button
+        android:id="@+id/bt_back_age_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_age_setting"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_age_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chart_input_back"
+        app:layout_constraintTop_toBottomOf="@id/bt_back_age_setting"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/tv_age_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="성별 선택"
+            android:textSize="23sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_age_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:text="1996년 6월 3일"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/tv_age_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <NumberPicker
+            android:id="@+id/picker_year_age_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.PickerDate"
+            app:layout_constraintTop_toBottomOf="@id/tv_age_setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/picker_month_age_setting"/>
+
+        <NumberPicker
+            android:id="@+id/picker_month_age_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.PickerDate"
+            app:layout_constraintTop_toTopOf="@id/picker_year_age_setting"
+            app:layout_constraintStart_toEndOf="@id/picker_year_age_setting"
+            app:layout_constraintEnd_toStartOf="@id/picker_day_age_setting"/>
+
+        <NumberPicker
+            android:id="@+id/picker_day_age_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.PickerDate"
+            app:layout_constraintTop_toTopOf="@id/picker_year_age_setting"
+            app:layout_constraintStart_toEndOf="@id/picker_month_age_setting"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/picker_year_age_setting"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_cancle_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="취소"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_marginVertical="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_select_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="완료"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

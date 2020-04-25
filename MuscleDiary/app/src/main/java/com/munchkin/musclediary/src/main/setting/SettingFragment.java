@@ -13,19 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
+import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SettingFragment extends BaseFragment {
+public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
     //startActivityForResult requestCode
     private final int ADD_MEAL = 0;
     private final int CHANGE_GENDER = 1;
+    private final int CHANGE_AGE = 2;
 
     private Button mBtGender;
+    private Button mBtAge;
 
     private ArrayList<SettingItem> mItems;
 
@@ -40,16 +43,17 @@ public class SettingFragment extends BaseFragment {
     @Override
     public void setComponentView(View v) {
 
-        //클릭 리스너 생성
-        View.OnClickListener listener = onClickListener();
-
         //성별 변경 버튼
         mBtGender = v.findViewById(R.id.bt_gender_setting);
-        mBtGender.setOnClickListener(listener);
+        mBtGender.setOnClickListener(this);
+
+        //생년월일 변경 버튼
+        mBtAge = v.findViewById(R.id.bt_age_setting);
+        mBtAge.setOnClickListener(this);
 
         //끼니 추가 버튼
         Button btAdd = v.findViewById(R.id.bt_add_setting);
-        btAdd.setOnClickListener(listener);
+        btAdd.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
         addRecyclerList();
@@ -62,30 +66,6 @@ public class SettingFragment extends BaseFragment {
         SettingAdapter adapter = new SettingAdapter(getContext(), mItems);
         chartRecyclerView.setAdapter(adapter);
     }
-
-    //클릭 리스너 모음
-    private View.OnClickListener onClickListener(){
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    //끼니 추가 버튼 클릭이벤트
-                    case R.id.bt_add_setting:
-                        Intent inputIntent = new Intent(getActivity(), InputSettingActivity.class);
-                        startActivityForResult(inputIntent, ADD_MEAL);
-                        break;
-                    case R.id.bt_gender_setting:
-                        Intent genderIntent = new Intent(getActivity(), GenderActivity.class);
-                        startActivityForResult(genderIntent, CHANGE_GENDER);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        return listener;
-    }
-
 
     //리사이클러뷰 리스트 아이템 채우는 함수
     private void addRecyclerList(){
@@ -117,9 +97,40 @@ public class SettingFragment extends BaseFragment {
                 }
                 break;
 
+            case CHANGE_AGE:
+                mBtAge.setText(data.getStringExtra("age"));
+                break;
+
             default:
                 return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //끼니 추가 버튼 클릭이벤트
+            case R.id.bt_add_setting:
+                Intent inputIntent = new Intent(getActivity(), InputSettingActivity.class);
+                startActivityForResult(inputIntent, ADD_MEAL);
+                break;
+
+            case R.id.bt_gender_setting:
+                Intent genderIntent = new Intent(getActivity(), GenderActivity.class);
+                startActivityForResult(genderIntent, CHANGE_GENDER);
+                break;
+
+            case R.id.bt_age_setting:
+                Intent ageIntent = new Intent(getActivity(), AgeActivity.class);
+                ageIntent.putExtra("year", 1996);
+                ageIntent.putExtra("month", 6);
+                ageIntent.putExtra("date", 3);
+                startActivityForResult(ageIntent, CHANGE_AGE);
+                break;
+
+            default:
+                break;
+        }
     }
 }
