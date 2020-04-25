@@ -15,6 +15,7 @@ import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 
 import java.util.ArrayList;
 
@@ -26,9 +27,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int ADD_MEAL = 0;
     private final int CHANGE_GENDER = 1;
     private final int CHANGE_AGE = 2;
+    private final int CHANGE_HEIGHT = 3;
 
+    //프로필 변경 버튼
     private Button mBtGender;
     private Button mBtAge;
+    private Button mBtHeight;
 
     private ArrayList<SettingItem> mItems;
 
@@ -50,6 +54,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //생년월일 변경 버튼
         mBtAge = v.findViewById(R.id.bt_age_setting);
         mBtAge.setOnClickListener(this);
+
+        //키 변경 버튼
+        mBtHeight = v.findViewById(R.id.bt_height_setting);
+        mBtHeight.setOnClickListener(this);
 
         //끼니 추가 버튼
         Button btAdd = v.findViewById(R.id.bt_add_setting);
@@ -102,6 +110,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mBtAge.setText(data.getStringExtra("age"));
                 break;
 
+            case CHANGE_HEIGHT:
+                //키 변경했을 때 코드
+                mBtHeight.setText(data.getStringExtra("height"));
+                break;
+
             default:
                 return;
         }
@@ -132,6 +145,16 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(ageIntent, CHANGE_AGE);
                 break;
 
+            //키 변경 버튼 클릭이벤트
+            case R.id.bt_height_setting:
+                Intent heightIntent = new Intent(getActivity(), HeightActivity.class);
+                mBtHeight.getText();
+                int integer = Integer.parseInt(mBtHeight.getText().toString().substring(0,3));
+                int dot = Integer.parseInt(mBtHeight.getText().toString().substring(4,5));
+                heightIntent.putExtra("integer", integer);
+                heightIntent.putExtra("dot", dot);
+                startActivityForResult(heightIntent, CHANGE_HEIGHT);
+                break;
             default:
                 break;
         }
