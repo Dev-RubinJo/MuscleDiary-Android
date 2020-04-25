@@ -98,6 +98,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case CHANGE_AGE:
+                //생년월일 변경했을 때 코드
                 mBtAge.setText(data.getStringExtra("age"));
                 break;
 
@@ -116,11 +117,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(inputIntent, ADD_MEAL);
                 break;
 
+            //성별 변경 버튼 클릭이벤트
             case R.id.bt_gender_setting:
                 Intent genderIntent = new Intent(getActivity(), GenderActivity.class);
                 startActivityForResult(genderIntent, CHANGE_GENDER);
                 break;
 
+            //생일 변경 버튼 클릭이벤트
             case R.id.bt_age_setting:
                 Intent ageIntent = new Intent(getActivity(), AgeActivity.class);
                 ageIntent.putExtra("year", 1996);

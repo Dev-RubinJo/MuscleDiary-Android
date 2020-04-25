@@ -31,6 +31,7 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_age);
 
+        //상단 현재 생년월일을 알려주는 TextView 생성, dateformat 생성, 적용
         mTvAge = findViewById(R.id.tv_age_setting);
         setDateFormat();
 
@@ -48,6 +49,8 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
         btSelect.setOnClickListener(this);
     }
 
+    //팝업창 열어서 dateformat만드는 함수
+    //dateformat가 정확히 정해지면 수정필요
     private void setDateFormat(){
         Intent intent = getIntent();
         Calendar calendar = Calendar.getInstance();
@@ -127,6 +130,8 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
         return listener;
     }
 
+    //picker값 변경될 때마다 반영해주는 함수
+    //상단 생년월일 mTvAge도 반영함
     private void pickerChange(NumberPicker numberPicker){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat();
