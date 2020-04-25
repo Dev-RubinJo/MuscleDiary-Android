@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
+import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,9 @@ public class SettingFragment extends BaseFragment {
 
     //startActivityForResult requestCode
     private final int ADD_MEAL = 0;
+    private final int CHANGE_GENDER = 1;
+
+    private Button mBtGender;
 
     private ArrayList<SettingItem> mItems;
 
@@ -38,6 +42,10 @@ public class SettingFragment extends BaseFragment {
 
         //클릭 리스너 생성
         View.OnClickListener listener = onClickListener();
+
+        //성별 변경 버튼
+        mBtGender = v.findViewById(R.id.bt_gender_setting);
+        mBtGender.setOnClickListener(listener);
 
         //끼니 추가 버튼
         Button btAdd = v.findViewById(R.id.bt_add_setting);
@@ -63,8 +71,12 @@ public class SettingFragment extends BaseFragment {
                 switch (v.getId()){
                     //끼니 추가 버튼 클릭이벤트
                     case R.id.bt_add_setting:
-                        Intent intent = new Intent(getActivity(), InputSettingActivity.class);
-                        startActivityForResult(intent, ADD_MEAL);
+                        Intent inputIntent = new Intent(getActivity(), InputSettingActivity.class);
+                        startActivityForResult(inputIntent, ADD_MEAL);
+                        break;
+                    case R.id.bt_gender_setting:
+                        Intent genderIntent = new Intent(getActivity(), GenderActivity.class);
+                        startActivityForResult(genderIntent, CHANGE_GENDER);
                         break;
                     default:
                         break;
@@ -97,6 +109,14 @@ public class SettingFragment extends BaseFragment {
             case ADD_MEAL:
                 //추가했을 때 리스트에 추가하는 코드 필요
                 break;
+
+            case CHANGE_GENDER:
+                //성별 변경했을 때 코드
+                if(data.getStringExtra("gender") != null){
+                    mBtGender.setText(data.getStringExtra("gender"));
+                }
+                break;
+
             default:
                 return;
         }
