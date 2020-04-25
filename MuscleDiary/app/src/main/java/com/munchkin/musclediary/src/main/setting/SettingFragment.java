@@ -16,6 +16,7 @@ import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 
 import java.util.ArrayList;
 
@@ -28,11 +29,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_GENDER = 1;
     private final int CHANGE_AGE = 2;
     private final int CHANGE_HEIGHT = 3;
+    private final int CHANGE_WEIGHT = 4;
 
     //프로필 변경 버튼
     private Button mBtGender;
     private Button mBtAge;
     private Button mBtHeight;
+    private Button mBtWeight;
 
     private ArrayList<SettingItem> mItems;
 
@@ -58,6 +61,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //키 변경 버튼
         mBtHeight = v.findViewById(R.id.bt_height_setting);
         mBtHeight.setOnClickListener(this);
+
+        //몸무게 변경 버튼
+        mBtWeight = v.findViewById(R.id.bt_weight_setting);
+        mBtWeight.setOnClickListener(this);
 
         //끼니 추가 버튼
         Button btAdd = v.findViewById(R.id.bt_add_setting);
@@ -115,6 +122,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mBtHeight.setText(data.getStringExtra("height"));
                 break;
 
+            case CHANGE_WEIGHT:
+                mBtWeight.setText(data.getStringExtra("weight"));
+                break;
+
             default:
                 return;
         }
@@ -149,12 +160,48 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.bt_height_setting:
                 Intent heightIntent = new Intent(getActivity(), HeightActivity.class);
                 mBtHeight.getText();
-                int integer = Integer.parseInt(mBtHeight.getText().toString().substring(0,3));
-                int dot = Integer.parseInt(mBtHeight.getText().toString().substring(4,5));
-                heightIntent.putExtra("integer", integer);
-                heightIntent.putExtra("dot", dot);
+                String height = mBtHeight.getText().toString();
+                if(height.length() == 7){
+                    int heightInteger = Integer.parseInt(height.substring(0,3));
+                    int heightDot = Integer.parseInt(height.substring(4,5));
+                    heightIntent.putExtra("integer", heightInteger);
+                    heightIntent.putExtra("dot", heightDot);
+                } else if(height.length() == 6){
+                    int heightInteger = Integer.parseInt(height.substring(0,2));
+                    int heightDot = Integer.parseInt(height.substring(3,4));
+                    heightIntent.putExtra("integer", heightInteger);
+                    heightIntent.putExtra("dot", heightDot);
+                } else if(height.length() == 5){
+                    int heightInteger = Integer.parseInt(height.substring(0,1));
+                    int heightDot = Integer.parseInt(height.substring(2,3));
+                    heightIntent.putExtra("integer", heightInteger);
+                    heightIntent.putExtra("dot", heightDot);
+                }
                 startActivityForResult(heightIntent, CHANGE_HEIGHT);
                 break;
+
+            case R.id.bt_weight_setting:
+                Intent weightIntent = new Intent(getActivity(), WeightActivity.class);
+                String weight = mBtWeight.getText().toString();
+                if(weight.length() == 7){
+                    int heightInteger = Integer.parseInt(weight.substring(0,3));
+                    int heightDot = Integer.parseInt(weight.substring(4,5));
+                    weightIntent.putExtra("integer", heightInteger);
+                    weightIntent.putExtra("dot", heightDot);
+                } else if(weight.length() == 6){
+                    int heightInteger = Integer.parseInt(weight.substring(0,2));
+                    int heightDot = Integer.parseInt(weight.substring(3,4));
+                    weightIntent.putExtra("integer", heightInteger);
+                    weightIntent.putExtra("dot", heightDot);
+                } else if(weight.length() == 5){
+                    int heightInteger = Integer.parseInt(weight.substring(0,1));
+                    int heightDot = Integer.parseInt(weight.substring(2,3));
+                    weightIntent.putExtra("integer", heightInteger);
+                    weightIntent.putExtra("dot", heightDot);
+                }
+                startActivityForResult(weightIntent, CHANGE_WEIGHT);
+                break;
+
             default:
                 break;
         }
