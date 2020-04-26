@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvMenuTitle.setText(mMenuList.get(position).getFoodName());
         holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getTotalCal())+" kcal");
+
+        holder.btnDeleteMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext,mMenuList.get(position).getFoodName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         holder.setmMenuItemClickListener(new MenuItemClickListener() {
             @Override
@@ -70,7 +78,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             super(itemView);
             tvMenuTitle = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_title);
             tvMenuCalories = (TextView) itemView.findViewById(R.id.fragment_food_item_tv_menu_calories);
-            btnDeleteMenu = (Button) itemView.findViewById(R.id.fragment_food_item_btn_add_menu);
+            btnDeleteMenu = (Button) itemView.findViewById(R.id.fragment_food_item_btn_delete_menu);
 
             itemView.setOnClickListener(this);
         }
