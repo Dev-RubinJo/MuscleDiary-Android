@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,11 +22,16 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
+import com.munchkin.musclediary.src.main.chart.dialog.TypeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChartFragment extends BaseFragment {
+import static android.app.Activity.RESULT_OK;
+
+public class ChartFragment extends BaseFragment implements View.OnClickListener {
+    //startActivityForResult requestCode
+    private final int CHANGE_TYPE = 0;
 
     private LineChart mLineChart;
 //    private LineChart lineChart;
@@ -43,8 +50,13 @@ public class ChartFragment extends BaseFragment {
     public void setComponentView(View v) {
         mLineChart = (LineChart)v.findViewById(R.id.line_chart);
         mBtnAddData =  v.findViewById(R.id.bt_add_list_chart);
-        //버튼 리스터 초기화
-        initOnClickListener();
+
+        //리스트 추가 버튼 리스너 등록
+        mBtnAddData.setOnClickListener(this);
+
+        //분석종류 변경 버튼 생성 및 리스너 적용
+        Button btType = v.findViewById(R.id.bt_type_chart);
+        btType.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
         addRecyclerList();
@@ -126,15 +138,37 @@ public class ChartFragment extends BaseFragment {
             items.add(item);
         }
     }
-
-    private void initOnClickListener(){
-        final Intent inputChartIntent = new Intent(getContext(), InputChartActivity.class);
-
-        mBtnAddData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_add_list_chart:
+                Intent inputChartIntent = new Intent(getContext(), InputChartActivity.class);
                 startActivity(inputChartIntent);
-            }
-        });
+                break;
+
+            case R.id.bt_type_chart:
+                Intent typeIntent = new Intent(getContext(), TypeActivity.class);
+                startActivityForResult(typeIntent, CHANGE_TYPE);
+                break;
+            default:
+                break;
+        }
+    }
+
+    //팝업창 결과
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode != RESULT_OK){
+            return;
+        }
+
+        switch(requestCode){
+            case CHANGE_TYPE:
+                break;
+
+            default:
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
