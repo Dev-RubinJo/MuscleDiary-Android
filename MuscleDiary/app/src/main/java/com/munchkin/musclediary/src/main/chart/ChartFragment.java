@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
+import com.munchkin.musclediary.src.main.chart.dialog.TermActivity;
 import com.munchkin.musclediary.src.main.chart.dialog.TypeActivity;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         //분석종류 변경 버튼 생성 및 리스너 적용
         Button btType = v.findViewById(R.id.bt_type_chart);
         btType.setOnClickListener(this);
+
+        //기간설정 버튼 생성 및 리스너 적용용
+       Button btTerm = v.findViewById(R.id.bt_term_chart);
+        btTerm.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
         addRecyclerList();
@@ -150,6 +155,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 Intent typeIntent = new Intent(getContext(), TypeActivity.class);
                 startActivityForResult(typeIntent, CHANGE_TYPE);
                 break;
+
+            case R.id.bt_term_chart:
+                Intent termIntent = new Intent(getContext(), TermActivity.class);
+                startActivityForResult(termIntent, CHANGE_TYPE);
+                break;
+
             default:
                 break;
         }
