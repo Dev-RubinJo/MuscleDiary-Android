@@ -44,7 +44,7 @@ public class TypeActivity extends BaseActivity implements View.OnClickListener {
                 case R.id.radio_weight_chart:
                     break;
 
-                case R.id.radio_kcal_chart:
+                case R.id.radio_bodyfatrate_chart:
                     break;
 
                 default:

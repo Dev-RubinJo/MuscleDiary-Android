@@ -90,7 +90,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 
     // 그래프 세팅 메서드
     private void setmLineChart(List<Entry> list) {
-        LineDataSet lineDataSet = new LineDataSet(list, "칼로리 소모량");
+        LineDataSet lineDataSet = new LineDataSet(list, "체지방률 변화");
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));

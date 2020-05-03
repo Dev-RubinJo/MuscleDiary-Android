@@ -177,7 +177,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="2024kcal(1:1:1) - 2024kcal"
+            android:text="2024kcal"
+            android:textSize="18sp"/>
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_ntRatio_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="50:25:25"
             android:textSize="18sp"/>
 
         <View
@@ -197,23 +205,68 @@
             android:text="@string/setting_food"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_margin="20dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            style="?android:attr/borderlessButtonStyle"
-            android:id="@+id/bt_add_setting"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="추가"/>
-        
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                android:id="@+id/bt_add_setting"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="추가"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_marginVertical="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_delete_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="삭제"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"/>
+
         <Button
+            android:id="@+id/bt_logout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/setting_sign_out"/>
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
+            android:text="@string/setting_sign_out" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

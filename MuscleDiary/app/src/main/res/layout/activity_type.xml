@@ -50,12 +50,12 @@
                 android:text="체중 변화"
                 android:textColor="@color/colorPrimaryDark"/>
             <RadioButton
-                android:id="@+id/radio_kcal_chart"
+                android:id="@+id/radio_bodyfatrate_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
-                android:text="칼로리 소모량"
+                android:text="체지방률"
                 android:textColor="@color/colorPrimaryDark"/>
 
 

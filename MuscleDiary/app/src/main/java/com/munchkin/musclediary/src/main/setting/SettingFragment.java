@@ -17,10 +17,13 @@ import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
+import com.munchkin.musclediary.src.signin.SignInActivity;
 
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
+
+
 
 public class SettingFragment extends BaseFragment implements View.OnClickListener {
 
@@ -30,12 +33,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_AGE = 2;
     private final int CHANGE_HEIGHT = 3;
     private final int CHANGE_WEIGHT = 4;
+    private final int LOGOUT = 5;
 
     //프로필 변경 버튼
     private Button mBtGender;
     private Button mBtAge;
     private Button mBtHeight;
     private Button mBtWeight;
+    private Button mBtLogout;
 
     private ArrayList<SettingItem> mItems;
 
@@ -65,6 +70,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //몸무게 변경 버튼
         mBtWeight = v.findViewById(R.id.bt_weight_setting);
         mBtWeight.setOnClickListener(this);
+
+        //로그아웃 버튼
+        mBtLogout = v.findViewById(R.id.bt_logout);
+        mBtLogout.setOnClickListener(this);
 
         //끼니 추가 버튼
         Button btAdd = v.findViewById(R.id.bt_add_setting);
@@ -122,8 +131,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mBtHeight.setText(data.getStringExtra("height"));
                 break;
 
+                //몸무게 변경했을 때 코드
             case CHANGE_WEIGHT:
                 mBtWeight.setText(data.getStringExtra("weight"));
+                break;
+
+
+            //몸무게 변경했을 때 코드
+            case LOGOUT:
+                mBtLogout.setText(data.getStringExtra("logout"));
                 break;
 
             default:
@@ -200,6 +216,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     weightIntent.putExtra("dot", heightDot);
                 }
                 startActivityForResult(weightIntent, CHANGE_WEIGHT);
+                break;
+
+            case R.id.bt_logout:
+                //Intent logoutIntent = new Intent(getActivity(), InputSettingActivity.class);
+                //startActivityForResult(logoutIntent, LOGOUT);
+                Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
+                startActivity(signInIntent);
+
                 break;
 
             default:
