@@ -219,10 +219,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case R.id.bt_logout:
-                //Intent logoutIntent = new Intent(getActivity(), InputSettingActivity.class);
-                //startActivityForResult(logoutIntent, LOGOUT);
-                Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
-                startActivity(signInIntent);
+                Intent logoutIntent = new Intent(getActivity(), SignInActivity.class);
+                startActivityForResult(logoutIntent, LOGOUT);
+                //Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
+                //startActivity(signInIntent);
 
                 break;
 
