@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.food.models.ArrangeMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
@@ -34,6 +36,15 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
             menuTitle = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_title);
             menuDescription = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_description);
             menuCalories = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_total_calories);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent arrangeMenuIntent = new Intent(mContext, ArrangeMenuActivity.class);
+                    arrangeMenuIntent.putExtra("menuName",menuTitle.getText().toString());
+                    mContext.startActivity(arrangeMenuIntent);
+                }
+            });
         }
     }
 

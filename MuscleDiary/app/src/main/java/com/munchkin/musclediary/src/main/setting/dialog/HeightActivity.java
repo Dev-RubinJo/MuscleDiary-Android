@@ -26,8 +26,8 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
         createPickers();
 
         //취소, 완료 버튼 설정
-        TextView btCancle = findViewById(R.id.bt_cancle_height);
-        TextView btSelect = findViewById(R.id.bt_select_height);
+        TextView btCancle = findViewById(R.id.bt_cancle_height_setting);
+        TextView btSelect = findViewById(R.id.bt_select_height_setting);
 
         btCancle.setOnClickListener(this);
         btSelect.setOnClickListener(this);
@@ -62,10 +62,10 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
             case R.id.bt_back_height_setting:
                 finish();
                 break;
-            case R.id.bt_cancle_height:
+            case R.id.bt_cancle_height_setting:
                 finish();
                 break;
-            case R.id.bt_select_height:
+            case R.id.bt_select_height_setting:
                 Intent intent = new Intent();
                 String height = mIntPicker.getValue() + "." + mFloatPicker.getValue() + "cm";
                 intent.putExtra("height", height);

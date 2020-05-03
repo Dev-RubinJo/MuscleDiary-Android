@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
@@ -7,90 +8,100 @@
     android:background="#00E4E4E4">
 
     <Button
-        android:id="@+id/bt_back_height_setting"
+        android:id="@+id/arg_menu_btn_back"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layout_height_setting"/>
-
-
+        app:layout_constraintBottom_toTopOf="@id/arg_menu_const_layout"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_height_setting"
+        android:id="@+id/arg_menu_const_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/chart_input_back"
-        app:layout_constraintTop_toBottomOf="@id/bt_back_height_setting"
+        app:layout_constraintTop_toBottomOf="@id/arg_menu_btn_back"
         app:layout_constraintBottom_toBottomOf="parent">
+
         <TextView
-            android:id="@+id/tv_set_height"
+            android:id="@+id/arg_menu_tv_menu_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="@string/setting_height"
-            android:textSize="23sp"
+            android:paddingStart="20dp"
+            android:paddingTop="15dp"
+            android:text="메뉴이름"
+            android:textSize="19sp"
+            android:textStyle="bold"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <TextView
+            android:id="@+id/arg_menu_tv_menu_serving"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingBottom="10dp"
+            android:text="메뉴1회제공량 (100g/1인분)"
+            android:textSize="14sp"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/arg_menu_tv_menu_name"/>
+
 
         <NumberPicker
-            android:id="@+id/picker_integer_height_setting"
+            android:id="@+id/arg_menu_picker_integer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:theme="@style/AppTheme.PickerDate"
             android:layout_marginStart="50dp"
             app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintTop_toBottomOf="@id/tv_set_height"
+            app:layout_constraintTop_toBottomOf="@id/arg_menu_tv_menu_serving"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/tv_dot_height_setting"/>
+            app:layout_constraintEnd_toStartOf="@id/arg_menu_tv_dot"/>
 
         <TextView
-            android:id="@+id/tv_dot_height_setting"
+            android:id="@+id/arg_menu_tv_dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/dot"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/picker_integer_height_setting"
-            app:layout_constraintBottom_toBottomOf="@id/picker_integer_height_setting"
-            app:layout_constraintStart_toEndOf="@id/picker_integer_height_setting"
-            app:layout_constraintEnd_toStartOf="@id/picker_float_height_setting"/>
+            app:layout_constraintTop_toTopOf="@id/arg_menu_picker_integer"
+            app:layout_constraintBottom_toBottomOf="@id/arg_menu_picker_integer"
+            app:layout_constraintStart_toEndOf="@id/arg_menu_picker_integer"
+            app:layout_constraintEnd_toStartOf="@id/arg_menu_picker_float"/>
 
         <NumberPicker
-            android:id="@+id/picker_float_height_setting"
+            android:id="@+id/arg_menu_picker_float"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:theme="@style/AppTheme.PickerDate"
-            app:layout_constraintTop_toTopOf="@id/picker_integer_height_setting"
-            app:layout_constraintStart_toEndOf="@id/tv_dot_height_setting"
-            app:layout_constraintEnd_toStartOf="@id/tv_cm_height_setting"/>
+            app:layout_constraintTop_toTopOf="@id/arg_menu_picker_integer"
+            app:layout_constraintStart_toEndOf="@id/arg_menu_tv_dot"
+            app:layout_constraintEnd_toStartOf="@id/arg_menu_tv_serving"/>
 
         <TextView
-            android:id="@+id/tv_cm_height_setting"
+            android:id="@+id/arg_menu_tv_serving"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="50dp"
-            android:text="@string/setting_height_cm"
+            android:text="@string/food_serving"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/picker_integer_height_setting"
-            app:layout_constraintBottom_toBottomOf="@+id/picker_integer_height_setting"
-            app:layout_constraintStart_toEndOf="@id/picker_float_height_setting"
+            app:layout_constraintTop_toTopOf="@id/arg_menu_picker_integer"
+            app:layout_constraintBottom_toBottomOf="@+id/arg_menu_picker_integer"
+            app:layout_constraintStart_toEndOf="@id/arg_menu_picker_float"
             app:layout_constraintEnd_toEndOf="parent"/>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/picker_integer_height_setting"
+            app:layout_constraintTop_toBottomOf="@id/arg_menu_picker_integer"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
-                android:id="@+id/bt_cancle_height_setting"
+                android:id="@+id/arg_menu_btn_cancle"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -109,7 +120,7 @@
 
             <Button
                 style="?android:attr/borderlessButtonStyle"
-                android:id="@+id/bt_select_height_setting"
+                android:id="@+id/arg_menu_btn_select"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
