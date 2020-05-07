@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.setting;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.BaseFragment;
+import com.munchkin.musclediary.src.main.MainActivity;
+import com.munchkin.musclediary.src.main.MainViewPagerAdapter;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
@@ -234,8 +238,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case R.id.bt_logout:
-                Intent logoutIntent = new Intent(getActivity(), SignInActivity.class);
-                startActivityForResult(logoutIntent, LOGOUT);
+
+                Intent i = new Intent( getContext() , SignInActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+                //Intent logoutIntent = new Intent(getActivity(), SignInActivity.class);
+                //startActivityForResult(logoutIntent, LOGOUT);
                 //Intent signInIntent = new Intent(getActivity(), SignInActivity.class);
                 //startActivity(signInIntent);
 
