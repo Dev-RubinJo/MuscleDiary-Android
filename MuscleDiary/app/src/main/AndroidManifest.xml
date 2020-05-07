@@ -16,6 +16,8 @@
             android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.InputSettingActivity"
             android:theme="@style/Transparent"/>
+        <activity android:name=".src.main.setting.DeleteSettingActivity"
+            android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.dialog.GenderActivity"
             android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.dialog.AgeActivity"

@@ -34,6 +34,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_HEIGHT = 3;
     private final int CHANGE_WEIGHT = 4;
     private final int LOGOUT = 5;
+    private final int DELETE_MEAL = 6;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -79,6 +80,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         Button btAdd = v.findViewById(R.id.bt_add_setting);
         btAdd.setOnClickListener(this);
 
+        //끼니 삭제 버튼
+        Button btDelete = v.findViewById(R.id.bt_delete_setting);
+        btDelete.setOnClickListener(this);
+
         //더미데이터 넣는 함수 실행
         addRecyclerList();
 
@@ -112,6 +117,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         switch(requestCode){
             case ADD_MEAL:
                 //추가했을 때 리스트에 추가하는 코드 필요
+                break;
+
+            case DELETE_MEAL:
+                //삭제했을 때 리스트에 삭제하는 코드 필요
                 break;
 
             case CHANGE_GENDER:
@@ -155,6 +164,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.bt_add_setting:
                 Intent inputIntent = new Intent(getActivity(), InputSettingActivity.class);
                 startActivityForResult(inputIntent, ADD_MEAL);
+                break;
+
+                //끼니 삭제 버튼
+            case R.id.bt_delete_setting:
+                Intent deleteIntent = new Intent(getActivity(), DeleteSettingActivity.class);
+                startActivityForResult(deleteIntent, DELETE_MEAL);
                 break;
 
             //성별 변경 버튼 클릭이벤트

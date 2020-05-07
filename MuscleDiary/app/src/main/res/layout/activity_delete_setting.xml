@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00E4E4E4"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/bt_back_delete_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/space_delete_setting"/>
+
+
+    <View
+        android:id="@+id/space_delete_setting"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/chart_input_back"
+        app:layout_constraintTop_toBottomOf="@id/bt_back_delete_setting"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/delete_setting_title"
+        android:text="끼니 삭제"
+        android:textStyle="bold"
+        android:textSize="21sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="@id/space_delete_setting"
+        app:layout_constraintBottom_toTopOf="@id/radiogroup_meal_setting"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        />
+
+    <RadioGroup
+        android:id="@+id/radiogroup_meal_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/delete_setting_title">
+
+        //끼니 종류를 받아와서 추가해야함
+        <RadioButton
+            android:id="@+id/radio_meal1_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="아침"
+            android:textColor="@color/colorPrimaryDark"/>
+        <RadioButton
+            android:id="@+id/radio_meal2_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="점심"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <RadioButton
+            android:id="@+id/radio_meal3_setting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="3dp"
+            android:buttonTint="@color/colorPrimaryDark"
+            android:text="저녁"
+            android:textColor="@color/colorPrimaryDark"/>
+
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/bt_complete_delete_setting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:text="삭제하기"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
