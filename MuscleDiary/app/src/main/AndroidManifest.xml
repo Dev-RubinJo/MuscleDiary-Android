@@ -30,7 +30,7 @@
             android:theme="@style/Transparent"/>
         <activity android:name=".src.main.chart.dialog.TermActivity"
             android:theme="@style/Transparent"/>
-        <activity android:name=".src.main.food.models.ArrangeMenuActivity"
+        <activity android:name=".src.main.food.ArrangeMenuActivity"
             android:theme="@style/Transparent"/>
 
         <activity android:name=".src.signin.SignInActivity" />

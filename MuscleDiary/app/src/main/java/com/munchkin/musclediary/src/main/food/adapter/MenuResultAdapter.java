@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
-import com.munchkin.musclediary.src.main.food.models.ArrangeMenuActivity;
+import com.munchkin.musclediary.src.main.food.ArrangeMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.munchkin.musclediary.src.main.food.models;
+package com.munchkin.musclediary.src.main.food;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
@@ -77,6 +78,7 @@ public class ArrangeMenuActivity extends BaseActivity {
         mBtnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "추가되었습니다.",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
