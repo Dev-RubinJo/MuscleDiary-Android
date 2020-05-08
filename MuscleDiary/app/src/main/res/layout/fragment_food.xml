@@ -267,6 +267,42 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:layout_marginStart="25dp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:text="일일 목표 단백질 섭취까지 70g 남았습니다. \n단백질 쉐이크로 간편하게 채워보세요"
+                android:textColor="@android:color/holo_red_light"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:layout_width="140dp"
+                android:layout_height="35dp"
+                android:background="@drawable/purchase_button_back"
+                android:text="바로 구매하러 가기 >>"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginEnd="25dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_food_rv_meal"
             android:layout_width="match_parent"
