@@ -27,6 +27,7 @@
     <!-- Chart fragment -->
     <string name="chart_type">분석종류 변경</string>
     <string name="chart_term">기간설정</string>
+    <string name="chart_title">체중기록</string>
 
     <!-- Setting fragment -->
     <string name="fragment_setting_title">설정</string>

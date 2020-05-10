@@ -51,6 +51,7 @@
             android:layout_height="40dp"
             android:layout_weight="12"
             android:background="@drawable/food_input_menu_back"
+            android:inputType="text"
             android:hint="음식검색"
             android:padding="10dp"
             android:textColor="@color/colorAccent"
@@ -66,7 +67,6 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/icon_find" />
-
 
     </LinearLayout>
 
