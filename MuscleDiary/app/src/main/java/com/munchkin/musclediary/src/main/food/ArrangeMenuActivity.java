@@ -55,7 +55,7 @@ public class ArrangeMenuActivity extends BaseActivity {
         //정수부분 picker
         mIntPicker = findViewById(R.id.arg_menu_picker_integer);
         mIntPicker.setMaxValue(10);
-        mIntPicker.setMinValue(1);
+        mIntPicker.setMinValue(0);
         mIntPicker.setValue(1);
         mIntPicker.setWrapSelectorWheel(false);
 
