@@ -74,24 +74,30 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
         mCarbohydratePicker = findViewById(R.id.picker_carbohydrate_ratio_goal);
         mCarbohydratePicker.setMinValue(0);
         mCarbohydratePicker.setMaxValue(100);
-        mCarbohydratePicker.setValue(getIntent().getIntExtra("carbohydrate", 0));
+        int carbohydrate = getIntent().getIntExtra("carbohydrate", 0);
+        mCarbohydratePicker.setValue(carbohydrate);
         mCarbohydratePicker.setOnValueChangedListener(pickerListener);
 
         //달 선택 picker 설정
         mProteinPicker = findViewById(R.id.picker_protein_ratio_goal);
         mProteinPicker.setMinValue(0);
         mProteinPicker.setMaxValue(100);
-        mProteinPicker.setValue(getIntent().getIntExtra("protein", 0));
+        int protein = getIntent().getIntExtra("protein", 0);
+        mProteinPicker.setValue(protein);
         mProteinPicker.setOnValueChangedListener(pickerListener);
 
         //일 선택 picker 설정
         mFatPicker = findViewById(R.id.picker_fat_ratio_goal);
         mFatPicker.setMinValue(0);
         mFatPicker.setMaxValue(100);
-        mFatPicker.setValue(getIntent().getIntExtra("fat", 0));
+        int fat = getIntent().getIntExtra("fat", 0);
+        mFatPicker.setValue(fat);
         mFatPicker.setOnValueChangedListener(pickerListener);
 
         changePercent();
+        changeGram(carbohydrate, mTvCarbohydrate, 4);
+        changeGram(protein, mTvProtein, 4);
+        changeGram(fat, mTvFat, 9);
     }
 
     //picker 변경 리스너 모음
