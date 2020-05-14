@@ -11,35 +11,30 @@ import androidx.annotation.Nullable;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 
-public class InputSettingActivity extends BaseActivity {
+public class InputSettingActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_setting);
 
-        //클릭 리스너 생성
-        View.OnClickListener listener = onClickListener();
-
         //배경 클릭 설정
         Button btBack = findViewById(R.id.bt_back_input_setting);
-        btBack.setOnClickListener(listener);
+        btBack.setOnClickListener(this);
     }
 
-    private View.OnClickListener onClickListener(){
-        //리스너 모음
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    //배경클릭시뒤로가기
-                    case R.id.bt_back_input_setting:
-                        finish();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        };
-        return listener;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //배경클릭시뒤로가기
+            case R.id.bt_back_input_setting:
+                finish();
+                break;
+
+            case R.id.bt_complete_input_setting:
+                break;
+
+            default:
+                break;
+        }
     }
 }
