@@ -20,6 +20,7 @@ import com.munchkin.musclediary.src.main.MainViewPagerAdapter;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.KcalGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.signin.SignInActivity;
@@ -41,6 +42,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int LOGOUT = 5;
     private final int DELETE_MEAL = 6;
     private final int CHANGE_RATIO = 7;
+    private final int CHANGE_KCAL = 8;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -51,6 +53,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //영양목표 변경 버튼
     private Button mBtRatio;
+    private Button mBtKcal;
 
     //끼니 리스트 어뎁터, 아이템
     private SettingAdapter mSettintAdapter;
@@ -58,6 +61,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //목표영양 비율 임시 리스트
     private int[] mRatio = {50,30,20};
+
+    //목표영양 임시 칼로리
+    private int mKcal = 2024;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -90,6 +96,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
         mBtRatio.setOnClickListener(this);
         changeRatio();
+
+        //영양목표 칼로리 버튼
+        mBtKcal = v.findViewById(R.id.bt_kcal_setting);
+        mBtKcal.setOnClickListener(this);
+        mBtKcal.setText(mKcal + "kcal");
 
         //로그아웃 버튼
         mBtLogout = v.findViewById(R.id.bt_logout);
@@ -184,6 +195,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 changeRatio();
                 break;
 
+            case CHANGE_KCAL:
+                mKcal = data.getIntExtra("kcal", mKcal);
+                mBtKcal.setText(mKcal+"kcal");
+                break;
 
             //몸무게 변경했을 때 코드
             case LOGOUT:
@@ -282,11 +297,17 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case R.id.bt_ntRatio_setting:
                 //영양목표 비율 번경 이벤트
                 Intent ratioIntent = new Intent(getActivity(), RatioGoalActivity.class);
-                ratioIntent.putExtra("kcal", 2024);
+                ratioIntent.putExtra("kcal", mKcal);
                 ratioIntent.putExtra("carbohydrate", mRatio[0]);
                 ratioIntent.putExtra("protein", mRatio[1]);
                 ratioIntent.putExtra("fat", mRatio[2]);
                 startActivityForResult(ratioIntent, CHANGE_RATIO);
+                break;
+
+            case R.id.bt_kcal_setting:
+                Intent kcalIntent = new Intent(getActivity(), KcalGoalActivity.class);
+                kcalIntent.putExtra("kcal", mKcal);
+                startActivityForResult(kcalIntent, CHANGE_KCAL);
                 break;
 
             case R.id.bt_logout:
