@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00E4E4E4"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <Button
+        android:id="@+id/bt_back_ratio_goal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_ratio_goal"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_ratio_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chart_input_back"
+        app:layout_constraintTop_toBottomOf="@id/bt_back_ratio_goal"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/tv_ratie_goal_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="비율 설정"
+            android:textSize="23sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_ratio_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:text="100%"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/tv_ratie_goal_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/linear_carbohydrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@id/tv_ratio_goal"
+            app:layout_constraintBottom_toTopOf="@id/linear_bottom_ratio_goal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/linear_protein">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="탄수화물"/>
+
+            <TextView
+                android:id="@+id/tv_gram_carbohydrate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="5g"/>
+
+            <NumberPicker
+                android:id="@+id/picker_carbohydrate_ratio_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.PickerDate"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_protein"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toTopOf="@id/linear_carbohydrate"
+            app:layout_constraintStart_toEndOf="@id/linear_carbohydrate"
+            app:layout_constraintEnd_toStartOf="@id/linear_fat">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="단백질"/>
+            <TextView
+                android:id="@+id/tv_gram_protein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="5g"/>
+
+            <NumberPicker
+                android:id="@+id/picker_protein_ratio_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.PickerDate"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_fat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            app:layout_constraintTop_toTopOf="@id/linear_carbohydrate"
+            app:layout_constraintStart_toEndOf="@id/linear_protein"
+            app:layout_constraintEnd_toEndOf="parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="지방"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/tv_gram_fat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="5g"/>
+
+            <NumberPicker
+                android:id="@+id/picker_fat_ratio_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.PickerDate"/>
+        </LinearLayout>
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/linear_bottom_ratio_goal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/linear_carbohydrate"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_cancle_ratio_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancle"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_marginVertical="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_select_ratio_goal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/select"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

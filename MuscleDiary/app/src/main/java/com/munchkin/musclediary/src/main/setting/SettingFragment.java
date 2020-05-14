@@ -20,6 +20,7 @@ import com.munchkin.musclediary.src.main.MainViewPagerAdapter;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.signin.SignInActivity;
 
@@ -39,6 +40,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_WEIGHT = 4;
     private final int LOGOUT = 5;
     private final int DELETE_MEAL = 6;
+    private final int CHANGE_RATIO = 7;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -47,9 +49,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private Button mBtWeight;
     private Button mBtLogout;
 
+    //영양목표 변경 버튼
+    private Button mBtRatio;
+
     //끼니 리스트 어뎁터, 아이템
     private SettingAdapter mSettintAdapter;
     private ArrayList<SettingItem> mItems;
+
+    //목표영양 비율 임시 리스트
+    private int[] mRatio = {50,30,20};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -77,6 +85,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //몸무게 변경 버튼
         mBtWeight = v.findViewById(R.id.bt_weight_setting);
         mBtWeight.setOnClickListener(this);
+
+        //영양목표 비율 버튼
+        mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
+        mBtRatio.setOnClickListener(this);
+        changeRatio();
 
         //로그아웃 버튼
         mBtLogout = v.findViewById(R.id.bt_logout);
@@ -113,6 +126,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             item.setMeal(meal);
             mItems.add(item);
         }
+    }
+
+    //목표영양 비율 텍스트 변경하는 함수
+    private void changeRatio(){
+        String ratioExample = mRatio[0] + ":" + mRatio[1] + ":" + mRatio[2];
+        mBtRatio.setText(ratioExample);
     }
 
     @Override
@@ -155,6 +174,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 //몸무게 변경했을 때 코드
             case CHANGE_WEIGHT:
                 mBtWeight.setText(data.getStringExtra("weight"));
+                break;
+
+            case CHANGE_RATIO:
+                //영양목표 변경했을 때
+                mRatio[0] = data.getIntExtra("carbohydrate", mRatio[0]);
+                mRatio[1] = data.getIntExtra("protein", mRatio[1]);
+                mRatio[2] = data.getIntExtra("fat", mRatio[2]);
+                changeRatio();
                 break;
 
 
@@ -204,17 +231,21 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 Intent heightIntent = new Intent(getActivity(), HeightActivity.class);
                 mBtHeight.getText();
                 String height = mBtHeight.getText().toString();
+
                 if(height.length() == 7){
+                    //100cm이상일때
                     int heightInteger = Integer.parseInt(height.substring(0,3));
                     int heightDot = Integer.parseInt(height.substring(4,5));
                     heightIntent.putExtra("integer", heightInteger);
                     heightIntent.putExtra("dot", heightDot);
                 } else if(height.length() == 6){
+                    //10cm이상 100cm미만일때
                     int heightInteger = Integer.parseInt(height.substring(0,2));
                     int heightDot = Integer.parseInt(height.substring(3,4));
                     heightIntent.putExtra("integer", heightInteger);
                     heightIntent.putExtra("dot", heightDot);
                 } else if(height.length() == 5){
+                    //10cm미만일때
                     int heightInteger = Integer.parseInt(height.substring(0,1));
                     int heightDot = Integer.parseInt(height.substring(2,3));
                     heightIntent.putExtra("integer", heightInteger);
@@ -227,22 +258,35 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 Intent weightIntent = new Intent(getActivity(), WeightActivity.class);
                 String weight = mBtWeight.getText().toString();
                 if(weight.length() == 7){
+                    //100kg이상일때
                     int heightInteger = Integer.parseInt(weight.substring(0,3));
                     int heightDot = Integer.parseInt(weight.substring(4,5));
                     weightIntent.putExtra("integer", heightInteger);
                     weightIntent.putExtra("dot", heightDot);
                 } else if(weight.length() == 6){
+                    //10kg이상 100kg 미만일때
                     int heightInteger = Integer.parseInt(weight.substring(0,2));
                     int heightDot = Integer.parseInt(weight.substring(3,4));
                     weightIntent.putExtra("integer", heightInteger);
                     weightIntent.putExtra("dot", heightDot);
                 } else if(weight.length() == 5){
+                    //10kg미만일때
                     int heightInteger = Integer.parseInt(weight.substring(0,1));
                     int heightDot = Integer.parseInt(weight.substring(2,3));
                     weightIntent.putExtra("integer", heightInteger);
                     weightIntent.putExtra("dot", heightDot);
                 }
                 startActivityForResult(weightIntent, CHANGE_WEIGHT);
+                break;
+
+            case R.id.bt_ntRatio_setting:
+                //영양목표 비율 번경 이벤트
+                Intent ratioIntent = new Intent(getActivity(), RatioGoalActivity.class);
+                ratioIntent.putExtra("kcal", 2024);
+                ratioIntent.putExtra("carbohydrate", mRatio[0]);
+                ratioIntent.putExtra("protein", mRatio[1]);
+                ratioIntent.putExtra("fat", mRatio[2]);
+                startActivityForResult(ratioIntent, CHANGE_RATIO);
                 break;
 
             case R.id.bt_logout:
