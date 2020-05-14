@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Space;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,10 @@ public class InputSettingActivity extends BaseActivity implements View.OnClickLi
         //배경 클릭 설정
         Button btBack = findViewById(R.id.bt_back_input_setting);
         btBack.setOnClickListener(this);
+
+        //입력완료 버튼클릭 설정
+        Button btComplete = findViewById(R.id.bt_complete_input_setting);
+        btComplete.setOnClickListener(this);
     }
 
     @Override
@@ -31,6 +36,13 @@ public class InputSettingActivity extends BaseActivity implements View.OnClickLi
                 break;
 
             case R.id.bt_complete_input_setting:
+                //입력완료 버튼 클릭 이벤트
+                Intent intent = new Intent();
+                EditText etInput = findViewById(R.id.et_input_setting);
+                String input = etInput.getText().toString();
+                intent.putExtra("input", input);
+                setResult(RESULT_OK, intent);
+                finish();
                 break;
 
             default:

@@ -47,6 +47,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private Button mBtWeight;
     private Button mBtLogout;
 
+    //끼니 리스트 어뎁터, 아이템
+    private SettingAdapter mSettintAdapter;
     private ArrayList<SettingItem> mItems;
 
     @Override
@@ -96,8 +98,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        SettingAdapter adapter = new SettingAdapter(getContext(), mItems);
-        chartRecyclerView.setAdapter(adapter);
+        mSettintAdapter = new SettingAdapter(getContext(), mItems);
+        chartRecyclerView.setAdapter(mSettintAdapter);
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -120,7 +122,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
         switch(requestCode){
             case ADD_MEAL:
-                //추가했을 때 리스트에 추가하는 코드 필요
+                //추가했을 때 리스트에 추가하는 코드
+                if(data.getStringExtra("input") != null){
+                    SettingItem item = new SettingItem();
+                    item.setMeal(data.getStringExtra("input"));
+                    mItems.add(item);
+                    mSettintAdapter.notifyDataSetChanged();
+                }
                 break;
 
             case DELETE_MEAL:
