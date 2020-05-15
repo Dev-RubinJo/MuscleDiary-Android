@@ -157,7 +157,7 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
             mTvRatioGoal.setTextColor(Color.RED);
         } else{
             mIsOk = true;
-            mTvRatioGoal.setTextColor(Color.BLACK);
+            mTvRatioGoal.setTextColor(Color.rgb(71,200,62));
         }
     }
 
