@@ -1,7 +1,6 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.tvMenuTitle.setText(mMenuList.get(position).getFoodName());
-        holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getTotalCal())+" kcal");
+        holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getCalorie())+" kcal");
 
         holder.btnDeleteMenu.setOnClickListener(new View.OnClickListener() {
             @Override

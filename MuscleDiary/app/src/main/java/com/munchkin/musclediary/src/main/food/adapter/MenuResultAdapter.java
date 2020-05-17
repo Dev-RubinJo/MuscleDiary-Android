@@ -16,6 +16,8 @@ import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.ViewHolder> {
 
     Context mContext;
@@ -42,6 +44,7 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
                 public void onClick(View v) {
                     Intent arrangeMenuIntent = new Intent(mContext, ArrangeMenuActivity.class);
                     arrangeMenuIntent.putExtra("menuName",menuTitle.getText().toString());
+                    arrangeMenuIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(arrangeMenuIntent);
                 }
             });
@@ -61,8 +64,10 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MenuItem menuItem = mMenuResult.get(position);
         holder.menuTitle.setText(menuItem.getFoodName());
-        holder.menuCalories.setText(menuItem.getTotalCal()+" kcal");
-        holder.menuDescription.setText("api 연동시 자세한 설명이 들어갈 자리입니다.");
+        String kcal = menuItem.getCalorie()+" kcal";
+        holder.menuCalories.setText(kcal);
+        String info = "탄수화물-" + menuItem.getCarbohydrate() + "g  " + "단백질-" + menuItem.getProtein() + "g  " + "지방-" + menuItem.getFat() + "g";
+        holder.menuDescription.setText(info);
     }
 
     @Override
