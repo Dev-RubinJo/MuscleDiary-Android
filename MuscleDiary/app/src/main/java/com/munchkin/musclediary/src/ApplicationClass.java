@@ -20,7 +20,7 @@ public class ApplicationClass extends Application {
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
     // 서버 API주소(ec2 주소)
-    public static String BASE_URL = "서버 api주소 입력";
+    public static String BASE_URL = "서버 주소 입력";
 
     public static SharedPreferences sSharedPreferences = null;
 

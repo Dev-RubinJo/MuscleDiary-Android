@@ -46,13 +46,13 @@ public class ExerciseFragment extends BaseFragment {
     }
 
     private void addExerciseList(){
-        String titleList[] = {"상체", "하체"};
+        String titleList[] = {"근력운동", "유산소운동"};
 
         String exerciseList[] = {"풀업","친업","체어딥스","버터플라이"};
         String description[] = {"5(lap) / 3(set)","15(lap) / 2(set)","18(lap) / 3(set)","15(lap) / 5(set)"};
 
-        String exerciseList2[] = {"레그익스텐션","레그프레스","스쿼트"};
-        String description2[] = {"15(lap) / 5(set) / 20(kg)","15(lap) / 2(set) / 100(kg)","2(lap) / 3(set) / 100(kg)"};
+        String exerciseList2[] = {"런닝머신","사이클","스피닝"};
+        String description2[] = {"15(min) / 5(intensity)","15(min) / 5(intensity)","15(min) / 5(intensity)"};
 
         mExerciseItems = new ArrayList<>();
         mExerciseItems2 = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.munchkin.musclediary.src.main.setting.dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
@@ -14,6 +15,7 @@ import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class RatioGoalActivity extends BaseActivity implements View.OnClickListener {
@@ -69,30 +71,42 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
 
 
     private void createPickers(NumberPicker.OnValueChangeListener pickerListener){
+        int maxvalue = 100;
+        int minvalue = 0;
+        int step = 5;
+        String[] valueSet = new String[21];
+        //
+        for(int i = 0; i <= 20; i++) {
+            valueSet[i] = Integer.toString(i*5);
+        }
 
         //년도 선택 picker 설정(년도 설정 picker만 순환하지 않도록 한다.)
         mCarbohydratePicker = findViewById(R.id.picker_carbohydrate_ratio_goal);
-        mCarbohydratePicker.setMinValue(0);
-        mCarbohydratePicker.setMaxValue(100);
-        int carbohydrate = getIntent().getIntExtra("carbohydrate", 0);
-        mCarbohydratePicker.setValue(carbohydrate);
+        int carbohydrate = (getIntent().getIntExtra("carbohydrate", 0))/5;
         mCarbohydratePicker.setOnValueChangedListener(pickerListener);
+        mCarbohydratePicker.setMinValue(0);
+        mCarbohydratePicker.setMaxValue((maxvalue - minvalue) / step);
+        mCarbohydratePicker.setDisplayedValues(valueSet);
+        mCarbohydratePicker.setValue(carbohydrate);
 
         //달 선택 picker 설정
         mProteinPicker = findViewById(R.id.picker_protein_ratio_goal);
-        mProteinPicker.setMinValue(0);
-        mProteinPicker.setMaxValue(100);
-        int protein = getIntent().getIntExtra("protein", 0);
-        mProteinPicker.setValue(protein);
+        int protein = (getIntent().getIntExtra("protein", 0))/5;
         mProteinPicker.setOnValueChangedListener(pickerListener);
+        mProteinPicker.setMinValue(0);
+        mProteinPicker.setMaxValue((maxvalue - minvalue) / step);
+        mProteinPicker.setDisplayedValues(valueSet);
+        mProteinPicker.setValue(protein);
 
         //일 선택 picker 설정
         mFatPicker = findViewById(R.id.picker_fat_ratio_goal);
-        mFatPicker.setMinValue(0);
-        mFatPicker.setMaxValue(100);
-        int fat = getIntent().getIntExtra("fat", 0);
-        mFatPicker.setValue(fat);
+
+        int fat = (getIntent().getIntExtra("fat", 0))/5;
         mFatPicker.setOnValueChangedListener(pickerListener);
+        mFatPicker.setMinValue(0);
+        mFatPicker.setMaxValue((maxvalue - minvalue) / step);
+        mFatPicker.setDisplayedValues(valueSet);
+        mFatPicker.setValue(fat);
 
         changePercent();
         changeGram(carbohydrate, mTvCarbohydrate, 4);
@@ -136,16 +150,16 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
     //그램 변경하는 함수
     private void changeGram(int ratio, TextView textView, int gramRatio){
         int totalKcal = getIntent().getIntExtra("kcal", 0);
-        int kcal = totalKcal * ratio / 100;
+        int kcal = totalKcal * ratio * 5 / 100;
         String gram = kcal/gramRatio + "g";
         textView.setText(gram);
     }
 
     //바뀔때마다 %변경해주는 함수(임시 배열에 저장한다)
     private void changePercent(){
-        int carbohydrate = mCarbohydratePicker.getValue();
-        int protein = mProteinPicker.getValue();
-        int fat = mFatPicker.getValue();
+        int carbohydrate = mCarbohydratePicker.getValue()*5;
+        int protein = mProteinPicker.getValue()*5;
+        int fat = mFatPicker.getValue()*5;
         mRateoArray[0] = carbohydrate;
         mRateoArray[1] = protein;
         mRateoArray[2] = fat;
