@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/tv_ratio_goal"
-            android:layout_width="55dp"
+            android:layout_width="65dp"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -47,7 +47,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_ratie_goal_title"
-            tools:text="100%" />
+            tools:text="100%"
+            android:gravity="center" />
 
         <LinearLayout
             android:id="@+id/linear_carbohydrate"
