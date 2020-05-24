@@ -14,11 +14,14 @@ import com.munchkin.musclediary.src.BaseActivity;
 
 public class TypeActivity extends BaseActivity implements View.OnClickListener {
 
+    private int mType;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type);
 
+        mType = getIntent().getIntExtra("type", 0);
 
         //라디오 그룹 설정
         RadioGroup radioGroup = findViewById(R.id.radiogroup_type_chart);
@@ -42,9 +45,11 @@ public class TypeActivity extends BaseActivity implements View.OnClickListener {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch(checkedId){
                 case R.id.radio_weight_chart:
+                    mType = 2;
                     break;
 
                 case R.id.radio_bodyfatrate_chart:
+                    mType = 1;
                     break;
 
                 default:
@@ -65,6 +70,7 @@ public class TypeActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_select_type:
                 Intent intent = new Intent();
+                intent.putExtra("type", mType);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;

@@ -3,6 +3,7 @@ package com.munchkin.musclediary.src.main.chart;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.POWER_SERVICE;
 
 public class ChartFragment extends BaseFragment implements View.OnClickListener {
     //startActivityForResult requestCode
@@ -39,6 +41,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
     //리사이클러뷰 아이템 리스트
     private ArrayList<ChartItem> items;
     private ImageButton mBtnAddData;
+
+    //그래프 생성
+    List<Entry> mEntries;
+
+    //분석종류 1 = 체지방, 2 = 체중
+    private int mType = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -78,19 +86,19 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 //        mLineChart = (LineChart)view.findViewById(R.id.line_chart);
 
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
-        List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(1, 1));
-        entries.add(new Entry(2, 2));
-        entries.add(new Entry(3, 0));
-        entries.add(new Entry(4, 4));
-        entries.add(new Entry(5, 3));
+        mEntries = new ArrayList<>();
+        mEntries.add(new Entry(1, 1));
+        mEntries.add(new Entry(2, 2));
+        mEntries.add(new Entry(3, 0));
+        mEntries.add(new Entry(4, 4));
+        mEntries.add(new Entry(5, 3));
 
-        setmLineChart(entries);
+        setmLineChart(mEntries, "체지방률 변화");
     }
 
     // 그래프 세팅 메서드
-    private void setmLineChart(List<Entry> list) {
-        LineDataSet lineDataSet = new LineDataSet(list, "체지방률 변화");
+    private void setmLineChart(List<Entry> list, String label) {
+        LineDataSet lineDataSet = new LineDataSet(list, label);
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
         lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
@@ -153,6 +161,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 
             case R.id.bt_type_chart:
                 Intent typeIntent = new Intent(getContext(), TypeActivity.class);
+                typeIntent.putExtra("type", mType);
                 startActivityForResult(typeIntent, CHANGE_TYPE);
                 break;
 
@@ -175,6 +184,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 
         switch(requestCode){
             case CHANGE_TYPE:
+                mType = data.getIntExtra("type", 0);
+                Log.d("test", Integer.toString(mType));
+                if(mType == 1){
+                    setmLineChart(mEntries, "체지방률 변화");
+                } else if(mType == 2){
+                    setmLineChart(mEntries, "체중 변화");
+                }
                 break;
 
             default:
