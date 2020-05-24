@@ -2,6 +2,7 @@ package com.munchkin.musclediary.src.main.setting.dialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
@@ -40,20 +41,20 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
     //picker 생성, 초기값 설정해주는 함수
     private void createPickers(){
         Intent intent = getIntent();
-        int integer = intent.getIntExtra("integer", 0);
-        int dot = intent.getIntExtra("dot", 0);
+
+        double height = intent.getDoubleExtra("height", 0);
 
         //정수부분 picker
         mIntPicker = findViewById(R.id.picker_integer_height_setting);
         mIntPicker.setMaxValue(300);
         mIntPicker.setMinValue(0);
-        mIntPicker.setValue(integer);
+        mIntPicker.setValue((int)height);
 
         //소수점 부분 picker
         mFloatPicker = findViewById(R.id.picker_float_height_setting);
         mFloatPicker.setMaxValue(9);
         mFloatPicker.setMinValue(0);
-        mFloatPicker.setValue(dot);
+        mFloatPicker.setValue((int)(height * 10.0 % 10.0));
     }
 
     @Override
@@ -67,7 +68,7 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.bt_select_height_setting:
                 Intent intent = new Intent();
-                String height = mIntPicker.getValue() + "." + mFloatPicker.getValue() + "cm";
+                double height = mIntPicker.getValue() + (mFloatPicker.getValue() * 0.1);
                 intent.putExtra("height", height);
                 setResult(RESULT_OK, intent);
                 finish();

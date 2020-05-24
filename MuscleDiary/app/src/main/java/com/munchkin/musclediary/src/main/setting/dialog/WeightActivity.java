@@ -40,20 +40,19 @@ public class WeightActivity extends BaseActivity implements View.OnClickListener
     //picker 생성, 초기값 설정해주는 함수
     private void createPickers(){
         Intent intent = getIntent();
-        int integer = intent.getIntExtra("integer", 0);
-        int dot = intent.getIntExtra("dot", 0);
+        double weight = intent.getDoubleExtra("weight", 0);
 
         //정수부분 picker
         mIntPicker = findViewById(R.id.picker_integer_weight_setting);
         mIntPicker.setMaxValue(300);
         mIntPicker.setMinValue(0);
-        mIntPicker.setValue(integer);
+        mIntPicker.setValue((int)weight);
 
         //소수점 부분 picker
         mFloatPicker = findViewById(R.id.picker_float_weight_setting);
         mFloatPicker.setMaxValue(9);
         mFloatPicker.setMinValue(0);
-        mFloatPicker.setValue(dot);
+        mFloatPicker.setValue((int)(weight * 10.0 % 10.0));
     }
 
     @Override
@@ -67,7 +66,7 @@ public class WeightActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.bt_select_weight:
                 Intent intent = new Intent();
-                String weight = mIntPicker.getValue() + "." + mFloatPicker.getValue() + "kg";
+                double weight = mIntPicker.getValue() + (mFloatPicker.getValue() * 0.1);
                 intent.putExtra("weight", weight);
                 setResult(RESULT_OK, intent);
                 finish();

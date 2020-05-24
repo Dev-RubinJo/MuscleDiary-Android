@@ -3,6 +3,7 @@ package com.munchkin.musclediary.src.main.setting;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.KcalGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
+import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.services.SettingService;
 import com.munchkin.musclediary.src.signin.SignInActivity;
 
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 
-public class SettingFragment extends BaseFragment implements View.OnClickListener {
+public class SettingFragment extends BaseFragment implements View.OnClickListener, SettingFragmentView {
 
     //startActivityForResult requestCode
     private final int ADD_MEAL = 0;
@@ -58,6 +61,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     //끼니 리스트 어뎁터, 아이템
     private SettingAdapter mSettintAdapter;
     private ArrayList<SettingItem> mItems;
+
+    //임시 프로필 저장 변수
+    private double mHeight = 175.2;
+    private double mWeight = 65.1;
+    private int mAge = 25;
+    private int mGender = 1;
 
     //목표영양 비율 임시 리스트
     private int[] mRatio = {50,30,20};
@@ -124,6 +133,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //리사이클러뷰 어뎁터 생성, 적용
         mSettintAdapter = new SettingAdapter(getContext(), mItems);
         chartRecyclerView.setAdapter(mSettintAdapter);
+
+        setProfile();
+    }
+
+    private void setProfile(){
+        mBtHeight.setText(String.format("%sCM", mHeight));
+        mBtWeight.setText(String.format("%sKG", mWeight));
+        mBtAge.setText("1996년06월03일");
+        mBtGender.setText(mGender == 1 ? "남성" : "여성");
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -167,8 +185,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
             case CHANGE_GENDER:
                 //성별 변경했을 때 코드
-                if(data.getStringExtra("gender") != null){
-                    mBtGender.setText(data.getStringExtra("gender"));
+                if(data.getIntExtra("gender", 0) != 0){
+                    mGender = data.getIntExtra("gender", 0);
+                    Log.d("test", Integer.toString(mGender));
+                    if(mGender == 1){
+                        mBtGender.setText("남성");
+                    } else if(mGender == 2){
+                        mBtGender.setText("여성");
+                    }
+
                 }
                 break;
 
@@ -179,12 +204,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
             case CHANGE_HEIGHT:
                 //키 변경했을 때 코드
-                mBtHeight.setText(data.getStringExtra("height"));
+                // data.getStringExtra("height")
+                mHeight = data.getDoubleExtra("height", 0);
+                mBtHeight.setText(String.format("%.1fCM", mHeight));
                 break;
 
                 //몸무게 변경했을 때 코드
             case CHANGE_WEIGHT:
-                mBtWeight.setText(data.getStringExtra("weight"));
+                mWeight = data.getDoubleExtra("weight", 0);
+                mBtWeight.setText(String.format("%.1fKG", mWeight));
                 break;
 
             case CHANGE_RATIO:
@@ -229,6 +257,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             //성별 변경 버튼 클릭이벤트
             case R.id.bt_gender_setting:
                 Intent genderIntent = new Intent(getActivity(), GenderActivity.class);
+                genderIntent.putExtra("gender", mGender);
                 startActivityForResult(genderIntent, CHANGE_GENDER);
                 break;
 
@@ -246,7 +275,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 Intent heightIntent = new Intent(getActivity(), HeightActivity.class);
                 mBtHeight.getText();
                 String height = mBtHeight.getText().toString();
-
                 if(height.length() == 7){
                     //100cm이상일때
                     int heightInteger = Integer.parseInt(height.substring(0,3));
@@ -266,6 +294,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     heightIntent.putExtra("integer", heightInteger);
                     heightIntent.putExtra("dot", heightDot);
                 }
+                heightIntent.putExtra("height", mHeight);
                 startActivityForResult(heightIntent, CHANGE_HEIGHT);
                 break;
 
@@ -291,6 +320,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     weightIntent.putExtra("integer", heightInteger);
                     weightIntent.putExtra("dot", heightDot);
                 }
+                weightIntent.putExtra("weight", mWeight);
                 startActivityForResult(weightIntent, CHANGE_WEIGHT);
                 break;
 
@@ -325,5 +355,25 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             default:
                 break;
         }
+    }
+
+    private void tryPostUpdateProfile(String height, String weight, String age, String gender){
+        showProgressDialog(getActivity());
+        SettingService settingService = new SettingService(this);
+        settingService.postUpdateProfile(height, weight, age, gender);
+
+    }
+
+    @Override
+    public void validateSuccess(int code, String message) {
+        showCustomToast("프로필 변경에 성공했습니다.");
+        hideProgressDialog();
+    }
+
+    @Override
+    public void validateFailure(String message) {
+        showCustomToast("프로필 변경에 실패했습니다.");
+        hideProgressDialog();
+
     }
 }

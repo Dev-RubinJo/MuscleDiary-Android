@@ -14,13 +14,13 @@ import com.munchkin.musclediary.src.BaseActivity;
 
 public class GenderActivity extends BaseActivity implements View.OnClickListener {
 
-    private String mGender;
+    private int mGender;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gender);
 
-        mGender = getIntent().getStringExtra("gender");
+        mGender = getIntent().getIntExtra("gender", 0);
 
 
         //라디오 그룹 설정
@@ -37,6 +37,12 @@ public class GenderActivity extends BaseActivity implements View.OnClickListener
         //배경 클릭 설정
         Button btBack = findViewById(R.id.bt_back_gender_setting);
         btBack.setOnClickListener(this);
+
+        if(mGender == 1){
+            radioGroup.check(R.id.radio_male_setting);
+        } else if(mGender == 2){
+            radioGroup.check(R.id.radio_female_setting);
+        }
     }
 
     //라디오 그룹 리스너 설정
@@ -45,11 +51,11 @@ public class GenderActivity extends BaseActivity implements View.OnClickListener
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch(checkedId){
                 case R.id.radio_male_setting:
-                    mGender = "남성";
+                    mGender = 1;
                     break;
 
                 case R.id.radio_female_setting:
-                    mGender = "여성";
+                    mGender = 2;
                     break;
 
                 default:
