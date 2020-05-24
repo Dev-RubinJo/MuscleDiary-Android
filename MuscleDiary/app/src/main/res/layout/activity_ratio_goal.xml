@@ -36,19 +36,18 @@
 
         <TextView
             android:id="@+id/tv_ratio_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textSize="17dp"
-            tools:text="100%"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toBottomOf="@id/tv_ratie_goal_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/linear_protein"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            />
+            android:padding="10dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="17dp"
+            app:layout_constraintBottom_toTopOf="@id/linear_protein"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_ratie_goal_title"
+            tools:text="100%" />
 
         <LinearLayout
             android:id="@+id/linear_carbohydrate"
