@@ -73,5 +73,6 @@
     <string name="chart_input_str_complete">입력완료</string>
     <string name="fragment_exercise_title">운동일지</string>
     <string name="food_serving">인분</string>
+    <string name="string_food_add_list_input_menu">추가한음식</string>
 
 </resources>
