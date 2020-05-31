@@ -35,6 +35,7 @@ import static android.content.Context.POWER_SERVICE;
 public class ChartFragment extends BaseFragment implements View.OnClickListener {
     //startActivityForResult requestCode
     private final int CHANGE_TYPE = 0;
+    private final int CHANGE_TERM = 1;
 
     private LineChart mLineChart;
 //    private LineChart lineChart;
@@ -87,7 +88,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
         mEntries = new ArrayList<>();
-        addChartData();
+        addChartData(0);
         setmLineChart(mEntries, "체지방률 변화");
     }
 
@@ -159,11 +160,44 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         }
     }
 
-    private void addChartData(){
+    private void addChartData(int term){
         mEntries.clear();
-        for(ChartItem item : items){
-            mEntries.add(new Entry(item.getDate(), item.getLevel()));
+        int date = 0;
+        switch (term){
+            case 0:
+                for(ChartItem item : items){
+                    mEntries.add(new Entry(item.getDate(), item.getLevel()));
+                }
+                break;
+
+            case 1:
+
+                for(int i = 0; i < items.size(); i++){
+                    if(i == 0){
+                        date = items.get(i).getDate();
+                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                    } else if(date + 7 <= items.get(i).getDate()){
+                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                        date = items.get(i).getDate();
+                    }
+                }
+                break;
+
+            case 2:
+                date = 0;
+                for(int i = 0; i < items.size(); i++){
+                    if(i == 0){
+                        date = items.get(i).getDate();
+                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                    } else if(date + 30 <= items.get(i).getDate()){
+                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                    }
+                }
+
+            default:
+                break;
         }
+
     }
     @Override
     public void onClick(View v) {
@@ -180,10 +214,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case R.id.bt_term_chart:
-                Intent termIntent = new Intent(getContext(), TermActivity.class);
-                startActivityForResult(termIntent, CHANGE_TYPE);
-                break;
-
+                if(mType == 2){
+                    Intent termIntent = new Intent(getContext(), TermActivity.class);
+                    startActivityForResult(termIntent, CHANGE_TERM);
+                } else {
+                    showCustomToast("체지방률은 기간설정을 할 수 없습니다. ");
+                }
             default:
                 break;
         }
@@ -204,11 +240,29 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                     setmLineChart(mEntries, "체지방률 변화");
 
                 } else if(mType == 2){
-                    mEntries = new ArrayList<>();
-                    for(ChartItem item : items){
-                        mEntries.add(new Entry(item.getDate(), item.getLevel()));
-                    }
+                    addChartData(0);
                     setmLineChart(mEntries, "체중 변화");
+                }
+                break;
+
+            case CHANGE_TERM:
+                int term = data.getIntExtra("term", 0);
+                showCustomToast(Integer.toString(term));
+                switch(term){
+                    case 0:
+                        addChartData(0);
+                        setmLineChart(mEntries, "체지방률 변화");
+                        break;
+                    case 1:
+                        addChartData(1);
+                        setmLineChart(mEntries, "체지방률 변화");
+                        break;
+                    case 2:
+                        addChartData(2);
+                        setmLineChart(mEntries, "체지방률 변화");
+                        break;
+                    default:
+                        break;
                 }
                 break;
 
