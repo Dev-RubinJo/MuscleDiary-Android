@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.food;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -33,7 +34,15 @@ public class ArrangeMenuActivity extends BaseActivity {
         mTvMenuName = findViewById(R.id.arg_menu_tv_menu_name);
         Intent getIntent = getIntent();
         String menu = getIntent.getStringExtra("menuName");
+
         mTvMenuName.setText(menu);
+
+        //menu 설명 지정
+        mTvMenuDescription = findViewById(R.id.arg_menu_tv_menu_serving);
+        double menuGramPerServe = getIntent.getDoubleExtra("menuGramPerServe",100);
+        String menuDescription = "메뉴 1회 제공량 (" + menuGramPerServe + "g /1인분)";
+
+        mTvMenuDescription.setText(menuDescription);
 
         //picker 생성함수
         createPickers();
@@ -71,6 +80,9 @@ public class ArrangeMenuActivity extends BaseActivity {
         mBtnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent backToInputActivity = new Intent();
+                backToInputActivity.putExtra("serving",-1.0);
+                setResult(Activity.RESULT_OK,backToInputActivity);
                 finish();
             }
         });
@@ -78,7 +90,10 @@ public class ArrangeMenuActivity extends BaseActivity {
         mBtnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "추가되었습니다.",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "추가되었습니다.",Toast.LENGTH_SHORT).show();
+                Intent backToInputActivity = new Intent();
+                backToInputActivity.putExtra("serving",mIntPicker.getValue()+(mFloatPicker.getValue()*0.1));
+                setResult(Activity.RESULT_OK,backToInputActivity);
                 finish();
             }
         });

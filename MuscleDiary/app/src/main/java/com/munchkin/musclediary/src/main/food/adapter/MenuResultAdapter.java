@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,20 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.food.ArrangeMenuActivity;
+import com.munchkin.musclediary.src.main.food.InputMenuActivity;
+import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.ViewHolder> {
 
     Context mContext;
     ArrayList<MenuItem> mMenuResult;
+    private ResultItemClickListener startActivityForResultInterface;
 
-    public MenuResultAdapter(Context context, ArrayList<MenuItem> menuItems){
+
+    public MenuResultAdapter(Context context, ArrayList<MenuItem> menuItems, ResultItemClickListener listener){
         mContext = context;
         mMenuResult = menuItems;
+        this.startActivityForResultInterface = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -33,7 +37,7 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
         TextView menuDescription;
         TextView menuCalories;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             menuTitle = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_title);
             menuDescription = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_description);
@@ -42,10 +46,16 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int itemPosition = getAdapterPosition();
+                    MenuItem clickedItem = mMenuResult.get(itemPosition);
+                    double itemTotalGram = clickedItem.getCarbohydrate()+clickedItem.getFat()+clickedItem.getProtein();
+
                     Intent arrangeMenuIntent = new Intent(mContext, ArrangeMenuActivity.class);
                     arrangeMenuIntent.putExtra("menuName",menuTitle.getText().toString());
-                    arrangeMenuIntent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(arrangeMenuIntent);
+                    arrangeMenuIntent.putExtra("menuGramPerServe",itemTotalGram);
+                    arrangeMenuIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+                    startActivityForResultInterface.onResultItemClicked(arrangeMenuIntent);
                 }
             });
         }

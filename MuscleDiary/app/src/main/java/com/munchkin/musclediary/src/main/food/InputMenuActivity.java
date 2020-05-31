@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,18 +18,25 @@ import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.food.adapter.MenuResultAdapter;
 import com.munchkin.musclediary.src.main.food.interfaces.InputMenuActivityView;
+import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
 
 import java.util.ArrayList;
 
-public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener {
+public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultItemClickListener {
 
     String mMealTitle;
     TextView mTvMealTitle;
     RecyclerView mMenuResultRecyclerView;
     MenuResultAdapter mMenuResultAdapter;
+    ResultItemClickListener mResultItemClickListener = new ResultItemClickListener() {
+        @Override
+        public void onResultItemClicked(Intent intentSending) {
+            startActivityForResult(intentSending,3000);
+        }
+    };
 
     EditText mEtSearch;
 
@@ -61,7 +69,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
 
         //리사이클러뷰 레이아웃 매니저 적용
         mMenuResultRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mMenuResultAdapter = new MenuResultAdapter(getApplicationContext(),mMenuItems);
+        mMenuResultAdapter = new MenuResultAdapter(getApplicationContext(),mMenuItems,mResultItemClickListener);
         mMenuResultRecyclerView.setAdapter(mMenuResultAdapter);
 
         //검색버튼 생성, 클릭이벤트 적용
@@ -71,27 +79,30 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
 
     private void addMealList(){
         mMenuItems.clear();
+    }
 
-        String menutitleList[] = {"계란밥","된장국","스파케티","사과주스"};
-        double menuKcalList[] = {50,12,102,124.2,24,13,25,354.3,113,13,112,113.4,23,24,25,231.4};
-
-        String menutitleList2[] = {"스테이크","연어","단백질파우더"};
-        double menuKcalList2[] = {50,12,102,432.2,24,13,25,434.3,113,13,112,145.2};
-
-
-
-        //최근 입력 더미데이터
-        for(int j =0; j<3; j++){
-            MenuItem menuItem = new MenuItem(menutitleList2[j],menuKcalList2[4*j],menuKcalList2[(4*j)+1],
-                    menuKcalList2[(4*j)+2],menuKcalList2[(4*j)+3]);
-            mMenuItems.add(menuItem);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK){
+            return;
         }
 
-        //최근 입력 더미데이터 2 >> fragment food 내용 재사용
-        for(int j =0; j<4; j++){
-            MenuItem menuItem = new MenuItem(menutitleList[j],menuKcalList[4*j],menuKcalList[(4*j)+1],
-                    menuKcalList[(4*j)+2],menuKcalList[(4*j)+3]);
-            mMenuItems.add(menuItem);
+        switch (requestCode){
+            case 3000: {
+                //입력완료
+                double serving = data.getDoubleExtra("serving",1);
+                Log.d("jooan","serving : "+serving);
+
+                //취소
+                if(serving != -1.0){
+                    Log.d("jooan", "입력헸음");
+                    return;
+                }else{
+                    Log.d("jooan", "취소헸음");
+                    //추가한 음식에 추가
+                }
+            }
         }
     }
 
@@ -157,5 +168,10 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onResultItemClicked(Intent intentSending) {
+        startActivityForResult(intentSending,3000);
     }
 }

@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.food;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,28 @@ public class FoodFragment extends BaseFragment {
 
     private ArrayList<MealItem> mMealitems;
     private ArrayList<MenuItem> mMenuItems;
+    private MealAdapter mMealAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_food, container, false);
         setComponentView(view);
+
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMenuItems.clear();
+        mMealAdapter.notifyDataSetChanged();
+        Log.d("jooan","onResume enter");
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        Log.d("jooan","onDestroyView enter");
     }
 
     // 생성될 음식 프레그먼트에 대한 컴포넌트 세팅
@@ -39,8 +56,8 @@ public class FoodFragment extends BaseFragment {
         mealRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        MealAdapter mealAdapter = new MealAdapter(getContext(),mMealitems);
-        mealRecyclerView.setAdapter(mealAdapter);
+        mMealAdapter = new MealAdapter(getContext(),mMealitems);
+        mealRecyclerView.setAdapter(mMealAdapter);
 
     }
 
@@ -52,20 +69,9 @@ public class FoodFragment extends BaseFragment {
         String menutitleList[] = {"계란밥","된장국","스파케티","사과주스"};
         double menuKcalList[] = {50,12,102,124.2,24,13,25,354.3,113,13,112,113.4,23,24,25,231.4};
 
-        String menutitleList2[] = {"스테이크","연어","단백질파우더"};
-        double menuKcalList2[] = {50,12,102,432.2,24,13,25,434.3,113,13,112,145.2};
-
         mMenuItems = new ArrayList<>();
         mMealitems = new ArrayList<>();
 
-        ArrayList<MenuItem> menuItems2 = new ArrayList<>();
-
-        //저녁메뉴용 더미데이터
-        for(int j =0; j<3; j++){
-            MenuItem menuItem = new MenuItem(menutitleList2[j],menuKcalList2[4*j],menuKcalList2[(4*j)+1],
-                    menuKcalList2[(4*j)+2],menuKcalList2[(4*j)+3]);
-            menuItems2.add(menuItem);
-        }
 
         //아침메뉴용 더미데이터
         for(int j =0; j<4; j++){
@@ -82,6 +88,5 @@ public class FoodFragment extends BaseFragment {
         }
 
         mMealitems.get(0).setMenuItemList(mMenuItems);
-        mMealitems.get(2).setMenuItemList(menuItems2);
     }
 }

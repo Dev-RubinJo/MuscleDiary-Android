@@ -1,6 +1,8 @@
 package com.munchkin.musclediary.src.main.food.models;
 
-public class MenuItem {
+import java.io.Serializable;
+
+public class MenuItem implements Serializable {
 
     private int foodNo;
     private String foodGroup;
