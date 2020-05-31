@@ -1,15 +1,13 @@
 package com.munchkin.musclediary.src.main.food;
 
-import android.webkit.WebChromeClient;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.munchkin.musclediary.R;
 import android.webkit.WebSettings;
 import android.widget.Toast;
+import android.util.Log;
+import android.view.KeyEvent;
 
 import com.munchkin.musclediary.src.BaseActivity;
 
