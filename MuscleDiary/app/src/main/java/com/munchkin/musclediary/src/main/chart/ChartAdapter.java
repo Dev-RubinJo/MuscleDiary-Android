@@ -42,8 +42,8 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ChartAdapter.ViewHolder holder, int position) {
         ChartItem item = mItems.get(position);
-        holder.tvLevel.setText(item.getLevel());
-        holder.tvDate.setText(item.getDate());
+        holder.tvLevel.setText(String.format("%.1fKg",item.getLevel()));
+        holder.tvDate.setText(String.format("%d년 %d월 %d일", item.getYear(), item.getMonth(), item.getDate()));
     }
 
     @Override

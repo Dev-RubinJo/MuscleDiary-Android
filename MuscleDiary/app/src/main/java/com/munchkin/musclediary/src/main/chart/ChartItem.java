@@ -1,22 +1,31 @@
 package com.munchkin.musclediary.src.main.chart;
 
 public class ChartItem {
-    private String level;
-    private String date;
+    private float level;
+    private int date;
+    private int month;
+    private int year;
 
-    public void setLevel(String level) {
+    public ChartItem(float level, int year, int month, int date){
         this.level = level;
-    }
-
-    public void setDate(String date) {
         this.date = date;
+        this.month = month;
+        this.year = year;
     }
 
-    public String getLevel() {
+    public float getLevel() {
         return level;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getYear() {
+        return year;
     }
 }

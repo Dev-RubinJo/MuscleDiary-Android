@@ -14,6 +14,8 @@ import com.munchkin.musclediary.src.BaseActivity;
 
 public class TermActivity extends BaseActivity implements View.OnClickListener {
 
+    private int mTerm = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +44,15 @@ public class TermActivity extends BaseActivity implements View.OnClickListener {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch(checkedId){
                 case R.id.radio_year_chart:
+                    mTerm = 2;
                     break;
 
                 case R.id.radio_month_chart:
+                    mTerm = 1;
                     break;
 
                 case R.id.radio_date_chart:
+                    mTerm = 0;
                     break;
 
                 default:
@@ -68,6 +73,7 @@ public class TermActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.bt_select_term:
                 Intent intent = new Intent();
+                intent.putExtra("term", mTerm);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;
