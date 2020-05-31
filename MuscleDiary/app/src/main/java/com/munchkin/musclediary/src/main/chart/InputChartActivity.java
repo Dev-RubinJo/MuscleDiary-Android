@@ -1,6 +1,8 @@
 package com.munchkin.musclediary.src.main.chart;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,6 +19,7 @@ import java.util.List;
 
 public class InputChartActivity extends BaseActivity {
     private Button mBtnBack;
+    private Button mBtAdd;
     private NumberPicker mDatePicker;
     private NumberPicker mIntegerPicker;
     private NumberPicker mFloatPicker;
@@ -30,6 +33,7 @@ public class InputChartActivity extends BaseActivity {
         setContentView(R.layout.activity_input_chart);
         //컴포넌트 연결
         mBtnBack = findViewById(R.id.input_chart_btn_cancle);
+        mBtAdd = findViewById(R.id.input_chart_btn_complete);
         mDatePicker = (NumberPicker) findViewById(R.id.input_chart_date_picker);
         mIntegerPicker = (NumberPicker) findViewById(R.id.input_chart_integer_picker);
         mFloatPicker = (NumberPicker) findViewById(R.id.input_chart_float_picker);
@@ -45,6 +49,24 @@ public class InputChartActivity extends BaseActivity {
         mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
+            }
+        });
+
+        mBtAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                Calendar c1 = Calendar.getInstance();
+                int year = c1.get(Calendar.YEAR);
+                String dayMonth = mDates[mDatePicker.getValue()];
+                int month = Integer.parseInt(dayMonth.substring(0,2));
+                int date = Integer.parseInt(dayMonth.substring(5,7));
+                intent.putExtra("year", year) ;
+                intent.putExtra("month", month);
+                intent.putExtra("date", date);
+                intent.putExtra("weight", mIntegerPicker.getValue() * 1.0f + mFloatPicker.getValue() * 0.1f);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

@@ -36,6 +36,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
     //startActivityForResult requestCode
     private final int CHANGE_TYPE = 0;
     private final int CHANGE_TERM = 1;
+    private final int ADD_CHART = 2;
 
     private LineChart mLineChart;
 //    private LineChart lineChart;
@@ -48,6 +49,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
 
     //분석종류 1 = 체지방, 2 = 체중
     private int mType = 1;
+    private ChartAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -69,7 +71,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         btType.setOnClickListener(this);
 
         //기간설정 버튼 생성 및 리스너 적용용
-       Button btTerm = v.findViewById(R.id.bt_term_chart);
+        Button btTerm = v.findViewById(R.id.bt_term_chart);
         btTerm.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
@@ -80,8 +82,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        ChartAdapter adapter = new ChartAdapter(getContext(), items);
-        chartRecyclerView.setAdapter(adapter);
+        mAdapter = new ChartAdapter(getContext(), items);
+        chartRecyclerView.setAdapter(mAdapter);
 
         //예시용 그래프 라이브러리
 //        mLineChart = (LineChart)view.findViewById(R.id.line_chart);
@@ -175,9 +177,9 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 for(int i = 0; i < items.size(); i++){
                     if(i == 0){
                         date = items.get(i).getDate();
-                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                        mEntries.add(new Entry(i, items.get(i).getLevel()));
                     } else if(date + 7 <= items.get(i).getDate()){
-                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                        mEntries.add(new Entry(i, items.get(i).getLevel()));
                         date = items.get(i).getDate();
                     }
                 }
@@ -204,7 +206,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         switch (v.getId()){
             case R.id.bt_add_list_chart:
                 Intent inputChartIntent = new Intent(getContext(), InputChartActivity.class);
-                startActivity(inputChartIntent);
+                startActivityForResult(inputChartIntent, ADD_CHART);
                 break;
 
             case R.id.bt_type_chart:
@@ -251,19 +253,31 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 switch(term){
                     case 0:
                         addChartData(0);
-                        setmLineChart(mEntries, "체지방률 변화");
+                        setmLineChart(mEntries, "체중 변화");
                         break;
                     case 1:
                         addChartData(1);
-                        setmLineChart(mEntries, "체지방률 변화");
+                        setmLineChart(mEntries, "체중 변화");
                         break;
                     case 2:
                         addChartData(2);
-                        setmLineChart(mEntries, "체지방률 변화");
+                        setmLineChart(mEntries, "체중 변화");
                         break;
                     default:
                         break;
                 }
+                break;
+
+            case ADD_CHART:
+                int year = data.getIntExtra("year", 0);
+                int month = data.getIntExtra("month", 0);
+                int date = data.getIntExtra("date", 0);
+                float weight = data.getFloatExtra("weight", 0);
+                ChartItem item = new ChartItem(weight, year, month, date);
+                items.add(item);
+                mAdapter.notifyDataSetChanged();
+                addChartData(0);
+                setmLineChart(mEntries, "체중 변화");
                 break;
 
             default:
