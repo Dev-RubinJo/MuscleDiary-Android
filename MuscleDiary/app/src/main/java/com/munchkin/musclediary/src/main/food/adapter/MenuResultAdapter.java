@@ -24,6 +24,7 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
     Context mContext;
     ArrayList<MenuItem> mMenuResult;
     private ResultItemClickListener startActivityForResultInterface;
+    int mItemPosition;
 
 
     public MenuResultAdapter(Context context, ArrayList<MenuItem> menuItems, ResultItemClickListener listener){
@@ -46,8 +47,8 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int itemPosition = getAdapterPosition();
-                    MenuItem clickedItem = mMenuResult.get(itemPosition);
+                    mItemPosition = getAdapterPosition();
+                    MenuItem clickedItem = mMenuResult.get(mItemPosition);
                     double itemTotalGram = clickedItem.getCarbohydrate()+clickedItem.getFat()+clickedItem.getProtein();
 
                     Intent arrangeMenuIntent = new Intent(mContext, ArrangeMenuActivity.class);
@@ -55,7 +56,7 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
                     arrangeMenuIntent.putExtra("menuGramPerServe",itemTotalGram);
                     arrangeMenuIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                    startActivityForResultInterface.onResultItemClicked(arrangeMenuIntent);
+                    startActivityForResultInterface.onResultItemClicked(arrangeMenuIntent,clickedItem);
                 }
             });
         }

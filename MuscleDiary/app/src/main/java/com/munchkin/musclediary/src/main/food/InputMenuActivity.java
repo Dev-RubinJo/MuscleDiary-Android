@@ -9,7 +9,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +30,15 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     TextView mTvMealTitle;
     RecyclerView mMenuResultRecyclerView;
     MenuResultAdapter mMenuResultAdapter;
+
+    //선택한 메뉴를 담을 리스트
+    ArrayList<MenuItem> mClickedMenuItem;
+    MenuItem mSelectedItem;
+
     ResultItemClickListener mResultItemClickListener = new ResultItemClickListener() {
         @Override
-        public void onResultItemClicked(Intent intentSending) {
+        public void onResultItemClicked(Intent intentSending, MenuItem clickedItem) {
+            mSelectedItem = clickedItem;
             startActivityForResult(intentSending,3000);
         }
     };
@@ -56,6 +61,9 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         //인텐트 받아오기 (끼니 제목)
         Intent getIntent = getIntent();
         mMealTitle = getIntent.getStringExtra("mealTitle");
+
+        //선택한 아이템을 담을 리스트와 객체 생성
+        mClickedMenuItem = new ArrayList<MenuItem>();
 
         //레이아웃 컴포넌트 설정
         mTvMealTitle = findViewById(R.id.input_menu_tv_meal_title);
@@ -92,15 +100,15 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
             case 3000: {
                 //입력완료
                 double serving = data.getDoubleExtra("serving",1);
-                Log.d("jooan","serving : "+serving);
+                //Log.d("jooan","serving : "+serving);
 
                 //취소
                 if(serving != -1.0){
-                    Log.d("jooan", "입력헸음");
-                    return;
+                    //Log.d("jooan", "입력헸음");
+                    mClickedMenuItem.add(mSelectedItem);
                 }else{
-                    Log.d("jooan", "취소헸음");
-                    //추가한 음식에 추가
+                    //Log.d("jooan", "취소헸음");
+                    return;
                 }
             }
         }
@@ -171,7 +179,8 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     }
 
     @Override
-    public void onResultItemClicked(Intent intentSending) {
+    public void onResultItemClicked(Intent intentSending, MenuItem clickedItem) {
+        mClickedMenuItem.add(clickedItem);
         startActivityForResult(intentSending,3000);
     }
 }
