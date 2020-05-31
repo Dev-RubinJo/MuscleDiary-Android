@@ -23,6 +23,7 @@ import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.KcalGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.WeeklyWeightGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
@@ -46,6 +47,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int DELETE_MEAL = 6;
     private final int CHANGE_RATIO = 7;
     private final int CHANGE_KCAL = 8;
+    private final int CHANGE_WEIGHT_GOAL = 9;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -53,6 +55,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private Button mBtHeight;
     private Button mBtWeight;
     private Button mBtLogout;
+
+    //주간 체중목표버튼
+    private Button mBtWeightGoal;
 
     //영양목표 변경 버튼
     private Button mBtRatio;
@@ -67,6 +72,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private double mWeight = 65.1;
     private int mAge = 25;
     private int mGender = 1;
+    private int mWeightGoal = 3;
 
     //목표영양 비율 임시 리스트
     private int[] mRatio = {50,30,20};
@@ -100,6 +106,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //몸무게 변경 버튼
         mBtWeight = v.findViewById(R.id.bt_weight_setting);
         mBtWeight.setOnClickListener(this);
+
+        //주간 목표 체중 버튼
+        mBtWeightGoal = v.findViewById(R.id.bt_week_weight);
+        mBtWeightGoal.setOnClickListener(this);
 
         //영양목표 비율 버튼
         mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
@@ -215,6 +225,28 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mBtWeight.setText(String.format("%.1fKG", mWeight));
                 break;
 
+
+                //주간 체중목표 변경시 코드
+            case CHANGE_WEIGHT_GOAL:
+                if(data.getIntExtra("weight_goal", 0) != 0){
+                    mWeightGoal = data.getIntExtra("weight_goal", 0);
+                    Log.d("test", Integer.toString(mWeightGoal));
+                    if(mWeightGoal == 1){
+                        mBtWeightGoal.setText("주간목표 - 주당 0.5kg 감량");
+                    }else if(mWeightGoal == 2){
+                        mBtWeightGoal.setText("주간목표 - 주당 0.2kg 감량");
+                    }else if(mWeightGoal == 3){
+                        mBtWeightGoal.setText("주간목표 - 주당 체중 유지");
+                    }else if(mWeightGoal == 4){
+                        mBtWeightGoal.setText("주간목표 - 주당 0.2kg 증량");
+                    }
+                    else if(mWeightGoal == 5){
+                        mBtWeightGoal.setText("주간목표 - 주당 0.5kg 증량");
+                    }
+
+                }
+                break;
+
             case CHANGE_RATIO:
                 //영양목표 변경했을 때
                 mRatio[0] = data.getIntExtra("carbohydrate", mRatio[0]);
@@ -322,6 +354,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 }
                 weightIntent.putExtra("weight", mWeight);
                 startActivityForResult(weightIntent, CHANGE_WEIGHT);
+                break;
+
+            case R.id.bt_week_weight:
+                Intent weightgoalIntent = new Intent(getActivity(), WeeklyWeightGoalActivity.class);
+                weightgoalIntent.putExtra("weight_goal", mWeightGoal);
+                startActivityForResult(weightgoalIntent, CHANGE_WEIGHT_GOAL);
                 break;
 
             case R.id.bt_ntRatio_setting:

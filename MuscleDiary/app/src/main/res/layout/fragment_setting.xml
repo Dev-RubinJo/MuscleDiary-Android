@@ -142,13 +142,15 @@
             android:gravity="center"
             android:text="목표체중 - 65Kg"
             android:textSize="18sp"/>
-        <TextView
-            android:id="@+id/tv_week_weight"
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_week_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="주간목표 - 매주 0.2Kg 증가"
+            android:text="주간목표 - 주당 체중 유지"
             android:textSize="18sp"/>
 
 
@@ -177,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="2024kcal"
+            android:text="3200kcal"
             android:textSize="18sp"/>
         <Button
             style="?android:attr/borderlessButtonStyle"

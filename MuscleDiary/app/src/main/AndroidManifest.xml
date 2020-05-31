@@ -28,6 +28,8 @@
             android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.dialog.WeightActivity"
             android:theme="@style/Transparent"/>
+        <activity android:name=".src.main.setting.dialog.WeeklyWeightGoalActivity"
+            android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.dialog.RatioGoalActivity"
             android:theme="@style/Transparent"/>
         <activity android:name=".src.main.setting.dialog.KcalGoalActivity"
