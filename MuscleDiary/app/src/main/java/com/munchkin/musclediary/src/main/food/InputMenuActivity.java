@@ -1,11 +1,13 @@
 package com.munchkin.musclediary.src.main.food;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.food.adapter.MenuResultAdapter;
+import com.munchkin.musclediary.src.main.food.adapter.SelectedMenuAdapter;
 import com.munchkin.musclediary.src.main.food.interfaces.InputMenuActivityView;
 import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.FoodResult;
@@ -31,6 +34,10 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     RecyclerView mMenuResultRecyclerView;
     MenuResultAdapter mMenuResultAdapter;
 
+    //선택한 메뉴들 보여주는 리사이클러뷰
+    RecyclerView mSelectedMenuRecyclerView;
+    SelectedMenuAdapter mSelectedMenuAdapter;
+
     //선택한 메뉴를 담을 리스트
     ArrayList<MenuItem> mClickedMenuItem;
     MenuItem mSelectedItem;
@@ -44,7 +51,6 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     };
 
     EditText mEtSearch;
-
     private ArrayList<MenuItem> mMenuItems;
 
     @Override
@@ -68,6 +74,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         //레이아웃 컴포넌트 설정
         mTvMealTitle = findViewById(R.id.input_menu_tv_meal_title);
         mMenuResultRecyclerView = findViewById(R.id.input_menu_rv_menu_result);
+        mSelectedMenuRecyclerView = findViewById(R.id.input_menu_rv_menu_add_list);
 
         //제목을 선택한 끼니로 바꿔줌
         mTvMealTitle.setText(mMealTitle);
@@ -80,8 +87,15 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         mMenuResultAdapter = new MenuResultAdapter(getApplicationContext(),mMenuItems,mResultItemClickListener);
         mMenuResultRecyclerView.setAdapter(mMenuResultAdapter);
 
+        //추가 메뉴 리사이클러뷰 레이아웃 매니저 적용
+        mSelectedMenuRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+        mSelectedMenuAdapter = new SelectedMenuAdapter(getApplicationContext(),mClickedMenuItem);
+        mSelectedMenuRecyclerView.setAdapter(mSelectedMenuAdapter);
+
         //검색버튼 생성, 클릭이벤트 적용
         ImageButton btSearch = findViewById(R.id.input_menu_btn_search);
+        Button btComplete = findViewById(R.id.input_menu_btn_complete);
+        btComplete.setOnClickListener(this);
         btSearch.setOnClickListener(this);
     }
 
@@ -106,6 +120,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
                 if(serving != -1.0){
                     //Log.d("jooan", "입력헸음");
                     mClickedMenuItem.add(mSelectedItem);
+                    mSelectedMenuAdapter.notifyDataSetChanged();
                 }else{
                     //Log.d("jooan", "취소헸음");
                     return;
@@ -171,6 +186,13 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
                     mMenuResultAdapter.notifyDataSetChanged();
                 } else
                     tryGetFoodList(menu);
+                break;
+
+            case R.id.input_menu_btn_complete:
+                Intent backToMainActivity = new Intent();
+                backToMainActivity.putExtra("selectedMenu",mClickedMenuItem);
+                setResult(Activity.RESULT_OK,backToMainActivity);
+                finish();
                 break;
 
             default:

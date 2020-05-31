@@ -44,7 +44,6 @@ public class WebProteinActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
 
-
         if (mWebView.canGoBack()) {
             mWebView.goBack();
 

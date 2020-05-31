@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.food.ArrangeMenuActivity;
-import com.munchkin.musclediary.src.main.food.InputMenuActivity;
 import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 

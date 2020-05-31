@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.MainActivity;
 import com.munchkin.musclediary.src.main.food.InputMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
@@ -65,7 +66,8 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
             public void onClick(View v) {
                 Intent inputMenuIntent = new Intent(mContext, InputMenuActivity.class);
                 inputMenuIntent.putExtra("mealTitle",mealItem.getMealTitle());
-                mContext.startActivity(inputMenuIntent);
+                //Fragment로 다시 돌아올 때 activity에서 fragment로 값전달 할 수 있도록 하는 스텝1 : casting 해서 forResult로 호출
+                ((MainActivity)mContext).startActivityForResult(inputMenuIntent,1000);
             }
         });
 
@@ -76,7 +78,6 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
         holder.rvMenuList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         holder.rvMenuList.setAdapter(menuAdapter);
         holder.rvMenuList.setNestedScrollingEnabled(false); // 중요
-
     }
 
     @Override
