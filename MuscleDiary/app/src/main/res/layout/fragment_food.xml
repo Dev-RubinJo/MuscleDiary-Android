@@ -290,6 +290,7 @@
             <Button
                 android:layout_width="140dp"
                 android:layout_height="35dp"
+                android:id="@+id/bt_web_protein"
                 android:background="@drawable/purchase_button_back"
                 android:text="바로 구매하러 가기 >>"
                 android:textSize="12sp"

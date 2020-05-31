@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.content.Intent;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +19,25 @@ import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
 
-public class FoodFragment extends BaseFragment {
+public class FoodFragment extends BaseFragment implements View.OnClickListener {
 
     private ArrayList<MealItem> mMealitems;
     private ArrayList<MenuItem> mMenuItems;
     private MealAdapter mMealAdapter;
+
+    private final int WEB_PROTEIN = 0;
+
+    private Button mbtWebProtein;
+
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_web_protein:
+                Intent webproteinIntent = new Intent(getActivity(), WebProteinActivity.class);
+                startActivity(webproteinIntent);
+                break;
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -50,6 +66,9 @@ public class FoodFragment extends BaseFragment {
     public void setComponentView(View v) {
         //더미데이터 생성
         addMealList();
+
+        mbtWebProtein = v.findViewById(R.id.bt_web_protein);
+        mbtWebProtein.setOnClickListener(this);
 
         //리사이클러뷰 생성, 레이아웃 매니저 적용
         RecyclerView mealRecyclerView = v.findViewById(R.id.fragment_food_rv_meal);
