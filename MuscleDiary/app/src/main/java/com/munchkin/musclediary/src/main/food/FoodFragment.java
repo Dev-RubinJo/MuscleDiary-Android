@@ -90,7 +90,7 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener {
 
     private void addMealList(){
         //default 아침, 점심, 저녁
-        String titleList[] = {"아침","점심","저녁","간식"};
+        String titleList[] = {"아침","점심","저녁","기타"};
         double kcalList[] = {0.0,0.0,0.0,0.0};
 
 //        String menutitleList[] = {"계란밥","된장국","스파케티","사과주스"};
