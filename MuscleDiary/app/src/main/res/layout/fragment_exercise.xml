@@ -24,7 +24,7 @@
             />
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/fragment_food_calendarView"
+            android:id="@+id/fragment_exercise_calendarView"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

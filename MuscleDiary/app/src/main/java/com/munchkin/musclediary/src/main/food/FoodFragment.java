@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +18,14 @@ import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.food.adapter.MealAdapter;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class FoodFragment extends BaseFragment implements View.OnClickListener {
+public class FoodFragment extends BaseFragment implements View.OnClickListener, OnDateSelectedListener{
 
     private ArrayList<MealItem> mMealitems;
     private ArrayList<MenuItem> mMenuItems;
@@ -29,6 +34,10 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener {
     private final int WEB_PROTEIN = 0;
 
     private Button mbtWebProtein;
+
+    //캘린더 설정, 날짜 형식 설정
+    private MaterialCalendarView mCalendarView;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public void onClick(View v) {
         switch (v.getId()){
@@ -65,6 +74,7 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener {
         //더미데이터 생성
         addMealList();
 
+        //웹뷰 보여주기 위한 설정
         mbtWebProtein = v.findViewById(R.id.bt_web_protein);
         mbtWebProtein.setOnClickListener(this);
 
@@ -75,6 +85,10 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener {
         //리사이클러뷰 어뎁터 생성, 적용
         mMealAdapter = new MealAdapter(getContext(),mMealitems);
         mealRecyclerView.setAdapter(mMealAdapter);
+
+        //달력 xml과 연결결
+        mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
+        mCalendarView.setOnDateChangedListener(this);
     }
 
     public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList){
@@ -115,5 +129,12 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener {
         }
 
 //        mMealitems.get(0).setMenuItemList(mMenuItems);
+    }
+
+    //캘린더
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        final String text = String.format("Date"+DATE_FORMAT.format(date.getDate()));
+        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
     }
 }
