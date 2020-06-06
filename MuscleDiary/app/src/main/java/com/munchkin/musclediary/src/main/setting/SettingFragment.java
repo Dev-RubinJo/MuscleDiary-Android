@@ -18,6 +18,7 @@ import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.MainActivity;
 import com.munchkin.musclediary.src.main.MainViewPagerAdapter;
+import com.munchkin.musclediary.src.main.setting.dialog.ActivityLevelActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
@@ -48,6 +49,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_RATIO = 7;
     private final int CHANGE_KCAL = 8;
     private final int CHANGE_WEIGHT_GOAL = 9;
+    private final int CHANGE_ACTIVITY_LEVEL = 10;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -55,6 +57,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private Button mBtHeight;
     private Button mBtWeight;
     private Button mBtLogout;
+    private Button mBtActivity;
 
     //주간 체중목표버튼
     private Button mBtWeightGoal;
@@ -73,6 +76,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private int mAge = 25;
     private int mGender = 1;
     private int mWeightGoal = 3;
+    private int mActivityLevel = 3;
 
     //목표영양 비율 임시 리스트
     private int[] mRatio = {50,30,20};
@@ -106,6 +110,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //몸무게 변경 버튼
         mBtWeight = v.findViewById(R.id.bt_weight_setting);
         mBtWeight.setOnClickListener(this);
+
+        //운동량 및 활동량 변경 버튼
+        mBtActivity = v.findViewById(R.id.bt_activity_level_setting);
+        mBtActivity.setOnClickListener(this);
 
         //주간 목표 체중 버튼
         mBtWeightGoal = v.findViewById(R.id.bt_week_weight);
@@ -152,6 +160,25 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mBtWeight.setText(String.format("%sKG", mWeight));
         mBtAge.setText("1996년06월03일");
         mBtGender.setText(mGender == 1 ? "남성" : "여성");
+        switch (mActivityLevel) {
+            case 1:
+                mBtActivity.setText("사무직(아주 약간의 운동)");
+                break;
+            case 2:
+                mBtActivity.setText("가벼운 활동성(주당 1-3일 가벼운 운동)");
+                break;
+            case 3:
+                mBtActivity.setText("평범한 활동성(주당 3-5일 운동)");
+                break;
+            case 4:
+                mBtActivity.setText("높은 활동성(주당 6-7일 고강도 운동)");
+                break;
+            case 5:
+                mBtActivity.setText("매우 높은 활동성(초고강도의 운동, 고강도 노동)");
+                break;
+
+        }
+
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -242,6 +269,32 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     }
                     else if(mWeightGoal == 5){
                         mBtWeightGoal.setText("주간목표 - 주당 0.5kg 증량");
+                    }
+
+                }
+                break;
+
+            case CHANGE_ACTIVITY_LEVEL:
+                if(data.getIntExtra("activity_level", 0) != 0){
+                    mActivityLevel = data.getIntExtra("activity_level", 0);
+                    Log.d("test", Integer.toString(mActivityLevel));
+                    switch (mActivityLevel) {
+                        case 1:
+                            mBtActivity.setText("사무직(아주 약간의 운동)");
+                            break;
+                        case 2:
+                            mBtActivity.setText("가벼운 활동성(주당 1-3일 가벼운 운동)");
+                            break;
+                        case 3:
+                            mBtActivity.setText("평범한 활동성(주당 3-5일 운동)");
+                            break;
+                        case 4:
+                            mBtActivity.setText("높은 활동성(주당 6-7일 고강도 운동)");
+                            break;
+                        case 5:
+                            mBtActivity.setText("매우 높은 활동성(초고강도의 운동, 고강도 노동)");
+                            break;
+
                     }
 
                 }
@@ -360,6 +413,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 Intent weightgoalIntent = new Intent(getActivity(), WeeklyWeightGoalActivity.class);
                 weightgoalIntent.putExtra("weight_goal", mWeightGoal);
                 startActivityForResult(weightgoalIntent, CHANGE_WEIGHT_GOAL);
+                break;
+
+            case R.id.bt_activity_level_setting:
+                Intent activitylevelIntent = new Intent(getActivity(), ActivityLevelActivity.class);
+                activitylevelIntent.putExtra("activity_level", mActivityLevel);
+                startActivityForResult(activitylevelIntent, CHANGE_ACTIVITY_LEVEL);
                 break;
 
             case R.id.bt_ntRatio_setting:

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00E4E4E4">
+
+    <Button
+        android:id="@+id/bt_back_activity_level_setting"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/layout_activity_level_setting"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_activity_level_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chart_input_back"
+        app:layout_constraintTop_toBottomOf="@id/bt_back_activity_level_setting"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/tv_activity_level_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="운동량 및 활동량"
+            android:textSize="23sp"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <RadioGroup
+            android:id="@+id/radiogroup_activity_level_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_activity_level_title">
+            <RadioButton
+                android:id="@+id/radio_sedentary_active_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="사무직(아주 약간의 운동)"
+                android:textColor="@color/colorPrimaryDark"/>
+            <RadioButton
+                android:id="@+id/radio_lightly_active_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="가벼운 활동성(주당 1-3일 가벼운 운동)"
+                android:textColor="@color/colorPrimaryDark"/>
+            <RadioButton
+                android:id="@+id/radio_moderately_active_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="평범한 활동성(주당 3-5일 운동)"
+                android:textColor="@color/colorPrimaryDark"/>
+            <RadioButton
+                android:id="@+id/radio_very_active_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="높은 활동성(주당 6-7일 고강도 운동)"
+                android:textColor="@color/colorPrimaryDark"/>
+            <RadioButton
+                android:id="@+id/radio_extremely_active_setting"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:buttonTint="@color/colorPrimaryDark"
+                android:text="매우 높은 활동성(초고강도의 운동, 고강도 노동)"
+                android:textColor="@color/colorPrimaryDark"/>
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/radiogroup_activity_level_setting"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_cancle_activity_level_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancle"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_marginVertical="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimaryDark"/>
+
+            <Button
+                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/bt_select_activity_level_setting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/select"
+                android:textColor="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
