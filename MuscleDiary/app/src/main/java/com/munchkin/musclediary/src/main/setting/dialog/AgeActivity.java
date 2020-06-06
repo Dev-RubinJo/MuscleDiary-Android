@@ -66,7 +66,7 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
         calendar.set(mYear, mMonth-1, mDay);
 
         SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("yyyy년 MM월 dd일");
+        format.applyPattern("yyyy-MM-dd");
         mDateFormat = format.format(calendar.getTime());
 
         mTvAge.setText(mDateFormat);
@@ -140,7 +140,7 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
     private void pickerChange(NumberPicker numberPicker){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat();
-        format.applyPattern("yyyy년 MM월 dd일");
+        format.applyPattern("yyyy-MM-dd");
         int maxDate = 0;
         calendar.set(Calendar.YEAR, mYear);
         calendar.set(Calendar.MONTH, mMonth-1);

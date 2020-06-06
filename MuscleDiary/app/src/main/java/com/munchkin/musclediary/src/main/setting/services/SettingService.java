@@ -5,6 +5,9 @@ import com.munchkin.musclediary.src.main.setting.models.UpdateProfileRequest;
 import com.munchkin.musclediary.src.main.setting.models.UpdateProfileResponse;
 import com.munchkin.musclediary.src.main.setting.interfaces.UpdateProfileRetrofitInterface;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,10 +21,10 @@ public class SettingService {
         this.mSettingFragmentView = settingFragmentView;
     }
 
-    public void postUpdateProfile(String height, String weight, String age, String gender) {
+    public void postUpdateProfile(Double height, Double weight, int gender, Date birth) {
         final UpdateProfileRetrofitInterface updateProfileRetrofitInterface = getRetrofit().create(UpdateProfileRetrofitInterface.class);
 
-        updateProfileRetrofitInterface.postUpdateProfile(new UpdateProfileRequest(height, weight, age, gender)).enqueue(new Callback<UpdateProfileResponse>() {
+        updateProfileRetrofitInterface.postUpdateProfile(new UpdateProfileRequest(height, weight, gender, birth)).enqueue(new Callback<UpdateProfileResponse>() {
             @Override
             public void onResponse(Call<UpdateProfileResponse> call, Response<UpdateProfileResponse> response) {
                 final UpdateProfileResponse updateProfileResponse = response.body();

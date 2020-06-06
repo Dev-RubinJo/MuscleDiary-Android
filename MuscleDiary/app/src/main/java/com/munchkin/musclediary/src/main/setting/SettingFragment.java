@@ -2,6 +2,7 @@ package com.munchkin.musclediary.src.main.setting;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,10 +31,12 @@ import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
 import com.munchkin.musclediary.src.signin.SignInActivity;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
-
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
 
 public class SettingFragment extends BaseFragment implements View.OnClickListener, SettingFragmentView {
@@ -77,6 +80,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private int mGender = 1;
     private int mWeightGoal = 3;
     private int mActivityLevel = 3;
+    SharedPreferences.Editor editor = sSharedPreferences.edit();
 
     //목표영양 비율 임시 리스트
     private int[] mRatio = {50,30,20};
@@ -158,27 +162,23 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private void setProfile(){
         mBtHeight.setText(String.format("%sCM", mHeight));
         mBtWeight.setText(String.format("%sKG", mWeight));
-        mBtAge.setText("1996년06월03일");
+        mBtAge.setText("1996-06-03");
         mBtGender.setText(mGender == 1 ? "남성" : "여성");
-        switch (mActivityLevel) {
-            case 1:
-                mBtActivity.setText("사무직(아주 약간의 운동)");
-                break;
-            case 2:
-                mBtActivity.setText("가벼운 활동성(주당 1-3일 가벼운 운동)");
-                break;
-            case 3:
-                mBtActivity.setText("평범한 활동성(주당 3-5일 운동)");
-                break;
-            case 4:
-                mBtActivity.setText("높은 활동성(주당 6-7일 고강도 운동)");
-                break;
-            case 5:
-                mBtActivity.setText("매우 높은 활동성(초고강도의 운동, 고강도 노동)");
-                break;
 
-        }
+        editor.putLong("height",Double.doubleToRawLongBits(mHeight));
+        editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
+        editor.putString("birth","1996-06-03");
+        editor.putInt("gender",1);
+        editor.apply();
+    }
 
+    //한번에 실행시키기 위한 함수
+    private void updateProfile(){
+        Double newHeight = Double.valueOf(sSharedPreferences.getLong("height",0));
+        Double newWeight = Double.valueOf(sSharedPreferences.getLong("weight",0));
+        Date newBirth = Date.valueOf(sSharedPreferences.getString("birth","1997-12-10"));
+        int newGender = sSharedPreferences.getInt("gender",1);
+        tryPostUpdateProfile(newHeight,newWeight,newGender,newBirth);
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -224,6 +224,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 //성별 변경했을 때 코드
                 if(data.getIntExtra("gender", 0) != 0){
                     mGender = data.getIntExtra("gender", 0);
+                    editor.putInt("gender",mGender);//만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
+                    editor.apply();
+
                     Log.d("test", Integer.toString(mGender));
                     if(mGender == 1){
                         mBtGender.setText("남성");
@@ -231,25 +234,38 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                         mBtGender.setText("여성");
                     }
 
+                    updateProfile();
                 }
                 break;
 
             case CHANGE_AGE:
                 //생년월일 변경했을 때 코드
-                mBtAge.setText(data.getStringExtra("age"));
+                String newBirth = data.getStringExtra("age");
+                mBtAge.setText(newBirth);
+                editor.putString("birth",newBirth);
+
+                updateProfile();
                 break;
 
             case CHANGE_HEIGHT:
                 //키 변경했을 때 코드
-                // data.getStringExtra("height")
                 mHeight = data.getDoubleExtra("height", 0);
+                editor.putLong("height",Double.doubleToRawLongBits(mHeight));
+                editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
+
                 mBtHeight.setText(String.format("%.1fCM", mHeight));
+                updateProfile();
                 break;
 
-                //몸무게 변경했을 때 코드
+
             case CHANGE_WEIGHT:
+                //몸무게 변경했을 때 코드
                 mWeight = data.getDoubleExtra("weight", 0);
+                editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
+                editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
+
                 mBtWeight.setText(String.format("%.1fKG", mWeight));
+                updateProfile();
                 break;
 
 
@@ -313,7 +329,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mBtKcal.setText(mKcal+"kcal");
                 break;
 
-            //몸무게 변경했을 때 코드
+            //로그아웃했을때
             case LOGOUT:
                 mBtLogout.setText(data.getStringExtra("logout"));
                 break;
@@ -454,10 +470,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void tryPostUpdateProfile(String height, String weight, String age, String gender){
+    private void tryPostUpdateProfile(Double height, Double weight, int gender, Date birth){
         showProgressDialog(getActivity());
         SettingService settingService = new SettingService(this);
-        settingService.postUpdateProfile(height, weight, age, gender);
+        settingService.postUpdateProfile(height, weight, gender, birth);
 
     }
 

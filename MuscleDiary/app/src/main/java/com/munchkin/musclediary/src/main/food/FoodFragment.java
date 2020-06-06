@@ -24,6 +24,8 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FoodFragment extends BaseFragment implements View.OnClickListener, OnDateSelectedListener{
 
@@ -38,6 +40,8 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     //캘린더 설정, 날짜 형식 설정
     private MaterialCalendarView mCalendarView;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    //현재 날짜 가져오기
+    private Date currentTime = Calendar.getInstance().getTime();
 
     public void onClick(View v) {
         switch (v.getId()){
@@ -89,6 +93,7 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         //달력 xml과 연결결
         mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
         mCalendarView.setOnDateChangedListener(this);
+        mCalendarView.setDateSelected(currentTime,true);
     }
 
     public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList){
