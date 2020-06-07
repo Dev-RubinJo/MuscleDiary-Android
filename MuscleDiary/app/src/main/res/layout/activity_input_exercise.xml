@@ -11,7 +11,7 @@
         android:layout_height="45dp">
 
         <TextView
-            android:id="@+id/input_menu_tv_meal_title"
+            android:id="@+id/input_exercise_tv_exercise_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -19,15 +19,15 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textColor="@color/colorPrimaryDark"
-            android:text="끼니이름"
+            android:text="근력/유산소 종류"
             android:textStyle="bold"
             android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/input_menu_tv_my_menu"
+            android:id="@+id/input_exercise_tv_my_exercise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="my음식"
+            android:text="my운동"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,21 +47,21 @@
         android:layout_marginBottom="15dp">
 
         <EditText
-            android:id="@+id/input_menu_et_search"
+            android:id="@+id/input_exercise_et_search"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="12"
             android:background="@drawable/food_input_menu_back"
             android:inputType="text"
             android:imeOptions="actionSearch"
-            android:hint="음식검색"
+            android:hint="운동검색"
             android:padding="10dp"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/colorProgressBarBackground"
             android:textSize="13sp" />
 
         <ImageButton
-            android:id="@+id/input_menu_btn_search"
+            android:id="@+id/input_exercise_btn_search"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
@@ -71,14 +71,14 @@
             android:src="@drawable/icon_find" />
 
     </LinearLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginBottom="15dp">
-        
+
         <TextView
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
@@ -87,10 +87,10 @@
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:text="@string/string_food_add_list_input_menu"/>
-        
+            android:text="추가한 운동"/>
+
         <Button
-            android:id="@+id/input_menu_btn_complete"
+            android:id="@+id/input_exercise_btn_complete"
             android:layout_width="75dp"
             android:layout_height="25dp"
             android:text="선택완료"
@@ -102,7 +102,7 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/input_menu_rv_menu_add_list"
+        android:id="@+id/input_exercise_rv_exercise_add_list"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -123,7 +123,7 @@
         android:layout_marginBottom="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/input_menu_rv_menu_result"
+        android:id="@+id/input_exercise_rv_exercise_result"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_width="match_parent"

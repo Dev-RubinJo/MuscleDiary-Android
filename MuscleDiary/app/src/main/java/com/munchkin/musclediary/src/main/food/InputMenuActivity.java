@@ -79,8 +79,8 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         //제목을 선택한 끼니로 바꿔줌
         mTvMealTitle.setText(mMealTitle);
 
-        //더미데이터 생성
-        addMealList();
+        //더미데이터 생성 -> 더이상 필요 없음
+        clearMealList();
 
         //리사이클러뷰 레이아웃 매니저 적용
         mMenuResultRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -99,7 +99,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         btSearch.setOnClickListener(this);
     }
 
-    private void addMealList(){
+    private void clearMealList(){
         mMenuItems.clear();
     }
 
@@ -114,15 +114,13 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
             case 3000: {
                 //입력완료
                 double serving = data.getDoubleExtra("serving",1);
-                //Log.d("jooan","serving : "+serving);
 
                 //취소
                 if(serving != -1.0){
-                    //Log.d("jooan", "입력헸음");
+                    mSelectedItem.setServing(serving);
                     mClickedMenuItem.add(mSelectedItem);
                     mSelectedMenuAdapter.notifyDataSetChanged();
                 }else{
-                    //Log.d("jooan", "취소헸음");
                     return;
                 }
             }
@@ -163,7 +161,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
                     String menu = mEtSearch.getText().toString();
                     Log.d("test", Integer.toString(menu.length()));
                     if(menu.length() == 0){
-                        addMealList();
+                        clearMealList();
                         mMenuResultAdapter.notifyDataSetChanged();
                     } else {
                         tryGetFoodList(menu);
@@ -182,7 +180,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
                 //검색버튼 누를 때 editText에 있는 검색어로 api연결
                 String menu = mEtSearch.getText().toString();
                 if(menu.length() == 0) {
-                    addMealList();
+                    clearMealList();
                     mMenuResultAdapter.notifyDataSetChanged();
                 } else
                     tryGetFoodList(menu);
@@ -191,6 +189,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
             case R.id.input_menu_btn_complete:
                 Intent backToMainActivity = new Intent();
                 backToMainActivity.putExtra("selectedMenu",mClickedMenuItem);
+                backToMainActivity.putExtra("mealTitle",mMealTitle);
                 setResult(Activity.RESULT_OK,backToMainActivity);
                 finish();
                 break;

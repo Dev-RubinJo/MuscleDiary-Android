@@ -62,11 +62,6 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
     public void onDestroyView(){
         super.onDestroyView();
         //Log.d("life","onDestroyView enter");
@@ -90,20 +85,22 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mMealAdapter = new MealAdapter(getContext(),mMealitems);
         mealRecyclerView.setAdapter(mMealAdapter);
 
-        //달력 xml과 연결결
+        //달력 xml과 연결
         mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
         mCalendarView.setOnDateChangedListener(this);
         mCalendarView.setDateSelected(currentTime,true);
     }
 
-    public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList){
+    public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList, String mealTitle){
         Log.d("jooan",menuAddList+"");
-        //TODO 아침이냐 점심이냐 저녁이냐도 구분, 인분도 구분해줘야 함
-//        ArrayList<MenuItem> currentMenu = mMealitems.get(0).getMenuItemList();
-//        for(int i=0;i<menuAddList.size();i++){
-//            currentMenu.add(menuAddList.get(i));
-//        }
-        mMealitems.get(0).setMenuItemList(menuAddList);
+
+//        TODO 아침이냐 점심이냐 저녁이냐도 구분, 인분도 구분해줘야 함
+
+        for(int i=0; i<4; i++){
+            if(mMealitems.get(i).getMealTitle().equals(mealTitle)){
+                mMealitems.get(i).setMenuItemList(menuAddList);
+            }
+        }
         mMealAdapter.notifyDataSetChanged();
     }
 

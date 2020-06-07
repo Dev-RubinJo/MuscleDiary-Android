@@ -48,10 +48,11 @@ public class MainActivity extends BaseActivity {
                 //액티비티로 전달된 객체를 다시 프레그먼트로 전송
                 ArrayList<MenuItem> selectedMenu = new ArrayList<>();
                 selectedMenu = (ArrayList<MenuItem>) data.getSerializableExtra("selectedMenu");
+                String selectedMealTitle = data.getStringExtra("mealTitle");
 
                 //프레그먼트 캐스팅
                 FoodFragment foodFragment = (FoodFragment) mAdapter.getItem(0);
-                foodFragment.onCompleteMenuSelect(selectedMenu);
+                foodFragment.onCompleteMenuSelect(selectedMenu,selectedMealTitle);
             }
         }
     }

@@ -18,9 +18,9 @@ public class MenuItem implements Serializable {
     private double cholesterol;
     private double saturatedFat;
     private double transFat;
+    private double serving = 1.0;
 
-    public MenuItem(String foodName, double fat,
-                    double protein, double carbohydrate, double calorie){
+    public MenuItem(String foodName, double fat, double protein, double carbohydrate, double calorie){
         this.foodName = foodName;
         this.fat = fat;
         this.protein = protein;
@@ -43,6 +43,14 @@ public class MenuItem implements Serializable {
         cholesterol = foodResult.getCholesterol();
         saturatedFat = foodResult.getSaturatedFat();
         transFat = foodResult.getTransFat();
+    }
+
+    public double getServing() {
+        return serving;
+    }
+
+    public void setServing(double serving) {
+        this.serving = serving;
     }
 
     public void setFoodName(String foodName) {

@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.exercise.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.exercise.InputExerciseActivity;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExercisePartItem;
 
@@ -57,9 +59,9 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
         holder.btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent inputMenuIntent = new Intent(mContext, InputMenuActivity.class);
-//                inputMenuIntent.putExtra("mealTitle",mealItem.getMealTitle());
-//                mContext.startActivity(inputMenuIntent);
+                Intent inputExerciseIntent = new Intent(mContext, InputExerciseActivity.class);
+                inputExerciseIntent.putExtra("exerciseTitle",exercisePartItem.getExercisePartTitle());
+                mContext.startActivity(inputExerciseIntent);
             }
         });
 
@@ -77,6 +79,4 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
     public int getItemCount() {
         return mExercisePartItems.size();
     }
-
-
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;

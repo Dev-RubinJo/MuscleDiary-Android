@@ -38,8 +38,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tvMenuTitle.setText(mMenuList.get(position).getFoodName());
-        holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getCalorie())+" kcal");
+        //이름이 너무 길면 컷
+        String title = mMenuList.get(position).getFoodName();
+        if(title.length()>9){ title = title.substring(0,9)+".."; }
+
+        holder.tvMenuTitle.setText(title);
+        holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getCalorie()*mMenuList.get(position).getServing())+" kcal ("+mMenuList.get(position).getServing()+"인분)");
 
         holder.btnDeleteMenu.setOnClickListener(new View.OnClickListener() {
             @Override
