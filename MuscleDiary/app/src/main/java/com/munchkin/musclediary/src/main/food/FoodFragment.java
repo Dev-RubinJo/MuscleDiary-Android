@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.food.adapter.MealAdapter;
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
+
 public class FoodFragment extends BaseFragment implements View.OnClickListener, OnDateSelectedListener{
 
     private ArrayList<MealItem> mMealitems;
@@ -35,7 +39,12 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
 
     private final int WEB_PROTEIN = 0;
 
-    private Button mbtWebProtein;
+    private Button mbtWebProtein;   
+
+    //목표영양
+    private TextView mTvGoalKcal;
+    private int mKcal = 0;
+
 
     //캘린더 설정, 날짜 형식 설정
     private MaterialCalendarView mCalendarView;
@@ -44,7 +53,7 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     private Date currentTime = Calendar.getInstance().getTime();
 
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_web_protein:
                 Intent webproteinIntent = new Intent(getActivity(), WebProteinActivity.class);
                 startActivity(webproteinIntent);
@@ -89,6 +98,22 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
         mCalendarView.setOnDateChangedListener(this);
         mCalendarView.setDateSelected(currentTime,true);
+
+        //목표 칼로리 텍스트뷰 생성
+        mTvGoalKcal = v.findViewById(R.id.fragment_food_tv_goal_cal);
+        mKcal = sSharedPreferences.getInt("kcal", 0);
+        if(mKcal != 0){
+            mTvGoalKcal.setText(String.format("%d", mKcal));
+        }
+    }
+
+    @Override
+    public void onStart() {
+        if(sSharedPreferences.getInt("kcal", 0) != mKcal && mKcal != 0){
+            mKcal = sSharedPreferences.getInt("kcal", 0);
+            mTvGoalKcal.setText(mKcal);
+        }
+        super.onStart();
     }
 
     public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList, String mealTitle){

@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -19,15 +20,32 @@ import com.munchkin.musclediary.src.main.setting.SettingFragment;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
+
 public class MainActivity extends BaseActivity {
 
     //뷰페이져 어뎁터
     private MainViewPagerAdapter mAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
 
+    //임시 영양목표 칼로리, 탄단지 비율
+    private int mKcal = 2024;
+    private int mCarb = 50;
+    private int mProtein = 30;
+    private int mFat = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //SharedPreferences에 영양목표, 탄단지 비율 저장
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putInt("kcal", mKcal);
+        editor.putInt("carbohydrate", mCarb);
+        editor.putInt("protein", mProtein);
+        editor.putInt("fat", mFat);
+        editor.apply();
+
 
         ViewPager mViewPager = findViewById(R.id.container_main);
         setupViewPager(mViewPager);

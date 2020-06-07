@@ -131,6 +131,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //영양목표 칼로리 버튼
         mBtKcal = v.findViewById(R.id.bt_kcal_setting);
         mBtKcal.setOnClickListener(this);
+        mKcal = sSharedPreferences.getInt("kcal", 0);
         mBtKcal.setText(mKcal + "kcal");
 
         //로그아웃 버튼
@@ -196,12 +197,16 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //목표영양 비율 텍스트 변경하는 함수
     private void changeRatio(){
+        mRatio[0] = sSharedPreferences.getInt("carbohydrate", 0);
+        mRatio[1] = sSharedPreferences.getInt("protein", 0);
+        mRatio[2] = sSharedPreferences.getInt("fat", 0);
         String ratioExample = mRatio[0] + ":" + mRatio[1] + ":" + mRatio[2];
         mBtRatio.setText(ratioExample);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
         if(resultCode != RESULT_OK){
             return;
         }
@@ -321,11 +326,17 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mRatio[0] = data.getIntExtra("carbohydrate", mRatio[0]);
                 mRatio[1] = data.getIntExtra("protein", mRatio[1]);
                 mRatio[2] = data.getIntExtra("fat", mRatio[2]);
+                editor.putInt("carbohydrate", mRatio[0]);
+                editor.putInt("protein", mRatio[1]);
+                editor.putInt("fat", mRatio[2]);
+                editor.apply();
                 changeRatio();
                 break;
 
             case CHANGE_KCAL:
                 mKcal = data.getIntExtra("kcal", mKcal);
+                editor.putInt("kcal", mKcal);
+                editor.apply();
                 mBtKcal.setText(mKcal+"kcal");
                 break;
 
@@ -474,7 +485,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         showProgressDialog(getActivity());
         SettingService settingService = new SettingService(this);
         settingService.postUpdateProfile(height, weight, gender, birth);
-
     }
 
     @Override
@@ -487,6 +497,5 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     public void validateFailure(String message) {
         showCustomToast("프로필 변경에 실패했습니다.");
         hideProgressDialog();
-
     }
 }
