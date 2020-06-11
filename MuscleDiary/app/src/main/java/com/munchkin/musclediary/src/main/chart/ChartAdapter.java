@@ -17,6 +17,7 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
 
     private Context mContext;
     private ArrayList<ChartItem> mItems;
+    private boolean isWeight = true;
 
     ChartAdapter(Context context, ArrayList<ChartItem> items){
         mContext = context;
@@ -42,12 +43,26 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ChartAdapter.ViewHolder holder, int position) {
         ChartItem item = mItems.get(position);
-        holder.tvLevel.setText(String.format("%.1fKg",item.getLevel()));
-        holder.tvDate.setText(String.format("%d년 %d월 %d일", item.getYear(), item.getMonth(), item.getDate()));
+        if(isWeight) {
+            holder.tvLevel.setText(String.format("%.1fKg", item.getLevel()));
+            holder.tvDate.setText(String.format("%d년 %d월 %d일", item.getYear(), item.getMonth(), item.getDate()));
+        } else {
+            holder.tvLevel.setText(String.format("%.1f%%", item.getLevel()));
+            holder.tvDate.setText(String.format("%d년 %d월 %d일", item.getYear(), item.getMonth(), item.getDate()));
+        }
     }
 
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    public void setWeight(boolean weight){
+        isWeight = weight;
+    }
+
+    public void setmItems(ArrayList<ChartItem> items){
+        mItems = items;
+        notifyDataSetChanged();
     }
 }

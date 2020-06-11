@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.chart.dialog.TermActivity;
@@ -41,14 +43,17 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
     private LineChart mLineChart;
 //    private LineChart lineChart;
     //리사이클러뷰 아이템 리스트
-    private ArrayList<ChartItem> items;
+    private ArrayList<ChartItem> mWeightItems;
+    private ArrayList<ChartItem> mFatItems;
     private ImageButton mBtnAddData;
 
     //그래프 생성
-    List<Entry> mEntries;
+    List<Entry> mWeightList;
+    List<Entry> mFatList;
 
-    //분석종류 1 = 체지방, 2 = 체중
-    private int mType = 1;
+    //분석종류
+    //1 = 체지방, 2 = 체중
+    private int mType = 2;
     private ChartAdapter mAdapter;
 
     @Override
@@ -75,27 +80,28 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         btTerm.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
-        addRecyclerList();
+        addWeightRecyclerList();
+        addFatRecyclerList();
 
         //리사이클러뷰 생성, 레이아웃 매니저 적용
         RecyclerView chartRecyclerView = v.findViewById(R.id.recycler_chart);
         chartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        mAdapter = new ChartAdapter(getContext(), items);
+        mAdapter = new ChartAdapter(getContext(), mWeightItems);
         chartRecyclerView.setAdapter(mAdapter);
 
         //예시용 그래프 라이브러리
 //        mLineChart = (LineChart)view.findViewById(R.id.line_chart);
 
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
-        mEntries = new ArrayList<>();
-        addChartData(0);
-        setmLineChart(mEntries, "체지방률 변화");
+        mWeightList = new ArrayList<>();
+        mFatList = new ArrayList<>();
+        addWeightData(0, mWeightItems);
     }
 
     // 그래프 세팅 메서드
-    private void setmLineChart(List<Entry> list, String label) {
+    private void setmLineChart(List<Entry> list, String label, final String[] xLabel) {
         LineDataSet lineDataSet = new LineDataSet(list, label);
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
@@ -110,11 +116,20 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         LineData lineData = new LineData(lineDataSet);
         mLineChart.setData(lineData);
 
+        ValueFormatter formatter = new ValueFormatter() {
+            @Override
+            public String getAxisLabel(float value, AxisBase axis) {
+                return xLabel[(int)value];
+            }
+        };
+
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(Color.BLACK);
         xAxis.enableGridDashedLine(8, 24, 0);
         xAxis.removeAllLimitLines();
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(formatter);
 
         YAxis yLAxis = mLineChart.getAxisLeft();
         yLAxis.setTextColor(Color.BLACK);
@@ -144,13 +159,30 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
     // 분석 종류, 기간에 따라 리스트 만들고 리턴해주기
 
     //리사이클러뷰 리스트 아이템 채우는 함수
-    private void addRecyclerList(){
+
+    private void addFatRecyclerList(){
+        mFatItems = new ArrayList<>();
+        float fatList[] = {17.0f, 17.5f, 17.4f, 17.3f, 17.1f};
+        int fatYear[] = {2020,2020,2020,2020,2020};
+        int fatMonth[] = {4,4,4,4,4};
+        int fatDate[] = {20,21,22,23,24};
+
+        for(int i = 0; i < fatList.length; i++){
+            float level = fatList[i];
+            int year = fatYear[i];
+            int month = fatMonth[i];
+            int date = fatDate[i];
+            ChartItem item = new ChartItem(level, year, month, date);
+            mFatItems.add(item);
+        }
+    }
+    private void addWeightRecyclerList(){
         //더미데이터들
+        mWeightItems = new ArrayList<>();
         float levelList[] = {75.5f, 74.5f, 75.7f, 74.9f, 75.1f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f, 74.5f};
         int yearList[] = {2020,2020,2020,2020,2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020, 2020};
         int monthList[] = {4,4,4,4,4,4,4,4,4,4,4,4,4,4,4, 4};
         int dateList[] = {9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26, 27};
-        items = new ArrayList<>();
 
         for(int i = 0; i < levelList.length; i++){
             float level = levelList[i];
@@ -158,43 +190,69 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
             int month = monthList[i];
             int date = dateList[i];
             ChartItem item = new ChartItem(level, year, month, date);
-            items.add(item);
+            mWeightItems.add(item);
         }
     }
 
-    private void addChartData(int term){
-        mEntries.clear();
+    private void addFatData(ArrayList<ChartItem> items){
+        mFatList.clear();
+        int count = 0;
+        String[] labelList = new String[items.size()+1];
+        for(ChartItem item : items){
+            Log.d("testLog", count+"");
+            labelList[count] = item.getDate()+"";
+            mFatList.add(new Entry(count++, item.getLevel()));
+        }
+        setmLineChart(mFatList, "체지방률 변화", labelList);
+    }
+
+    private void addWeightData(int term, ArrayList<ChartItem> items){
+        mWeightList.clear();
         int date = 0;
+        int count = 0;
+        String[] labelList = new String[items.size()+1];
         switch (term){
             case 0:
+                count = 0;
                 for(ChartItem item : items){
-                    mEntries.add(new Entry(item.getDate(), item.getLevel()));
+                    labelList[count] = item.getDate()+"";
+                    mWeightList.add(new Entry(count++, item.getLevel()));
                 }
+                setmLineChart(mWeightList, "체중 변화", labelList);
                 break;
 
             case 1:
-
+                count = 0;
                 for(int i = 0; i < items.size(); i++){
                     if(i == 0){
                         date = items.get(i).getDate();
-                        mEntries.add(new Entry(i, items.get(i).getLevel()));
+                        labelList[count] = date+"";
+                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
                     } else if(date + 7 <= items.get(i).getDate()){
-                        mEntries.add(new Entry(i, items.get(i).getLevel()));
                         date = items.get(i).getDate();
+                        labelList[count] = date+"";
+                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
                     }
                 }
+                setmLineChart(mWeightList, "체중 변화", labelList);
                 break;
 
             case 2:
                 date = 0;
+                count = 0;
                 for(int i = 0; i < items.size(); i++){
                     if(i == 0){
                         date = items.get(i).getDate();
-                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                        labelList[count] = date+"";
+                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
                     } else if(date + 30 <= items.get(i).getDate()){
-                        mEntries.add(new Entry(items.get(i).getDate(), items.get(i).getLevel()));
+                        date = items.get(i).getDate();
+                        labelList[count] = date+"";
+                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
                     }
                 }
+                setmLineChart(mWeightList, "체중 변화", labelList);
+                break;
 
             default:
                 break;
@@ -239,11 +297,16 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 mType = data.getIntExtra("type", 0);
                 Log.d("test", Integer.toString(mType));
                 if(mType == 1){
-                    setmLineChart(mEntries, "체지방률 변화");
+                    //setmLineChart(mFatList, "체지방률 변화");
+                    Log.d("log", "here");
+                    addFatData(mFatItems);
+                    mAdapter.setWeight(false);
+                    mAdapter.setmItems(mFatItems);
 
                 } else if(mType == 2){
-                    addChartData(0);
-                    setmLineChart(mEntries, "체중 변화");
+                    addWeightData(0, mWeightItems);
+                    mAdapter.setWeight(true);
+                    mAdapter.setmItems(mWeightItems);
                 }
                 break;
 
@@ -252,16 +315,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 showCustomToast(Integer.toString(term));
                 switch(term){
                     case 0:
-                        addChartData(0);
-                        setmLineChart(mEntries, "체중 변화");
+                        addWeightData(0, mWeightItems);
                         break;
                     case 1:
-                        addChartData(1);
-                        setmLineChart(mEntries, "체중 변화");
+                        addWeightData(1, mWeightItems);
                         break;
                     case 2:
-                        addChartData(2);
-                        setmLineChart(mEntries, "체중 변화");
+                        addWeightData(2, mWeightItems);
                         break;
                     default:
                         break;
@@ -272,12 +332,22 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int date = data.getIntExtra("date", 0);
-                float weight = data.getFloatExtra("weight", 0);
-                ChartItem item = new ChartItem(weight, year, month, date);
-                items.add(item);
-                mAdapter.notifyDataSetChanged();
-                addChartData(0);
-                setmLineChart(mEntries, "체중 변화");
+                float level = data.getFloatExtra("weight", 0);
+                ChartItem item = new ChartItem(level, year, month, date);
+                switch (mType){
+                    case 1:
+                        mFatItems.add(item);
+                        mAdapter.notifyDataSetChanged();
+                        addFatData(mFatItems);
+                        break;
+                    case 2:
+                        mWeightItems.add(item);
+                        mAdapter.notifyDataSetChanged();
+                        addWeightData(0, mWeightItems);
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             default:
