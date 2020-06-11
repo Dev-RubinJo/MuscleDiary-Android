@@ -55,6 +55,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".src.main.exercise.InputExerciseActivity" />
+        <activity android:name=".src.main.exercise.ArrangeExerciseActivity" />
     </application>
 
 </manifest>

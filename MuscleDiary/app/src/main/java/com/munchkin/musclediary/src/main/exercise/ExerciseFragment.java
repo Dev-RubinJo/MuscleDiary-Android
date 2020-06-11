@@ -29,6 +29,7 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
     private ArrayList<ExercisePartItem> mExercisePartItems;
     private ArrayList<ExerciseItem> mExerciseItems;
     private ArrayList<ExerciseItem> mExerciseItems2;
+    private ExercisePartAdapter mExercisePartAdapter;
 
     //캘린더 설정, 날짜 형식 설정
     private MaterialCalendarView mCalendarView;
@@ -54,13 +55,22 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        ExercisePartAdapter exercisePartAdapter = new ExercisePartAdapter(getContext(),mExercisePartItems);
-        exerciseRecyclerView.setAdapter(exercisePartAdapter);
+        mExercisePartAdapter = new ExercisePartAdapter(getContext(),mExercisePartItems);
+        exerciseRecyclerView.setAdapter(mExercisePartAdapter);
 
         //달력 xml과 연결
         mCalendarView = v.findViewById(R.id.fragment_exercise_calendarView);
         mCalendarView.setOnDateChangedListener(this);
         mCalendarView.setDateSelected(currentTime,true);
+    }
+
+    public void onCompleteExerciseSelect(ArrayList<ExerciseItem> exerciseAddList, String exercisePartTitle){
+        for (int i=0; i<2; i++){
+            if(mExercisePartItems.get(i).getExercisePartTitle().equals(exercisePartTitle)){
+                mExercisePartItems.get(i).setExerciseItemList(exerciseAddList);
+            }
+        }
+        mExercisePartAdapter.notifyDataSetChanged();
     }
 
     private void addExerciseList(){

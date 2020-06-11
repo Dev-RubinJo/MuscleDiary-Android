@@ -1,38 +1,56 @@
 package com.munchkin.musclediary.src.main.exercise;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
+import com.munchkin.musclediary.src.main.exercise.adapter.ExerciseResultAdapter;
+import com.munchkin.musclediary.src.main.exercise.adapter.SelectedExerciseAdapter;
+import com.munchkin.musclediary.src.main.exercise.interfaces.ResultExerciseItemClickListener;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
 
-public class InputExerciseActivity extends BaseActivity {
+public class InputExerciseActivity extends BaseActivity implements View.OnClickListener, ResultExerciseItemClickListener {
 
     String mExerciseTitle;
     TextView mTvExerciseTitle;
     RecyclerView mExerciseResultRecyclerView;
-    //ExerciseResultAdapter mExerciseResultAdapter;
+    ExerciseResultAdapter mExerciseResultAdapter;
 
     //선택한 운동들 보여주는 리사이클러뷰
     RecyclerView mSelectedExerciseRecyclerView;
-    //SelectedExerciseAdapter mSelectedExerciseAdapter;
+    SelectedExerciseAdapter mSelectedExerciseAdapter;
 
     //선택한 운동을 담을 리스트
-    ArrayList<ExerciseItem> mClickedExerciseIteml;
+    ArrayList<ExerciseItem> mClickedExerciseItem;
+    ExerciseItem mSelectedItem;
 
     //검색창과 검색 결과를 담을 리스트
     EditText mEtExerciseSearch;
     private ArrayList<ExerciseItem> mExerciseItems;
+
+    ResultExerciseItemClickListener mResultExerciseItemClickListener = new ResultExerciseItemClickListener() {
+        @Override
+        public void onResultItemClicked(Intent intentSending, ExerciseItem clickedItem) {
+            mSelectedItem = clickedItem;
+            startActivityForResult(intentSending,4000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -57,6 +75,52 @@ public class InputExerciseActivity extends BaseActivity {
         //제목 바꾸기
         mTvExerciseTitle.setText(mExerciseTitle);
 
+        //리사이클러뷰 레이아웃 매니저 적용
+        mExerciseResultRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        mExerciseResultAdapter = new ExerciseResultAdapter(getApplicationContext(),mExerciseItems,mResultExerciseItemClickListener);
+        mExerciseResultRecyclerView.setAdapter(mExerciseResultAdapter);
+
+        //추가 메뉴 리사이클러뷰 레이아웃 매니저 적용
+        mSelectedExerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
+        mSelectedExerciseAdapter = new SelectedExerciseAdapter(getApplicationContext(), mClickedExerciseItem);
+        mSelectedExerciseRecyclerView.setAdapter(mSelectedExerciseAdapter);
+
+        //검색버튼 생성, 클릭이벤트 적용
+        ImageButton btSearch = findViewById(R.id.input_exercise_btn_search);
+        Button btComplete = findViewById(R.id.input_exercise_btn_complete);
+        btSearch.setOnClickListener(this);
+        btComplete.setOnClickListener(this);
+
+    }
+
+    private void clearExerciseList(){
+        mExerciseItems.clear();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK){
+            return;
+        }
+
+        switch (requestCode){
+            case 4000: {
+                //입력완료 -1 인지 검사
+                int repeat = data.getIntExtra("repeat",1);
+                int set = data.getIntExtra("set",1);
+                double weight = data.getDoubleExtra("weight",1);
+
+                //취소
+                if(repeat != -1){
+                    mSelectedItem.setRepeat(repeat);
+                    mSelectedItem.setSet(set);
+                    mSelectedItem.setWeight(weight);
+                }else{
+                    return;
+                }
+            }
+        }
     }
 
     private void addEditiorActionListener() {
@@ -77,5 +141,37 @@ public class InputExerciseActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.input_exercise_btn_search:
+                //검색버튼 누를 때 editText에 있는 검색어로 api연결
+                String menu = mEtExerciseSearch.getText().toString();
+                if(menu.length() == 0) {
+                    clearExerciseList();
+                    //mExerciseResultAdapter.notifyDataSetChanged();
+                } else
+                    //TODO tryGetFoodList(menu);
+                break;
+
+            case R.id.input_exercise_btn_complete:
+                Intent backToMainActivity = new Intent();
+                backToMainActivity.putExtra("selectedExercise",mClickedExerciseItem);
+                backToMainActivity.putExtra("mealTitle",mExerciseTitle);
+                setResult(Activity.RESULT_OK,backToMainActivity);
+                finish();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onResultItemClicked(Intent intentSending, ExerciseItem clickedItem) {
+        mClickedExerciseItem.add(clickedItem);
+        startActivityForResult(intentSending,4000);
     }
 }

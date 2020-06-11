@@ -5,8 +5,8 @@ public class ExerciseItem {
     private String execiseName;
     private String description;
     private int set;
-    private int lap;
-    private int weight;
+    private int repeat;
+    private double weight;
 
     public ExerciseItem(String execiseName, String description) {
         this.execiseName = execiseName;
@@ -37,19 +37,19 @@ public class ExerciseItem {
         this.set = set;
     }
 
-    public int getLap() {
-        return lap;
+    public int getRepeat() {
+        return repeat;
     }
 
-    public void setLap(int lap) {
-        this.lap = lap;
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 }

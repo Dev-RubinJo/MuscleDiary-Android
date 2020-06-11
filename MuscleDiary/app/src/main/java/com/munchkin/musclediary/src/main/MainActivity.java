@@ -12,6 +12,7 @@ import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.chart.ChartFragment;
 import com.munchkin.musclediary.src.main.exercise.ExerciseFragment;
+import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.food.FoodFragment;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.setting.SettingFragment;
@@ -53,6 +54,15 @@ public class MainActivity extends BaseActivity {
                 //프레그먼트 캐스팅
                 FoodFragment foodFragment = (FoodFragment) mAdapter.getItem(0);
                 foodFragment.onCompleteMenuSelect(selectedMenu,selectedMealTitle);
+            }
+            case 2000: {
+                ArrayList<ExerciseItem> selectedExercise = new ArrayList<>();
+                selectedExercise = (ArrayList<ExerciseItem>) data.getSerializableExtra("selectedExercise");
+                String selectedExercisePartTitle = data.getStringExtra("exercisePartTitle");
+
+                //프레그먼트 캐스팅
+                ExerciseFragment exerciseFragment = (ExerciseFragment) mAdapter.getItem(1);
+                exerciseFragment.onCompleteExerciseSelect(selectedExercise,selectedExercisePartTitle);
             }
         }
     }

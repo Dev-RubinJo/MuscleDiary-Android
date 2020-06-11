@@ -1,6 +1,5 @@
 package com.munchkin.musclediary.src.main.food.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.food.ArrangeMenuActivity;
-import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
+import com.munchkin.musclediary.src.main.food.interfaces.ResultMenuItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
@@ -22,11 +21,11 @@ public class MenuResultAdapter extends RecyclerView.Adapter<MenuResultAdapter.Vi
 
     Context mContext;
     ArrayList<MenuItem> mMenuResult;
-    private ResultItemClickListener startActivityForResultInterface;
+    private ResultMenuItemClickListener startActivityForResultInterface;
     int mItemPosition;
 
 
-    public MenuResultAdapter(Context context, ArrayList<MenuItem> menuItems, ResultItemClickListener listener){
+    public MenuResultAdapter(Context context, ArrayList<MenuItem> menuItems, ResultMenuItemClickListener listener){
         mContext = context;
         mMenuResult = menuItems;
         this.startActivityForResultInterface = listener;

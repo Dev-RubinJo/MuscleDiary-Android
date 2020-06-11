@@ -20,14 +20,14 @@ import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.food.adapter.MenuResultAdapter;
 import com.munchkin.musclediary.src.main.food.adapter.SelectedMenuAdapter;
 import com.munchkin.musclediary.src.main.food.interfaces.InputMenuActivityView;
-import com.munchkin.musclediary.src.main.food.interfaces.ResultItemClickListener;
+import com.munchkin.musclediary.src.main.food.interfaces.ResultMenuItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
 
 import java.util.ArrayList;
 
-public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultItemClickListener {
+public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
 
     String mMealTitle;
     TextView mTvMealTitle;
@@ -42,7 +42,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     ArrayList<MenuItem> mClickedMenuItem;
     MenuItem mSelectedItem;
 
-    ResultItemClickListener mResultItemClickListener = new ResultItemClickListener() {
+    ResultMenuItemClickListener mResultMenuItemClickListener = new ResultMenuItemClickListener() {
         @Override
         public void onResultItemClicked(Intent intentSending, MenuItem clickedItem) {
             mSelectedItem = clickedItem;
@@ -84,7 +84,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
 
         //리사이클러뷰 레이아웃 매니저 적용
         mMenuResultRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mMenuResultAdapter = new MenuResultAdapter(getApplicationContext(),mMenuItems,mResultItemClickListener);
+        mMenuResultAdapter = new MenuResultAdapter(getApplicationContext(),mMenuItems, mResultMenuItemClickListener);
         mMenuResultRecyclerView.setAdapter(mMenuResultAdapter);
 
         //추가 메뉴 리사이클러뷰 레이아웃 매니저 적용

@@ -92,9 +92,6 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList, String mealTitle){
-        Log.d("jooan",menuAddList+"");
-
-//        TODO 아침이냐 점심이냐 저녁이냐도 구분, 인분도 구분해줘야 함
 
         for(int i=0; i<4; i++){
             if(mMealitems.get(i).getMealTitle().equals(mealTitle)){
@@ -105,23 +102,12 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     private void addMealList(){
-        //default 아침, 점심, 저녁
+
         String titleList[] = {"아침","점심","저녁","기타"};
         double kcalList[] = {0.0,0.0,0.0,0.0};
 
-//        String menutitleList[] = {"계란밥","된장국","스파케티","사과주스"};
-//        double menuKcalList[] = {50,12,102,124.2,24,13,25,354.3,113,13,112,113.4,23,24,25,231.4};
-
         mMenuItems = new ArrayList<>();
         mMealitems = new ArrayList<>();
-
-
-//        //아침메뉴용 더미데이터
-//        for(int j =0; j<4; j++){
-//            MenuItem menuItem = new MenuItem(menutitleList[j],menuKcalList[4*j],menuKcalList[(4*j)+1],
-//                    menuKcalList[(4*j)+2],menuKcalList[(4*j)+3]);
-//            mMenuItems.add(menuItem);
-//        }
 
         for(int i = 0; i<titleList.length; i++){
             MealItem mealItem = new MealItem();
@@ -130,7 +116,6 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
             mMealitems.add(mealItem);
         }
 
-//        mMealitems.get(0).setMenuItemList(mMenuItems);
     }
 
     //캘린더
