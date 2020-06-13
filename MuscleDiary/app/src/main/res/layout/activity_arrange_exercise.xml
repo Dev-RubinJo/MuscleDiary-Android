@@ -51,36 +51,39 @@
             android:textSize="19sp"
             android:textStyle="bold"
             android:inputType="text"
-            style="@style/AppTheme"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toBottomOf="@id/arg_exercise_tv_exercise_part_name"/>
 
         <EditText
-            android:id="@+id/arg_exercise_et_weight"
+            android:id="@+id/arg_exercise_et_min_or_weight"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:theme="@style/AppTheme.PickerDate"
+            android:gravity="center"
             android:layout_marginStart="10dp"
+            android:hint="무게입력"
+            android:inputType="text"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorMenuBackground"
             app:layout_constraintBottom_toBottomOf="@+id/arg_exercise_picker_repeat"
-            app:layout_constraintEnd_toStartOf="@id/arg_exercise_tv_weight"
+            app:layout_constraintEnd_toStartOf="@id/arg_exercise_tv_min_or_weight"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/arg_exercise_picker_repeat" />
 
         <TextView
-            android:id="@+id/arg_exercise_tv_weight"
+            android:id="@+id/arg_exercise_tv_min_or_weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="kg"
-            android:textSize="18sp"
             android:layout_marginEnd="10dp"
+            android:text="kg"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_weight"
-            app:layout_constraintBottom_toBottomOf="@id/arg_exercise_et_weight"
-            app:layout_constraintStart_toEndOf="@id/arg_exercise_et_weight"
-            app:layout_constraintEnd_toStartOf="@id/arg_exercise_picker_repeat"/>
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@id/arg_exercise_et_min_or_weight"
+            app:layout_constraintEnd_toStartOf="@id/arg_exercise_picker_repeat"
+            app:layout_constraintStart_toEndOf="@id/arg_exercise_et_min_or_weight"
+            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_min_or_weight"
+            app:layout_constraintVertical_bias="0.0" />
 
         <NumberPicker
         android:id="@+id/arg_exercise_picker_repeat"
@@ -88,18 +91,18 @@
         android:layout_height="130dp"
         android:theme="@style/AppTheme.PickerDate"
         app:layout_constraintTop_toBottomOf="@id/arg_exercise_et_exercise_name"
-        app:layout_constraintStart_toEndOf="@id/arg_exercise_tv_weight"
-        app:layout_constraintEnd_toStartOf="@id/arg_exercise_tv_repeat"/>
+        app:layout_constraintStart_toEndOf="@id/arg_exercise_tv_min_or_weight"
+        app:layout_constraintEnd_toStartOf="@id/arg_exercise_tv_intensity_or_repeat"/>
 
         <TextView
-            android:id="@+id/arg_exercise_tv_repeat"
+            android:id="@+id/arg_exercise_tv_intensity_or_repeat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="회"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_weight"
-            app:layout_constraintBottom_toBottomOf="@+id/arg_exercise_et_weight"
+            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_min_or_weight"
+            app:layout_constraintBottom_toBottomOf="@+id/arg_exercise_et_min_or_weight"
             app:layout_constraintStart_toEndOf="@id/arg_exercise_picker_repeat"
             app:layout_constraintEnd_toEndOf="@id/arg_exercise_picker_set"/>
 
@@ -109,7 +112,7 @@
             android:layout_height="130dp"
             android:theme="@style/AppTheme.PickerDate"
             app:layout_constraintTop_toTopOf="@id/arg_exercise_picker_repeat"
-            app:layout_constraintStart_toEndOf="@id/arg_exercise_tv_repeat"
+            app:layout_constraintStart_toEndOf="@id/arg_exercise_tv_intensity_or_repeat"
             app:layout_constraintEnd_toStartOf="@id/arg_exercise_tv_set"/>
 
         <TextView
@@ -119,8 +122,8 @@
             android:text="세트"
             android:textSize="18sp"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_weight"
-            app:layout_constraintBottom_toBottomOf="@+id/arg_exercise_et_weight"
+            app:layout_constraintTop_toTopOf="@id/arg_exercise_et_min_or_weight"
+            app:layout_constraintBottom_toBottomOf="@+id/arg_exercise_et_min_or_weight"
             app:layout_constraintStart_toEndOf="@id/arg_exercise_picker_set"
             app:layout_constraintEnd_toEndOf="parent"/>
 

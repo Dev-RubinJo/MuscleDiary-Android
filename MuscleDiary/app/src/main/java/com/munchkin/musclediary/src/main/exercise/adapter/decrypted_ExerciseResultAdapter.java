@@ -17,7 +17,7 @@ import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
 
-//NOTE Adapter decrtpted
+//NOTE Adapter decrytpted
 
 public class decrypted_ExerciseResultAdapter extends RecyclerView.Adapter<decrypted_ExerciseResultAdapter.ViewHolder> {
 
@@ -68,7 +68,7 @@ public class decrypted_ExerciseResultAdapter extends RecyclerView.Adapter<decryp
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ExerciseItem exerciseItem = mExerciseResult.get(position);
-        holder.exerciseTitle.setText(exerciseItem.getExeciseName());
+        holder.exerciseTitle.setText(exerciseItem.getExerciseName());
         /*
         TODO : 혹여나 설명이 들어가게 되면 여기에다 쓰면 됨
         holder.exerciseDescription.setText();

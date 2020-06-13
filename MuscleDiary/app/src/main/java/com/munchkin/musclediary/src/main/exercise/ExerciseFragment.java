@@ -27,8 +27,6 @@ import java.util.Date;
 public class ExerciseFragment extends BaseFragment implements OnDateSelectedListener {
 
     private ArrayList<ExercisePartItem> mExercisePartItems;
-    private ArrayList<ExerciseItem> mExerciseItems;
-    private ArrayList<ExerciseItem> mExerciseItems2;
     private ExercisePartAdapter mExercisePartAdapter;
 
     //캘린더 설정, 날짜 형식 설정
@@ -47,8 +45,8 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
     // 생성될 운동 프레그먼트에 대한 컴포넌트 세팅
     @Override
     public void setComponentView(View v) {
-        //더미데이터 생성
-        addExerciseList();
+        //나중에 item 추가 할 수 있도록 기본설정
+        initExerciseList();
 
         //운동리사이클러뷰 생성, 레이아웃 매니저 적용
         RecyclerView exerciseRecyclerView = v.findViewById(R.id.fragment_exercise_rv_exercise);
@@ -64,48 +62,34 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         mCalendarView.setDateSelected(currentTime,true);
     }
 
-    public void onCompleteExerciseSelect(ArrayList<ExerciseItem> exerciseAddList, String exercisePartTitle){
+    public void onCompleteExerciseSelect(ExerciseItem exercise, String exercisePartTitle){
         for (int i=0; i<2; i++){
             if(mExercisePartItems.get(i).getExercisePartTitle().equals(exercisePartTitle)){
-                mExercisePartItems.get(i).setExerciseItemList(exerciseAddList);
+                mExercisePartItems.get(i).getExerciseItemList().add(exercise);
             }
         }
         mExercisePartAdapter.notifyDataSetChanged();
     }
 
-    private void addExerciseList(){
+    private void initExerciseList(){
         String titleList[] = {"근력운동", "유산소운동"};
 
-        String exerciseList[] = {"풀업","친업","체어딥스","버터플라이"};
-        String description[] = {"5(lap) / 3(set)","15(lap) / 2(set)","18(lap) / 3(set)","15(lap) / 5(set)"};
-
-        String exerciseList2[] = {"런닝머신","사이클","스피닝"};
-        String description2[] = {"15(min) / 5(intensity)","15(min) / 5(intensity)","15(min) / 5(intensity)"};
-
-        mExerciseItems = new ArrayList<>();
-        mExerciseItems2 = new ArrayList<>();
         mExercisePartItems = new ArrayList<>();
+        ArrayList<ExerciseItem> emptyExerciseListOne = new ArrayList<>();
+        ArrayList<ExerciseItem> emptyExerciseListTwo = new ArrayList<>();
 
-        //상체용 더미데이터
-        for(int i = 0; i<4; i++){
-            ExerciseItem exerciseItem = new ExerciseItem(exerciseList[i],description[i]);
-            mExerciseItems.add(exerciseItem);
-        }
-
-        //하체용 더미데이터
-        for(int j = 0; j<3; j++){
-            ExerciseItem exerciseItem2 = new ExerciseItem(exerciseList2[j],description2[j]);
-            mExerciseItems2.add(exerciseItem2);
-        }
-
+        //데이터 셋 준비
         for(int k = 0; k<2; k++){
             ExercisePartItem exercisePartItem = new ExercisePartItem();
             exercisePartItem.setExercisePartTitle(titleList[k]);
             mExercisePartItems.add(exercisePartItem);
-        }
+            if(k==0){
+                mExercisePartItems.get(k).setExerciseItemList(emptyExerciseListOne);
+            }else{
+                mExercisePartItems.get(k).setExerciseItemList(emptyExerciseListTwo);
+            }
 
-        mExercisePartItems.get(0).setExerciseItemList(mExerciseItems);
-        mExercisePartItems.get(1).setExerciseItemList(mExerciseItems2);
+        }
     }
 
     @Override

@@ -1,32 +1,52 @@
 package com.munchkin.musclediary.src.main.exercise.models;
 
-public class ExerciseItem {
+import java.io.Serializable;
 
-    private String execiseName;
-    private String description;
+public class ExerciseItem implements Serializable {
+
+    private String exerciseName;
+    private String exercisePart;
     private int set;
     private int repeat;
+    private int min;
+    private int intensity;
     private double weight;
 
-    public ExerciseItem(String execiseName, String description) {
-        this.execiseName = execiseName;
-        this.description = description;
+    public ExerciseItem(String exerciseName, String exercisePart) {
+        this.exerciseName = exerciseName;
+        this.exercisePart = exercisePart;
     }
 
-    public String getExeciseName() {
-        return execiseName;
+    public int getMin() {
+        return min;
     }
 
-    public void setExeciseName(String execiseName) {
-        this.execiseName = execiseName;
+    public void setMin(int min) {
+        this.min = min;
     }
 
-    public String getDescription() {
-        return description;
+    public int getIntensity() {
+        return intensity;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setIntensity(int intensity) {
+        this.intensity = intensity;
+    }
+
+    public String getExerciseName() {
+        return exerciseName;
+    }
+
+    public void setExerciseName(String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
+
+    public String getExercisePart() {
+        return exercisePart;
+    }
+
+    public void setExercisePart(String exercisePart) {
+        this.exercisePart = exercisePart;
     }
 
     public int getSet() {

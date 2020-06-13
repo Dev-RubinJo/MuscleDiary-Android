@@ -37,13 +37,23 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        holder.tvExerciseTitle.setText(mExerciseList.get(position).getExeciseName());
-        holder.tvExerciseDescription.setText(mExerciseList.get(position).getDescription());
+        holder.tvExerciseTitle.setText(mExerciseList.get(position).getExerciseName());
+        String description;
+        if(mExerciseList.get(position).getExercisePart().equals("근력운동")){
+            description = mExerciseList.get(position).getWeight()+"kg / "
+                    +mExerciseList.get(position).getRepeat()+"회 / "
+                    +mExerciseList.get(position).getSet()+"세트";
+        }else{
+            description = mExerciseList.get(position).getMin()+"분 / "
+                    +"강도 "+mExerciseList.get(position).getIntensity() + " / "
+                    +mExerciseList.get(position).getSet()+"세트";
+        }
+        holder.tvExerciseDescription.setText(description);
 
         holder.btnDeleteExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,mExerciseList.get(position).getExeciseName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,mExerciseList.get(position).getExerciseName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
             }
         });
     }

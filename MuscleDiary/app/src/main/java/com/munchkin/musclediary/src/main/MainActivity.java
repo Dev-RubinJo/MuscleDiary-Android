@@ -73,16 +73,16 @@ public class MainActivity extends BaseActivity {
                 FoodFragment foodFragment = (FoodFragment) mAdapter.getItem(0);
                 foodFragment.onCompleteMenuSelect(selectedMenu,selectedMealTitle);
             }
-            //NOTE 구조변경으로 인한 삭제
-//            case 2000: {
-//                ArrayList<ExerciseItem> selectedExercise = new ArrayList<>();
-//                selectedExercise = (ArrayList<ExerciseItem>) data.getSerializableExtra("selectedExercise");
-//                String selectedExercisePartTitle = data.getStringExtra("exercisePartTitle");
-//
-//                //프레그먼트 캐스팅
-//                ExerciseFragment exerciseFragment = (ExerciseFragment) mAdapter.getItem(1);
-//                exerciseFragment.onCompleteExerciseSelect(selectedExercise,selectedExercisePartTitle);
-//            }
+
+            case 2000: {
+                ExerciseItem addExercise;
+                addExercise = (ExerciseItem) data.getSerializableExtra("addExercise");
+
+                //프레그먼트 캐스팅
+                ExerciseFragment exerciseFragment = (ExerciseFragment) mAdapter.getItem(1);
+                exerciseFragment.onCompleteExerciseSelect(addExercise,addExercise.getExercisePart());
+                Log.d("jooan",addExercise+"");
+            }
         }
     }
 
