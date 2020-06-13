@@ -17,14 +17,16 @@ import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
 
-public class ExerciseResultAdapter extends RecyclerView.Adapter<ExerciseResultAdapter.ViewHolder> {
+//NOTE Adapter decrtpted
+
+public class decrypted_ExerciseResultAdapter extends RecyclerView.Adapter<decrypted_ExerciseResultAdapter.ViewHolder> {
 
     Context mContext;
     ArrayList<ExerciseItem> mExerciseResult;
     private ResultExerciseItemClickListener startActivityForResultInterface;
     int mItemPosition;
 
-    public ExerciseResultAdapter(Context context, ArrayList<ExerciseItem> exerciseItems, ResultExerciseItemClickListener listener) {
+    public decrypted_ExerciseResultAdapter(Context context, ArrayList<ExerciseItem> exerciseItems, ResultExerciseItemClickListener listener) {
         mContext = context;
         mExerciseResult = exerciseItems;
         this.startActivityForResultInterface = listener;
@@ -59,7 +61,7 @@ public class ExerciseResultAdapter extends RecyclerView.Adapter<ExerciseResultAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_result_of_exercise,parent,false);
-        ExerciseResultAdapter.ViewHolder viewHolder = new ExerciseResultAdapter.ViewHolder(view);
+        decrypted_ExerciseResultAdapter.ViewHolder viewHolder = new decrypted_ExerciseResultAdapter.ViewHolder(view);
         return viewHolder;
     }
 

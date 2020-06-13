@@ -34,7 +34,7 @@ public class ArrangeExerciseActivity extends BaseActivity {
         /* content 연결
         exercise 이름 지정 */
 
-        mTvExerciseName = findViewById(R.id.arg_exercise_tv_exercise_name);
+        mTvExerciseName = findViewById(R.id.arg_exercise_et_exercise_name);
         Intent getIntent = getIntent();
         String exercise = getIntent.getStringExtra("exerciseName");
         mTvExerciseName.setText(exercise);

@@ -15,12 +15,14 @@ import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
 
-public class SelectedExerciseAdapter extends RecyclerView.Adapter<SelectedExerciseAdapter.ViewHolder> {
+//NOTE Adapter decrtpted
+
+public class decrypted_SelectedExerciseAdapter extends RecyclerView.Adapter<decrypted_SelectedExerciseAdapter.ViewHolder> {
 
     Context mContext;
     ArrayList<ExerciseItem> mSelectedExercise;
 
-    public SelectedExerciseAdapter(Context context, ArrayList<ExerciseItem> selectedExercise) {
+    public decrypted_SelectedExerciseAdapter(Context context, ArrayList<ExerciseItem> selectedExercise) {
         mContext = context;
         mSelectedExercise = selectedExercise;
     }
@@ -48,7 +50,7 @@ public class SelectedExerciseAdapter extends RecyclerView.Adapter<SelectedExerci
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_exercise_add_list,parent,false);
-        SelectedExerciseAdapter.ViewHolder viewHolder = new SelectedExerciseAdapter.ViewHolder(view);
+        decrypted_SelectedExerciseAdapter.ViewHolder viewHolder = new decrypted_SelectedExerciseAdapter.ViewHolder(view);
         return viewHolder;
     }
 
@@ -62,6 +64,6 @@ public class SelectedExerciseAdapter extends RecyclerView.Adapter<SelectedExerci
 
     @Override
     public int getItemCount() {
-        return mSelectedExercise.size();
+        return 0;//mSelectedExercise.size();
     }
 }

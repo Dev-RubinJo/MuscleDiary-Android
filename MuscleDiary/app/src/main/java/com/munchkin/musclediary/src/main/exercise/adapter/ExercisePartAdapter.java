@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.MainActivity;
-import com.munchkin.musclediary.src.main.exercise.InputExerciseActivity;
+import com.munchkin.musclediary.src.main.exercise.ArrangeExerciseActivity;
+import com.munchkin.musclediary.src.main.exercise.decrypted_InputExerciseActivity;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExercisePartItem;
 
@@ -60,7 +61,8 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
         holder.btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inputExerciseIntent = new Intent(mContext, InputExerciseActivity.class);
+                //NOTE 원래 inputExercise로 연결했으나 구조수정으로 인해 바로 ArrangeExerciseActivity로 이동
+                Intent inputExerciseIntent = new Intent(mContext, ArrangeExerciseActivity.class);
                 inputExerciseIntent.putExtra("exercisePartTitle",exercisePartItem.getExercisePartTitle());
                 //Fragment로 다시 돌아올 때 activity에서 fragment로 값전달 할 수 있도록 하는 스텝1 : casting 해서 forResult로 호출
                 ((MainActivity)mContext).startActivityForResult(inputExerciseIntent,2000);

@@ -18,23 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
-import com.munchkin.musclediary.src.main.exercise.adapter.ExerciseResultAdapter;
-import com.munchkin.musclediary.src.main.exercise.adapter.SelectedExerciseAdapter;
+import com.munchkin.musclediary.src.main.exercise.adapter.decrypted_ExerciseResultAdapter;
+import com.munchkin.musclediary.src.main.exercise.adapter.decrypted_SelectedExerciseAdapter;
 import com.munchkin.musclediary.src.main.exercise.interfaces.ResultExerciseItemClickListener;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
 
-public class InputExerciseActivity extends BaseActivity implements View.OnClickListener, ResultExerciseItemClickListener {
+/*NOTE : Activity decrypted*/
+
+public class decrypted_InputExerciseActivity extends BaseActivity implements View.OnClickListener, ResultExerciseItemClickListener {
 
     String mExerciseTitle;
     TextView mTvExerciseTitle;
     RecyclerView mExerciseResultRecyclerView;
-    ExerciseResultAdapter mExerciseResultAdapter;
+    decrypted_ExerciseResultAdapter mDecryptedExerciseResultAdapter;
 
     //선택한 운동들 보여주는 리사이클러뷰
     RecyclerView mSelectedExerciseRecyclerView;
-    SelectedExerciseAdapter mSelectedExerciseAdapter;
+    decrypted_SelectedExerciseAdapter mDecryptedSelectedExerciseAdapter;
 
     //선택한 운동을 담을 리스트
     ArrayList<ExerciseItem> mClickedExerciseItem;
@@ -77,13 +79,13 @@ public class InputExerciseActivity extends BaseActivity implements View.OnClickL
 
         //리사이클러뷰 레이아웃 매니저 적용
         mExerciseResultRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mExerciseResultAdapter = new ExerciseResultAdapter(getApplicationContext(),mExerciseItems,mResultExerciseItemClickListener);
-        mExerciseResultRecyclerView.setAdapter(mExerciseResultAdapter);
+        mDecryptedExerciseResultAdapter = new decrypted_ExerciseResultAdapter(getApplicationContext(),mExerciseItems,mResultExerciseItemClickListener);
+        mExerciseResultRecyclerView.setAdapter(mDecryptedExerciseResultAdapter);
 
         //추가 메뉴 리사이클러뷰 레이아웃 매니저 적용
         mSelectedExerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        mSelectedExerciseAdapter = new SelectedExerciseAdapter(getApplicationContext(), mClickedExerciseItem);
-        mSelectedExerciseRecyclerView.setAdapter(mSelectedExerciseAdapter);
+        mDecryptedSelectedExerciseAdapter = new decrypted_SelectedExerciseAdapter(getApplicationContext(), mClickedExerciseItem);
+        mSelectedExerciseRecyclerView.setAdapter(mDecryptedSelectedExerciseAdapter);
 
         //검색버튼 생성, 클릭이벤트 적용
         ImageButton btSearch = findViewById(R.id.input_exercise_btn_search);
