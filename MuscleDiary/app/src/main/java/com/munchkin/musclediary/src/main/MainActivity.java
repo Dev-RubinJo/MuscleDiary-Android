@@ -81,7 +81,6 @@ public class MainActivity extends BaseActivity {
                 //프레그먼트 캐스팅
                 ExerciseFragment exerciseFragment = (ExerciseFragment) mAdapter.getItem(1);
                 exerciseFragment.onCompleteExerciseSelect(addExercise,addExercise.getExercisePart());
-                Log.d("jooan",addExercise+"");
             }
         }
     }
