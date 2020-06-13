@@ -39,7 +39,7 @@ public class ArrangeMenuActivity extends BaseActivity {
         //menu 설명 지정
         mTvMenuDescription = findViewById(R.id.arg_menu_tv_menu_serving);
         double menuGramPerServe = getIntent.getDoubleExtra("menuGramPerServe",100);
-        String menuDescription = "메뉴 1회 제공량 (" + menuGramPerServe + "g /1인분)";
+        String menuDescription = "메뉴 1회 제공량 (" + String.format("%.2f",menuGramPerServe) + "g /1인분)";
 
         mTvMenuDescription.setText(menuDescription);
 

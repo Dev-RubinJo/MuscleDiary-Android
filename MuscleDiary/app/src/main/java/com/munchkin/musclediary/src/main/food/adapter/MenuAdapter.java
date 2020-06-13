@@ -43,7 +43,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         if(title.length()>9){ title = title.substring(0,9)+".."; }
 
         holder.tvMenuTitle.setText(title);
-        holder.tvMenuCalories.setText(Double.toString(mMenuList.get(position).getCalorie()*mMenuList.get(position).getServing())+" kcal ("+mMenuList.get(position).getServing()+"인분)");
+        String menuCalories = String.format("%.2f",mMenuList.get(position).getCalorie()*mMenuList.get(position).getServing());
+        holder.tvMenuCalories.setText(menuCalories+" kcal ("+mMenuList.get(position).getServing()+"인분)");
 
         holder.btnDeleteMenu.setOnClickListener(new View.OnClickListener() {
             @Override

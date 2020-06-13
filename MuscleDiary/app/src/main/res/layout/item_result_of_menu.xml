@@ -15,9 +15,10 @@
         android:textSize="12sp"
         android:textStyle="bold"
 
+        android:layout_marginStart="15dp"
         app:layout_constraintBottom_toTopOf="@+id/input_menu_item_tv_menu_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

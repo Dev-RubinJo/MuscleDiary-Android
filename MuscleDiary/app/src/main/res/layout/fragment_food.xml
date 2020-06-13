@@ -48,9 +48,13 @@
                 android:id="@+id/fragment_food_tv_goal_cal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -64,7 +68,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
 
                 app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_goal_cal"
                 app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_eaten_cal"
@@ -78,7 +85,11 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="@color/colorPrimary"
-                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
 
                 app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_minus"
                 app:layout_constraintEnd_toStartOf="@+id/fragment_food_tv_equal"
@@ -105,8 +116,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:gravity="center"
                 android:textColor="@color/colorAccent"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
 
                 app:layout_constraintStart_toEndOf="@+id/fragment_food_tv_equal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -129,16 +144,16 @@
                 android:layout_height="65dp"
                 app:cpb_background_progressbar_color="@color/colorProgressBarBackground"
                 app:cpb_background_progressbar_width="5dp"
+                app:cpb_progress="30"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progressbar_color="@color/colorCarboProgressBar"
                 app:cpb_progressbar_width="7dp"
                 app:cpb_round_border="true"
-                app:cpb_progress="30"
 
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_carbo"
+                app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_protein"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/fragment_food_pb_protein" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.mikhaellopez.circularprogressbar.CircularProgressBar
                 android:id="@+id/fragment_food_pb_protein"

@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.setting.dialog;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.munchkin.musclediary.src.BaseActivity;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
 public class RatioGoalActivity extends BaseActivity implements View.OnClickListener {
 
@@ -37,6 +40,9 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
     private int[] mRateoArray = {0,0,0};
 
     private boolean mIsOk = false;
+
+    //그램수 계산을 위한 shared preference
+    SharedPreferences.Editor mEditor = sSharedPreferences.edit();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -155,6 +161,14 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
         textView.setText(gram);
     }
 
+    //그램 shared에 등록하는 함수
+    private int getFinalGram(int ratio, int gramRatio){
+        int totalKcal = getIntent().getIntExtra("kcal", 0);
+        int kcal = totalKcal * ratio * 5 / 100;
+        int gram = kcal/gramRatio;
+        return gram;
+    }
+
     //바뀔때마다 %변경해주는 함수(임시 배열에 저장한다)
     private void changePercent(){
         int carbohydrate = mCarbohydratePicker.getValue()*5;
@@ -190,6 +204,10 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("carbohydrate", mRateoArray[0]);
                     intent.putExtra("protein", mRateoArray[1]);
                     intent.putExtra("fat", mRateoArray[2]);
+                    mEditor.putInt("carbohydrateGram",getFinalGram(mRateoArray[0],4));
+                    mEditor.putInt("proteinGram",getFinalGram(mRateoArray[0],4));
+                    mEditor.putInt("fatGram",getFinalGram(mRateoArray[0],9));
+                    mEditor.commit();
                     setResult(RESULT_OK, intent);
                     finish();
                 } else {

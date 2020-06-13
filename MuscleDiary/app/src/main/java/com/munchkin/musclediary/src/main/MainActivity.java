@@ -72,6 +72,7 @@ public class MainActivity extends BaseActivity {
                 //프레그먼트 캐스팅
                 FoodFragment foodFragment = (FoodFragment) mAdapter.getItem(0);
                 foodFragment.onCompleteMenuSelect(selectedMenu,selectedMealTitle);
+                break;
             }
 
             case 2000: {
@@ -81,6 +82,7 @@ public class MainActivity extends BaseActivity {
                 //프레그먼트 캐스팅
                 ExerciseFragment exerciseFragment = (ExerciseFragment) mAdapter.getItem(1);
                 exerciseFragment.onCompleteExerciseSelect(addExercise,addExercise.getExercisePart());
+                break;
             }
         }
     }

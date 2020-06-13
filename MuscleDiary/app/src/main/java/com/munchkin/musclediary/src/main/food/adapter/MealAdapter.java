@@ -59,7 +59,7 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final MealItem mealItem = mMealItems.get(position);
         holder.tvMealTitle.setText(mealItem.getMealTitle());
-        holder.tvTotalCalories.setText(mealItem.getMealTotalCalories()+" kcal");
+        holder.tvTotalCalories.setText(String.format("%.2f",mealItem.getMealTotalCalories())+" kcal");
 
         holder.btnAddFood.setOnClickListener(new View.OnClickListener() {
             @Override
