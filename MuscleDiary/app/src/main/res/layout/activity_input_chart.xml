@@ -22,7 +22,7 @@
         android:textStyle="bold"
         android:textSize="22sp"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_above="@+id/input_chart_picker_group"
+        android:layout_above="@+id/date_picker_input_chart"
         android:background="@drawable/chart_input_back"
 
         android:paddingStart="30dp"
@@ -30,28 +30,23 @@
         android:paddingBottom="20dp"
         />
 
+    <DatePicker
+        android:id="@+id/date_picker_input_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/input_chart_picker_group"
+        android:background="#ffffff"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:theme="@style/AppTheme.PickerTime" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/input_chart_picker_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="25dp"
-        android:paddingTop="25dp"
         android:layout_above="@+id/input_chart_btn_complete"
         android:background="@android:color/white">
-
-        <NumberPicker
-            android:id="@+id/input_chart_date_picker"
-            android:layout_width="130dp"
-            android:layout_height="140dp"
-            android:layout_marginStart="35dp"
-            android:layout_marginEnd="35dp"
-            android:theme="@style/AppTheme.PickerDate"
-            android:descendantFocusability="blocksDescendants"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/input_chart_integer_picker"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <NumberPicker
             android:id="@+id/input_chart_integer_picker"
@@ -59,9 +54,10 @@
             android:layout_height="140dp"
             android:theme="@style/AppTheme.PickerTime"
             android:descendantFocusability="blocksDescendants"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/input_chart_float_picker"
-            app:layout_constraintStart_toEndOf="@id/input_chart_date_picker"
+            app:layout_constraintEnd_toStartOf="@id/input_chart_str_floating_point"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -87,10 +83,9 @@
             android:layout_height="140dp"
             android:theme="@style/AppTheme.PickerTime"
             android:descendantFocusability="blocksDescendants"
-            android:layout_marginEnd="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/input_chart_integer_picker"
+            app:layout_constraintEnd_toStartOf="@id/input_chart_str_unit"
+            app:layout_constraintStart_toEndOf="@id/input_chart_str_floating_point"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
