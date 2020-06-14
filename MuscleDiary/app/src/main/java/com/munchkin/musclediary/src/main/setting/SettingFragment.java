@@ -188,7 +188,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     private void setGoalNutrition(int kcal, int carboRate, int proteinRate, int fatRate){
         mKcal = kcal;
-        Log.d("testtest", mKcal+"");
         mBtKcal.setText(String.format("%dKCAL", kcal));
 
         mRatio[0] = carboRate;
@@ -221,9 +220,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //목표영양 비율 텍스트 변경하는 함수
     private void changeRatio(){
-        mRatio[0] = sSharedPreferences.getInt("carbohydrate", 0);
-        mRatio[1] = sSharedPreferences.getInt("protein", 0);
-        mRatio[2] = sSharedPreferences.getInt("fat", 0);
+        //mRatio[0] = sSharedPreferences.getInt("carbohydrate", 0);
+        //mRatio[1] = sSharedPreferences.getInt("protein", 0);
+        //mRatio[2] = sSharedPreferences.getInt("fat", 0);
         String ratioExample = mRatio[0] + ":" + mRatio[1] + ":" + mRatio[2];
         mBtRatio.setText(ratioExample);
     }
@@ -349,18 +348,20 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 mRatio[0] = data.getIntExtra("carbohydrate", mRatio[0]);
                 mRatio[1] = data.getIntExtra("protein", mRatio[1]);
                 mRatio[2] = data.getIntExtra("fat", mRatio[2]);
+                /*
                 editor.putInt("carbohydrate", mRatio[0]);
                 editor.putInt("protein", mRatio[1]);
                 editor.putInt("fat", mRatio[2]);
                 editor.apply();
-                changeRatio();
+                 */
+                tryPostNutrition(mRatio[0], mRatio[1], mRatio[2], mKcal);
                 break;
 
             case CHANGE_KCAL:
                 mKcal = data.getIntExtra("kcal", mKcal);
                 editor.putInt("kcal", mKcal);
                 editor.apply();
-                mBtKcal.setText(mKcal+"kcal");
+                tryPostNutrition(mRatio[0], mRatio[1], mRatio[2], mKcal);
                 break;
 
             //로그아웃했을때
@@ -522,6 +523,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         settingService.getNutrition();
     }
 
+    private void tryPostNutrition(int carboRate, int proteinRate, int fatRate, int goalCalorie){
+        showProgressDialog(getActivity());
+        final SettingService settingService = new SettingService(this);
+        settingService.postNutrition(carboRate, proteinRate, fatRate, goalCalorie);
+    }
+
 
     @Override
     public void updateProfileSuccess(int code, String message) {
@@ -539,11 +546,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void postNutritionSuccess(int code, String message) {
         hideProgressDialog();
+        Log.d("testtest", "isSuccess");
+        if(code == 104){
+            setGoalNutrition(mKcal, mRatio[0], mRatio[1], mRatio[2]);
+        }
     }
 
     @Override
     public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) {
-        Log.d("inTest", message);
         if(code == 102){
             setGoalNutrition(result.getGoalCalorie(), result.getCarboRate(), result.getProteinRate(), result.getFatRate());
         } else {

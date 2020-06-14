@@ -109,7 +109,7 @@ public class SettingService {
                     return;
                 }
 
-                mSettingFragmentView.updateProfileSuccess(postNutritionResponse.getCode(),
+                mSettingFragmentView.postNutritionSuccess(postNutritionResponse.getCode(),
                         postNutritionResponse.getMessage());
             }
 
