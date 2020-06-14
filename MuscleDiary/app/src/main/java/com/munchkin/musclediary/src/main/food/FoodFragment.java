@@ -1,6 +1,8 @@
 package com.munchkin.musclediary.src.main.food;
 
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -233,6 +235,16 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         if(mGoalCarboGram!=0){
             float percent = ((float)mEatenCarboGram/(float)mGoalCarboGram*100);
             mPbCarbo.setProgress(percent);
+        }
+
+        if(mGoalFatGram<mEatenFatGram){
+            mTvFatGram.setTextColor(Color.RED);
+        }
+        if(mGoalProteinGram<mEatenProteinGram){
+            mTvProteinGram.setTextColor(Color.RED);
+        }
+        if(mGoalCarboGram<mEatenCarboGram){
+            mTvCarboGram.setTextColor(Color.RED);
         }
 
         mTvWarningProtein.setText("일일 목표 단백질 섭취까지 "+(mGoalProteinGram-mEatenProteinGram)+"g 남았습니다.\n단백질 쉐이크로 간편하게 채워보세요");
