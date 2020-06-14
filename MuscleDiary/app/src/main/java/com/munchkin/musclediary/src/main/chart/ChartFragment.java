@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -23,18 +24,24 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.chart.dialog.TermActivity;
 import com.munchkin.musclediary.src.main.chart.dialog.TypeActivity;
+import com.munchkin.musclediary.src.main.chart.interfaces.ChartFragmentView;
+import com.munchkin.musclediary.src.main.chart.models.WeightResult;
+import com.munchkin.musclediary.src.main.chart.services.ChartService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.POWER_SERVICE;
 
-public class ChartFragment extends BaseFragment implements View.OnClickListener {
+public class ChartFragment extends BaseFragment implements View.OnClickListener, ChartFragmentView {
     //startActivityForResult requestCode
     private final int CHANGE_TYPE = 0;
     private final int CHANGE_TERM = 1;
@@ -54,6 +61,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
     //분석종류
     //1 = 체지방, 2 = 체중
     private int mType = 2;
+    //0 = 주간, 1 = 월간, 3 = 년간
+    private int mTerm = 0;
     private ChartAdapter mAdapter;
 
     @Override
@@ -119,7 +128,11 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         ValueFormatter formatter = new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                return xLabel[(int)value];
+                if(value >= 0){
+                    return xLabel[(int)value];
+                }else {
+                    return "";
+                }
             }
         };
 
@@ -268,9 +281,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case R.id.bt_type_chart:
+                /*
                 Intent typeIntent = new Intent(getContext(), TypeActivity.class);
                 typeIntent.putExtra("type", mType);
                 startActivityForResult(typeIntent, CHANGE_TYPE);
+                 */
+                showCustomToast("서비스 준비중입니다.");
                 break;
 
             case R.id.bt_term_chart:
@@ -291,14 +307,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
         if(resultCode != RESULT_OK){
             return;
         }
-
+        Calendar calendar = Calendar.getInstance();
+        int today = calendar.get(Calendar.DATE);
         switch(requestCode){
             case CHANGE_TYPE:
                 mType = data.getIntExtra("type", 0);
-                Log.d("test", Integer.toString(mType));
                 if(mType == 1){
                     //setmLineChart(mFatList, "체지방률 변화");
-                    Log.d("log", "here");
                     addFatData(mFatItems);
                     mAdapter.setWeight(false);
                     mAdapter.setmItems(mFatItems);
@@ -311,10 +326,11 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 break;
 
             case CHANGE_TERM:
-                int term = data.getIntExtra("term", 0);
-                showCustomToast(Integer.toString(term));
-                switch(term){
+                mTerm = data.getIntExtra("term", 0);
+                showCustomToast(Integer.toString(mTerm));
+                switch(mTerm){
                     case 0:
+                        int reordDate = getRecordDate(today);
                         addWeightData(0, mWeightItems);
                         break;
                     case 1:
@@ -333,7 +349,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 int month = data.getIntExtra("month", 0);
                 int date = data.getIntExtra("date", 0);
                 float level = data.getFloatExtra("weight", 0);
+                Calendar c = Calendar.getInstance();
+                c.set(year, month-1, date);
                 ChartItem item = new ChartItem(level, year, month, date);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 switch (mType){
                     case 1:
                         mFatItems.add(item);
@@ -341,8 +360,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                         addFatData(mFatItems);
                         break;
                     case 2:
-                        mWeightItems.add(item);
-                        mAdapter.notifyDataSetChanged();
+                        tryPostWeight(level, simpleDateFormat.format(c.getTime()));
+                        //tryGetWeight(getRecordDate(today));
                         addWeightData(0, mWeightItems);
                         break;
                     default:
@@ -354,5 +373,86 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener 
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private int getRecordDate(int today){
+        switch (mTerm){
+            case 0:
+                if(today > 0 && today < 8){
+                    return 1;
+                } else if(today >=8 && today < 15){
+                    return 8;
+                } else if(today >= 15 && today < 22){
+                    return 15;
+                } else if(today >= 22 && today < 29){
+                    return 22;
+                }else if(today >= 29){
+                    return 29;
+                }
+                break;
+            case 1:
+                return 1;
+            case 2:
+                return 1;
+            default:
+                break;
+        }
+        return 0;
+    }
+
+    private void tryPostWeight(float weight, String recordDate){
+        showProgressDialog(getActivity());
+        final ChartService chartService = new ChartService(this);
+        chartService.postWeight(weight, recordDate);
+    }
+
+    private void tryGetWeight(int date){
+        showProgressDialog(getActivity());
+        final ChartService chartService = new ChartService(this);
+        switch (mTerm){
+            case 0:
+                chartService.getWeekWeight(date);
+                break;
+            case 1:
+                chartService.getMonthWeight(date);
+                break;
+            case 2:
+                chartService.getYearWeight(date);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void getWeightSuccess(int code, String message, ArrayList<WeightResult> weightResults) {
+        mWeightItems.clear();
+        if (weightResults.size() != 0) {
+            for(WeightResult item : weightResults) {
+                float weight = item.getWeight();
+                String recordDate = item.getRecordDate();
+                String[] strings = recordDate.split("-");
+                int year = Integer.getInteger(strings[0]);
+                int month = Integer.getInteger(strings[1]);
+                int date = Integer.getInteger(strings[2]);
+                ChartItem chartItem = new ChartItem(weight, year, month, date);
+                mWeightItems.add(chartItem);
+            }
+            mAdapter.notifyDataSetChanged();
+            addWeightData(mTerm, mWeightItems);
+        }
+
+        hideProgressDialog();
+    }
+
+    @Override
+    public void postWeightSuccess(int code, String message) {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void validateFailure(String message) {
+        hideProgressDialog();
+        showCustomToast("네트워크와의 연결이 불안정합니다.");
     }
 }
