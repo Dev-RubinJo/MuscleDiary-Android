@@ -1,12 +1,14 @@
 package com.munchkin.musclediary.src.signin;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -17,12 +19,23 @@ import com.munchkin.musclediary.src.main.setting.dialog.AgeActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
+import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
+import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
+import com.munchkin.musclediary.src.main.setting.services.SettingService;
+import com.munchkin.musclediary.src.signin.interfaces.SignInActivityView;
+import com.munchkin.musclediary.src.signin.models.SignInResponse;
+import com.munchkin.musclediary.src.signin.services.SignInService;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
-public class SignUpProfileActivity extends BaseActivity {
+import static com.munchkin.musclediary.src.ApplicationClass.X_ACCESS_TOKEN;
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
+
+public class SignUpProfileActivity extends BaseActivity implements SignInActivityView, SettingFragmentView {
     //입력창으로 이어지는 버튼 설정
     private TextView mTvGender;
     private TextView mTvBirth;
@@ -37,11 +50,10 @@ public class SignUpProfileActivity extends BaseActivity {
     private String mEmail;
     private String mPassword;
 
-    private int mGender;
-    private Date mBirth;
-    private double mHeight;
-    private double mWeight;
-
+    private int mGender= -1;
+    private String mBirth;
+    private double mHeight= -1.0;
+    private double mWeight= -1.0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,16 +84,13 @@ public class SignUpProfileActivity extends BaseActivity {
         }
         switch (requestCode){
             case 1000:
-                mGender = data.getIntExtra("gender",1);
+                mGender = data.getIntExtra("gender",-1);
                 mTvGender.setText(mGender == 1 ? "남성" : "여성");
                 break;
 
             case 2000:
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                //java.util.Date utilDate = dateFormat.format(data.getStringExtra("age"));
-                //NOTE 임시로 birth 스트링으로 저장
-                String birth = data.getStringExtra("age");
-                mTvBirth.setText(birth);
+                mBirth = data.getStringExtra("age");
+                mTvBirth.setText(mBirth);
                 break;
 
             case 3000:
@@ -141,14 +150,79 @@ public class SignUpProfileActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 //TODO 로그인 완료되면 바로 로그인 오류나면 오류 메세지로 연결
-                Intent doneIntent = new Intent();
-                doneIntent.putExtra("done",true);
-                setResult(RESULT_OK,doneIntent);
-
-                Intent gotoMain = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(gotoMain);
-                finish();
+                if(allEnteredcheck()){
+                    Intent doneIntent = new Intent();
+                    doneIntent.putExtra("done",true);
+                    setResult(RESULT_OK,doneIntent);
+                    tryPostSignUp(mEmail,mPassword,mPassword);
+                }else{
+                    Toast.makeText(getApplicationContext(),"모든 정보를 기입해 주세요",Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
+    }
+
+    private boolean allEnteredcheck() {
+        if(mGender!=-1 && !mBirth.isEmpty() && mHeight!=-1 && mWeight!=-1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //로그인 api호출 시작
+    private void tryPostSignIn(String id, String password){
+        final SignInService signInService = new SignInService(this);
+        signInService.postSignIn(id, password);
+    }
+
+    //회원가입 api호출 시작
+    private void tryPostSignUp(String id, String password, String rePassword){
+        showProgressDialog();
+        final SignInService signInService = new SignInService(this);
+        signInService.postSignUp(id, password,rePassword);
+    }
+
+    //기본정보 수정 api호출 시작
+    private void tryPostUpdateProfile(Double height, Double weight, int gender, String birth){
+        SettingService settingService = new SettingService(this);
+        settingService.postUpdateProfile(height, weight, gender, birth);
+    }
+
+    //로그인 성공시
+    @Override
+    public void SignInSuccess(int code, String message, SignInResponse.Jwt jwt) {
+        X_ACCESS_TOKEN = jwt.getJwt();
+        tryPostUpdateProfile(mHeight,mWeight,mGender,mBirth);
+    }
+
+    //회원가입 성공시
+    @Override
+    public void SignUpSuccess(int code, String message) {
+        //로그인 시작
+        tryPostSignIn(mEmail,mPassword);
+    }
+
+    //프로파일 수정 성공시
+    @Override
+    public void updateProfileSuccess(int code, String message) {
+        Intent gotoMain = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(gotoMain);
+        hideProgressDialog();
+        finish();
+    }
+
+    //NOTE implements 받아왔지만 실질적으로 사용하지 않는 부분
+    @Override
+    public void profileSuccess(int code, String message, ArrayList<ProfileResult> profileResult) { }
+    @Override
+    public void postNutritionSuccess(int code, String message) { }
+    @Override
+    public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) { }
+    @Override
+    public void validateFailure(String message) {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+        return;
     }
 }

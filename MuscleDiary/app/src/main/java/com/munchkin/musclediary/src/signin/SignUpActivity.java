@@ -64,14 +64,14 @@ public class SignUpActivity extends BaseActivity {
         mBtnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean emailCheck, pwCheck;
-                String email = mEtEmail.getText().toString();
+                boolean idCheck, pwCheck;
+                String id = mEtEmail.getText().toString();
 
-                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    emailCheck = false;
-                    Toast.makeText(getApplicationContext(),"잘못된 이메일 형식입니다",Toast.LENGTH_SHORT).show();
+                if(id.isEmpty()){
+                    idCheck = false;
+                    Toast.makeText(getApplicationContext(),"아이디를 입력해주세요",Toast.LENGTH_SHORT).show();
                 }else{
-                    emailCheck = true;
+                    idCheck = true;
                 }
 
                 String password = mEtPassword.getText().toString();
@@ -80,12 +80,15 @@ public class SignUpActivity extends BaseActivity {
                 if(!password.equals(passwordCheck)){
                     pwCheck = false;
                     Toast.makeText(getApplicationContext(),"입력하신 두 비밀번호가 다릅니다",Toast.LENGTH_SHORT).show();
+                }else if(password.length()<7 || password.length() > 14){
+                    pwCheck = false;
+                    Toast.makeText(getApplicationContext(),"비밀번호는 8자리 이상 14자리 이하의\n영문, 숫자 조합이어야 합니다",Toast.LENGTH_SHORT).show();
                 }else{
                     pwCheck = true;
                 }
 
-                if(emailCheck&&pwCheck&&!password.isEmpty()){
-                    signInIntent.putExtra("email",email);
+                if(idCheck&&pwCheck&&!password.isEmpty()){
+                    signInIntent.putExtra("email",id);
                     signInIntent.putExtra("password",password);
 
                     startActivityForResult(signInIntent,777);

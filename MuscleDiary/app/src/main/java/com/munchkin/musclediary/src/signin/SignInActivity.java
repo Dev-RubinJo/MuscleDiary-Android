@@ -90,7 +90,7 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
 
     //성공 시 메인으로 넘어가고 자동로그인 상태 저장
     @Override
-    public void validateSuccess(int code, String message, SignInResponse.Jwt jwt) {
+    public void SignInSuccess(int code, String message, SignInResponse.Jwt jwt) {
         if(code == 101){
             SharedPreferences.Editor editor = sSharedPreferences.edit();
             editor.putBoolean("isSignIn",true);
@@ -110,4 +110,8 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
         showCustomToast(message);
         hideProgressDialog();
     }
+
+    //로그인 화면에서는 안씀
+    @Override
+    public void SignUpSuccess(int code, String message) { }
 }

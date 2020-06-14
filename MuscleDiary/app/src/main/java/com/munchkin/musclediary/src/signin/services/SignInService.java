@@ -1,11 +1,11 @@
 package com.munchkin.musclediary.src.signin.services;
 
-import android.util.Log;
-
 import com.munchkin.musclediary.src.signin.interfaces.SignInActivityView;
 import com.munchkin.musclediary.src.signin.interfaces.SignInRetrofitInterface;
 import com.munchkin.musclediary.src.signin.models.SignInRequest;
 import com.munchkin.musclediary.src.signin.models.SignInResponse;
+import com.munchkin.musclediary.src.signin.models.SignUpRequest;
+import com.munchkin.musclediary.src.signin.models.SignUpResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,13 +32,35 @@ public class SignInService {
                     return;
                 }
 
-                mSignInActivityView.validateSuccess(signInResponse.getCode(),
+                mSignInActivityView.SignInSuccess(signInResponse.getCode(),
                         signInResponse.getMessage(), signInResponse.getJwt());
             }
 
             @Override
             public void onFailure(Call<SignInResponse> call, Throwable t) {
                 mSignInActivityView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void postSignUp(String id, String password, String rePassword) {
+        final SignInRetrofitInterface signInRetrofitInterface = getRetrofit().create(SignInRetrofitInterface.class);
+
+        signInRetrofitInterface.postSignUp(new SignUpRequest(id,password,rePassword)).enqueue(new Callback<SignUpResponse>() {
+            @Override
+            public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
+                final SignUpResponse signUpResponse = response.body();
+                if (signUpResponse == null); {
+                    mSignInActivityView.validateFailure("null");
+                }
+
+                mSignInActivityView.SignUpSuccess(signUpResponse.getCode(),
+                        signUpResponse.getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<SignUpResponse> call, Throwable t) {
+                mSignInActivityView.validateFailure("null");
             }
         });
     }
