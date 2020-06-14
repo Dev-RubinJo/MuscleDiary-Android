@@ -203,7 +203,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         Double newWeight = Double.valueOf(sSharedPreferences.getLong("weight",0));
         Date newBirth = Date.valueOf(sSharedPreferences.getString("birth","1997-12-10"));
         int newGender = sSharedPreferences.getInt("gender",1);
-        tryPostUpdateProfile(mHeight,mWeight,mGender,Date.valueOf(mBirth));
+        tryPostUpdateProfile(mHeight,mWeight,mGender, mBirth);
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -504,7 +504,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    private void tryPostUpdateProfile(Double height, Double weight, int gender, Date birth){
+    private void tryPostUpdateProfile(Double height, Double weight, int gender, String birth){
         showProgressDialog(getActivity());
         SettingService settingService = new SettingService(this);
         settingService.postUpdateProfile(height, weight, gender, birth);

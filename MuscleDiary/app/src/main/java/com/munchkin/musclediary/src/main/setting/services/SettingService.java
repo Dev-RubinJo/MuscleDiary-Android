@@ -28,7 +28,7 @@ public class SettingService {
         this.mSettingFragmentView = settingFragmentView;
     }
 
-    public void postUpdateProfile(Double height, Double weight, int gender, Date birth) {
+    public void postUpdateProfile(Double height, Double weight, int gender, String birth) {
         final UpdateProfileRetrofitInterface updateProfileRetrofitInterface = getRetrofit().create(UpdateProfileRetrofitInterface.class);
 
         updateProfileRetrofitInterface.postUpdateProfile(new UpdateProfileRequest(height, weight, gender, birth)).enqueue(new Callback<UpdateProfileResponse>() {
