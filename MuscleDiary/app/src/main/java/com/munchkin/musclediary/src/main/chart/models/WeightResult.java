@@ -13,7 +13,7 @@ public class WeightResult {
         return weight;
     }
 
-    public String getRecordDate() {
+    public String getDate() {
         return recordDate;
     }
 }
