@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/sign_up_profile_tool_bar"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필 설정"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <ImageButton
+                android:id="@+id/sign_up_profile_btn_back"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/sign_up_btn_back"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sign_up_profile_input_gender"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/sign_up_profile_btn_input_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="성별입력    〉"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorPrimaryDark"/>
+
+        <RelativeLayout
+            android:id="@+id/sign_up_profile_input_birth"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생년월일"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/sign_up_profile_btn_input_birth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="생년월일입력    〉"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorPrimaryDark"/>
+
+        <RelativeLayout
+            android:id="@+id/sign_up_profile_input_height"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="키"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/sign_up_profile_btn_input_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="키입력    〉"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorPrimaryDark"/>
+
+        <RelativeLayout
+            android:id="@+id/sign_up_profile_input_weight"
+            android:background="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="체중"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="25dp"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/sign_up_profile_btn_input_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="체중입력    〉"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:textSize="14sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/sign_up_profile_btn_complete"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_alignParentBottom="true"
+        android:text="회원가입 완료"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textSize="17sp"/>
+
+</RelativeLayout>
+

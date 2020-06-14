@@ -52,6 +52,8 @@
 
         <activity android:name=".src.signin.SignInActivity" />
         <activity android:name=".src.signin.SignUpActivity" />
+        <activity android:name=".src.signin.SignUpProfileActivity" />
+
         <activity android:name=".src.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
