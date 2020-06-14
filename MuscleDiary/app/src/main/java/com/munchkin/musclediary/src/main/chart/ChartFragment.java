@@ -23,6 +23,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
 import com.munchkin.musclediary.R;
@@ -36,6 +37,7 @@ import com.munchkin.musclediary.src.main.chart.services.ChartService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Formatter;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -106,11 +108,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
         mWeightList = new ArrayList<>();
         mFatList = new ArrayList<>();
-        addWeightData(0, mWeightItems);
+        Calendar c = Calendar.getInstance();
+        tryGetWeight(getRecordDate(c.get(Calendar.DATE)));
     }
 
     // 그래프 세팅 메서드
-    private void setmLineChart(List<Entry> list, String label, final String[] xLabel) {
+    private void setmLineChart(List<Entry> list, String label, final ArrayList<String> xLabel) {
         LineDataSet lineDataSet = new LineDataSet(list, label);
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
@@ -120,21 +123,24 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         lineDataSet.setDrawCircles(true);
         lineDataSet.setDrawHorizontalHighlightIndicator(false);
         lineDataSet.setDrawHighlightIndicators(false);
-        lineDataSet.setDrawValues(false);
+        lineDataSet.setDrawValues(true);
 
         LineData lineData = new LineData(lineDataSet);
         mLineChart.setData(lineData);
 
         ValueFormatter formatter = new ValueFormatter() {
             @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                if(value >= 0){
-                    return xLabel[(int)value];
-                }else {
+            public String getFormattedValue(float value) {
+                if (value >= 0) {
+                    Log.d("testLog", value+"");
+                    return xLabel.get((int) value % xLabel.size());
+                } else {
                     return "";
                 }
+
             }
         };
+
 
         XAxis xAxis = mLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -143,7 +149,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         xAxis.removeAllLimitLines();
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(formatter);
-
+        xAxis.setGranularityEnabled(true);
+        xAxis.setXOffset(5f);
         YAxis yLAxis = mLineChart.getAxisLeft();
         yLAxis.setTextColor(Color.BLACK);
 
@@ -210,10 +217,9 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void addFatData(ArrayList<ChartItem> items){
         mFatList.clear();
         int count = 0;
-        String[] labelList = new String[items.size()+1];
+        ArrayList<String> labelList = new ArrayList<>();
         for(ChartItem item : items){
-            Log.d("testLog", count+"");
-            labelList[count] = item.getDate()+"";
+            labelList.add(item.getDate()+"");
             mFatList.add(new Entry(count++, item.getLevel()));
         }
         setmLineChart(mFatList, "체지방률 변화", labelList);
@@ -222,55 +228,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void addWeightData(int term, ArrayList<ChartItem> items){
         mWeightList.clear();
         int date = 0;
-        int count = 0;
-        String[] labelList = new String[items.size()+1];
-        switch (term){
-            case 0:
-                count = 0;
-                for(ChartItem item : items){
-                    labelList[count] = item.getDate()+"";
-                    mWeightList.add(new Entry(count++, item.getLevel()));
-                }
-                setmLineChart(mWeightList, "체중 변화", labelList);
-                break;
-
-            case 1:
-                count = 0;
-                for(int i = 0; i < items.size(); i++){
-                    if(i == 0){
-                        date = items.get(i).getDate();
-                        labelList[count] = date+"";
-                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
-                    } else if(date + 7 <= items.get(i).getDate()){
-                        date = items.get(i).getDate();
-                        labelList[count] = date+"";
-                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
-                    }
-                }
-                setmLineChart(mWeightList, "체중 변화", labelList);
-                break;
-
-            case 2:
-                date = 0;
-                count = 0;
-                for(int i = 0; i < items.size(); i++){
-                    if(i == 0){
-                        date = items.get(i).getDate();
-                        labelList[count] = date+"";
-                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
-                    } else if(date + 30 <= items.get(i).getDate()){
-                        date = items.get(i).getDate();
-                        labelList[count] = date+"";
-                        mWeightList.add(new Entry(count++, items.get(i).getLevel()));
-                    }
-                }
-                setmLineChart(mWeightList, "체중 변화", labelList);
-                break;
-
-            default:
-                break;
+        float count = 0f;
+        ArrayList<String> labelList = new ArrayList<>();
+        for(ChartItem item : items){
+            labelList.add(item.getDate()+"");
+            mWeightList.add(new Entry(count++, item.getLevel()));
         }
-
+        setmLineChart(mWeightList, "체중 변화", labelList);
     }
     @Override
     public void onClick(View v) {
@@ -328,16 +292,19 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             case CHANGE_TERM:
                 mTerm = data.getIntExtra("term", 0);
                 showCustomToast(Integer.toString(mTerm));
+                String recordDate;
                 switch(mTerm){
                     case 0:
-                        int reordDate = getRecordDate(today);
-                        addWeightData(0, mWeightItems);
+                        recordDate = getRecordDate(today);
+                        tryGetWeight(recordDate);
                         break;
                     case 1:
-                        addWeightData(1, mWeightItems);
+                        recordDate = getRecordDate(today);
+                        tryGetWeight(recordDate);
                         break;
                     case 2:
-                        addWeightData(2, mWeightItems);
+                        recordDate = getRecordDate(today);
+                        tryGetWeight(recordDate);
                         break;
                     default:
                         break;
@@ -361,8 +328,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
                         break;
                     case 2:
                         tryPostWeight(level, simpleDateFormat.format(c.getTime()));
-                        //tryGetWeight(getRecordDate(today));
-                        addWeightData(0, mWeightItems);
+                        tryGetWeight(getRecordDate(today));
                         break;
                     default:
                         break;
@@ -375,29 +341,38 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private int getRecordDate(int today){
+    private String getRecordDate(int today){
+        Calendar calendar = Calendar.getInstance();
+        String recordDate;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         switch (mTerm){
             case 0:
                 if(today > 0 && today < 8){
-                    return 1;
+                    calendar.set(Calendar.DATE, 1);
                 } else if(today >=8 && today < 15){
-                    return 8;
+                    calendar.set(Calendar.DATE, 8);
                 } else if(today >= 15 && today < 22){
-                    return 15;
+                    calendar.set(Calendar.DATE, 15);
                 } else if(today >= 22 && today < 29){
-                    return 22;
+                    calendar.set(Calendar.DATE, 22);
                 }else if(today >= 29){
-                    return 29;
+                    calendar.set(Calendar.DATE, 29);
                 }
-                break;
+                recordDate = dateFormat.format(calendar.getTime());
+                return recordDate;
             case 1:
-                return 1;
+                calendar.set(Calendar.DATE, 1);
+                recordDate = dateFormat.format(calendar.getTime());
+                return recordDate;
             case 2:
-                return 1;
+                calendar.set(Calendar.MONTH, 0);
+                calendar.set(Calendar.DATE, 1);
+                recordDate = dateFormat.format(calendar.getTime());
+                return recordDate;
             default:
                 break;
         }
-        return 0;
+        return "";
     }
 
     private void tryPostWeight(float weight, String recordDate){
@@ -406,7 +381,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         chartService.postWeight(weight, recordDate);
     }
 
-    private void tryGetWeight(int date){
+    private void tryGetWeight(String date){
         showProgressDialog(getActivity());
         final ChartService chartService = new ChartService(this);
         switch (mTerm){
@@ -427,14 +402,14 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void getWeightSuccess(int code, String message, ArrayList<WeightResult> weightResults) {
         mWeightItems.clear();
-        if (weightResults.size() != 0) {
-            for(WeightResult item : weightResults) {
+        if (code == 102) {
+            for(int i = 0; i < weightResults.size(); i++) {
+                WeightResult item = weightResults.get(i);
                 float weight = item.getWeight();
-                String recordDate = item.getRecordDate();
-                String[] strings = recordDate.split("-");
-                int year = Integer.getInteger(strings[0]);
-                int month = Integer.getInteger(strings[1]);
-                int date = Integer.getInteger(strings[2]);
+                String recordDate = item.getDate();
+                int year = Integer.parseInt(recordDate.substring(0,4));
+                int month = Integer.parseInt(recordDate.substring(5,7));
+                int date = Integer.parseInt(recordDate.substring(8,recordDate.length()));
                 ChartItem chartItem = new ChartItem(weight, year, month, date);
                 mWeightItems.add(chartItem);
             }

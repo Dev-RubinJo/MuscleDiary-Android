@@ -46,7 +46,7 @@ public class ChartService {
         });
     }
 
-    public void getWeekWeight(int date){
+    public void getWeekWeight(String date){
         final UserWeightRetrofitInterface userWeightRetorfitInterface = getRetrofit().create(UserWeightRetrofitInterface.class);
 
         userWeightRetorfitInterface.getWeekWeight(date).enqueue(new Callback<GetWeightResponse>() {
@@ -68,7 +68,7 @@ public class ChartService {
         });
     }
 
-    public void getMonthWeight(int date){
+    public void getMonthWeight(String date){
         final UserWeightRetrofitInterface userWeightRetorfitInterface = getRetrofit().create(UserWeightRetrofitInterface.class);
 
         userWeightRetorfitInterface.getMonthWeight(date).enqueue(new Callback<GetWeightResponse>() {
@@ -90,7 +90,7 @@ public class ChartService {
         });
     }
 
-    public void getYearWeight(int date){
+    public void getYearWeight(String date){
         final UserWeightRetrofitInterface userWeightRetorfitInterface = getRetrofit().create(UserWeightRetrofitInterface.class);
 
         userWeightRetorfitInterface.getYearWeight(date).enqueue(new Callback<GetWeightResponse>() {

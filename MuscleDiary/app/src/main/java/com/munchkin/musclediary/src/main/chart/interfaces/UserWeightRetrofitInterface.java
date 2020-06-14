@@ -15,11 +15,11 @@ public interface UserWeightRetrofitInterface {
     Call<PostWeightResponse> postWeight(@Body PostWeightRequest postWeightRequest);
 
     @GET("/user/weekly/weight")
-    Call<GetWeightResponse> getWeekWeight(@Query("weekDate")int weekDate);
+    Call<GetWeightResponse> getWeekWeight(@Query("weekDate")String weekDate);
 
     @GET("/user/monthly/weight")
-    Call<GetWeightResponse> getMonthWeight(@Query("monthDate")int monthDate);
+    Call<GetWeightResponse> getMonthWeight(@Query("monthDate")String monthDate);
 
     @GET("/user/yearly/weight")
-    Call<GetWeightResponse> getYearWeight(@Query("yearDate")int yearDate);
+    Call<GetWeightResponse> getYearWeight(@Query("yearDate")String yearDate);
 }
