@@ -27,7 +27,9 @@ import com.munchkin.musclediary.src.main.setting.dialog.KcalGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeeklyWeightGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
+import com.munchkin.musclediary.src.main.setting.dialog.WeightGoalActivity;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetGoalWeightResponse;
 import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
@@ -56,6 +58,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private final int CHANGE_KCAL = 8;
     private final int CHANGE_WEIGHT_GOAL = 9;
     private final int CHANGE_ACTIVITY_LEVEL = 10;
+    private final int CHANGE_GOAL_WEIGHT = 11;
 
     //프로필 변경 버튼
     private Button mBtGender;
@@ -64,6 +67,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private Button mBtWeight;
     private Button mBtLogout;
     private Button mBtActivity;
+    private Button mBtWeekWeight;
 
     //주간 체중목표버튼
     private Button mBtWeightGoal;
@@ -77,6 +81,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private ArrayList<SettingItem> mItems;
 
     //임시 프로필 저장 변수
+    private double mGoalWeight = 0;
     private double mHeight = 175.2;
     private double mWeight = 65.1;
     private String mBirth = "1996-06-03";
@@ -125,6 +130,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //주간 목표 체중 버튼
         mBtWeightGoal = v.findViewById(R.id.bt_week_weight);
         mBtWeightGoal.setOnClickListener(this);
+
+        //목표 체중 버튼
+        mBtWeekWeight = v.findViewById(R.id.bt_goal_weight);
+        mBtWeekWeight.setOnClickListener(this);
 
         //영양목표 비율 버튼
         mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
@@ -218,14 +227,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    //목표영양 비율 텍스트 변경하는 함수
-    private void changeRatio(){
-        //mRatio[0] = sSharedPreferences.getInt("carbohydrate", 0);
-        //mRatio[1] = sSharedPreferences.getInt("protein", 0);
-        //mRatio[2] = sSharedPreferences.getInt("fat", 0);
-        String ratioExample = mRatio[0] + ":" + mRatio[1] + ":" + mRatio[2];
-        mBtRatio.setText(ratioExample);
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -316,6 +317,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     }
 
                 }
+                break;
+
+            case CHANGE_GOAL_WEIGHT:
+                mGoalWeight = data.getDoubleExtra("goalWeight", 0);
+                mBtWeekWeight.setText(String.format("목표체중 - %.1fKG", mGoalWeight));
                 break;
 
             case CHANGE_ACTIVITY_LEVEL:
@@ -460,6 +466,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 startActivityForResult(weightIntent, CHANGE_WEIGHT);
                 break;
 
+            case R.id.bt_goal_weight:
+                Intent goalWeightIntent = new Intent(getActivity(), WeightGoalActivity.class);
+                goalWeightIntent.putExtra("goalWeight", mGoalWeight);
+                startActivityForResult(goalWeightIntent, CHANGE_GOAL_WEIGHT);
+                break;
+
             case R.id.bt_week_weight:
                 Intent weightgoalIntent = new Intent(getActivity(), WeeklyWeightGoalActivity.class);
                 weightgoalIntent.putExtra("weight_goal", mWeightGoal);
@@ -529,6 +541,18 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         settingService.postNutrition(carboRate, proteinRate, fatRate, goalCalorie);
     }
 
+    private void tryPostGoalWeight(Double weight){
+        showProgressDialog(getActivity());
+        final SettingService settingService = new SettingService(this);
+        settingService.postGoalWeight(weight);
+    }
+
+    private void tryGetGoalWeight(){
+        showProgressDialog(getActivity());
+        final SettingService settingService = new SettingService(this);
+        settingService.getGoalWeight();
+    }
+
 
     @Override
     public void updateProfileSuccess(int code, String message) {
@@ -559,6 +583,16 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         } else {
             setGoalNutrition(2024, 50, 30, 20);
         }
+        hideProgressDialog();
+    }
+
+    @Override
+    public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void postGoalWeightSuccess(int code, String message) {
         hideProgressDialog();
     }
 

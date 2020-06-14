@@ -3,9 +3,13 @@ package com.munchkin.musclediary.src.main.setting.services;
 import android.util.Log;
 
 import com.munchkin.musclediary.src.main.setting.interfaces.GoalNutritionRetrofitInterface;
+import com.munchkin.musclediary.src.main.setting.interfaces.GoalWeightRetrofitInterface;
 import com.munchkin.musclediary.src.main.setting.interfaces.ProfileRetrofitInterface;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetGoalWeightResponse;
 import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
+import com.munchkin.musclediary.src.main.setting.models.PostGoalWeightRequest;
+import com.munchkin.musclediary.src.main.setting.models.PostGoalWeightResponse;
 import com.munchkin.musclediary.src.main.setting.models.PostNutritionRequest;
 import com.munchkin.musclediary.src.main.setting.models.PostNutritionResponse;
 import com.munchkin.musclediary.src.main.setting.models.ProfileResponse;
@@ -115,6 +119,50 @@ public class SettingService {
 
             @Override
             public void onFailure(Call<PostNutritionResponse> call, Throwable t) {
+                mSettingFragmentView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void getGoalWeight(){
+        final GoalWeightRetrofitInterface goalWeightRetrofitInterface = getRetrofit().create(GoalWeightRetrofitInterface.class);
+        goalWeightRetrofitInterface.getGoalWeight().enqueue(new Callback<GetGoalWeightResponse>() {
+            @Override
+            public void onResponse(Call<GetGoalWeightResponse> call, Response<GetGoalWeightResponse> response) {
+                final GetGoalWeightResponse getGoalWeightResponse = response.body();
+                if (getGoalWeightResponse == null) {
+                    mSettingFragmentView.validateFailure("null");
+                    return;
+                }
+                mSettingFragmentView.getGoalWeightSuccess(getGoalWeightResponse.getCode(),
+                        getGoalWeightResponse.getMessage(),
+                        getGoalWeightResponse.getResult().get(0));
+            }
+            @Override
+            public void onFailure(Call<GetGoalWeightResponse> call, Throwable t) {
+                mSettingFragmentView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void postGoalWeight(Double weight) {
+        final GoalWeightRetrofitInterface goalWeightRetrofitInterface = getRetrofit().create(GoalWeightRetrofitInterface.class);
+
+        goalWeightRetrofitInterface.postGoalWeight(new PostGoalWeightRequest(weight)).enqueue(new Callback<PostGoalWeightResponse>() {
+            @Override
+            public void onResponse(Call<PostGoalWeightResponse> call, Response<PostGoalWeightResponse> response) {
+                final PostGoalWeightResponse postGoalWeightResponse = response.body();
+                if (postGoalWeightResponse == null) {
+                    mSettingFragmentView.validateFailure("null");
+                    return;
+                }
+
+                mSettingFragmentView.postGoalWeightSuccess(postGoalWeightResponse.getCode(),
+                        postGoalWeightResponse.getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<PostGoalWeightResponse> call, Throwable t) {
                 mSettingFragmentView.validateFailure("fail");
             }
         });

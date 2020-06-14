@@ -136,6 +136,7 @@
             android:textStyle="bold"/>
 
         <TextView
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/tv_start_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -143,6 +144,7 @@
             android:text="시작체중 - 60Kg"
             android:textSize="18sp"/>
         <TextView
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/tv_now_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,8 +152,9 @@
             android:gravity="center"
             android:text="현재체중 - 62Kg"
             android:textSize="18sp"/>
-        <TextView
-            android:id="@+id/tv_goal_weight"
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/bt_goal_weight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
