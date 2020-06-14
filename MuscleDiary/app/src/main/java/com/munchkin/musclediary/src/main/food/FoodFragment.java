@@ -65,6 +65,9 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     private TextView mTvProteinGram;
     private TextView mTvFatGram;
 
+    //단백질 부족에 대한 홍보 문구
+    private TextView mTvWarningProtein;
+
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbCarbo;
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbProtein;
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbFat;
@@ -145,6 +148,9 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mTvProteinGram = v.findViewById(R.id.fragment_food_tv_str_protein_left);
         mTvFatGram = v.findViewById(R.id.fragment_food_tv_str_fat_left);
 
+        //문구 등록
+        mTvWarningProtein = v.findViewById(R.id.fragment_food_tv_str_protein_warning);
+
         progressBarUpdate();
     }
 
@@ -182,18 +188,22 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     public void progressBarUpdate(){
+        //progressbar 초기화
         mPbCarbo.setProgress(0);
         mPbProtein.setProgress(0);
         mPbFat.setProgress(0);
 
+        //기존에 저장되어있는 목표 그램수 받아오기
         mGoalCarboGram = sSharedPreferences.getInt("carbohydrateGram",0);
         mGoalProteinGram = sSharedPreferences.getInt("proteinGram",0);
         mGoalFatGram = sSharedPreferences.getInt("fatGram",0);
 
+        //먹은 그램수 초기화
         mEatenCarboGram = 0;
         mEatenProteinGram = 0;
         mEatenFatGram = 0;
 
+        //먹은 그램수 새로 누적
         for (int i = 0; i<mMealitems.size(); i++){
             for (int j = 0; j<mMealitems.get(i).getMenuItemList().size(); j++) {
                 MenuItem thisItem = mMealitems.get(i).getMenuItemList().get(j);
@@ -204,10 +214,12 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
 
         }
 
+        //text 설정
         mTvCarboGram.setText(mEatenCarboGram+"/"+mGoalCarboGram+"g");
         mTvProteinGram.setText(mEatenProteinGram+"/"+mGoalProteinGram+"g");
         mTvFatGram.setText(mEatenFatGram+"/"+ mGoalFatGram +"g");
 
+        //progressbar 퍼센트에 따른 변경
         if(mGoalFatGram!=0){
             float percent = ((float)mEatenFatGram/ (float)mGoalFatGram *100);
             mPbFat.setProgress(percent);
@@ -222,6 +234,8 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
             float percent = ((float)mEatenCarboGram/(float)mGoalCarboGram*100);
             mPbCarbo.setProgress(percent);
         }
+
+        mTvWarningProtein.setText("일일 목표 단백질 섭취까지 "+(mGoalProteinGram-mEatenProteinGram)+"g 남았습니다.\n단백질 쉐이크로 간편하게 채워보세요");
 
     }
 

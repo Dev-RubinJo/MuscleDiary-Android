@@ -289,6 +289,7 @@
             android:layout_marginBottom="10dp">
 
             <TextView
+                android:id="@+id/fragment_food_tv_str_protein_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
