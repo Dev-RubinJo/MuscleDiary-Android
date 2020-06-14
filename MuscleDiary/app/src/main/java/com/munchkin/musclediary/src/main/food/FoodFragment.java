@@ -2,6 +2,7 @@ package com.munchkin.musclediary.src.main.food;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,17 +209,17 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mTvFatGram.setText(mEatenFatGram+"/"+ mGoalFatGram +"g");
 
         if(mGoalFatGram!=0){
-            int percent = (mEatenFatGram/mGoalFatGram)*100;
+            float percent = ((float)mEatenFatGram/ (float)mGoalFatGram *100);
             mPbFat.setProgress(percent);
         }
 
         if(mGoalProteinGram!=0) {
-            int percent = (mEatenProteinGram/mGoalProteinGram)*100;
+            float percent = ((float)mEatenProteinGram/(float)mGoalProteinGram*100);
             mPbProtein.setProgress(percent);
         }
 
         if(mGoalCarboGram!=0){
-            int percent = (mEatenCarboGram/mGoalCarboGram)*100;
+            float percent = ((float)mEatenCarboGram/(float)mGoalCarboGram*100);
             mPbCarbo.setProgress(percent);
         }
 
