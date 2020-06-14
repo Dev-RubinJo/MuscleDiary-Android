@@ -270,6 +270,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
 
                 mBtHeight.setText(String.format("%.1fCM", mHeight));
+                Log.d("testLog", mHeight+"");
                 updateProfile();
                 break;
 
