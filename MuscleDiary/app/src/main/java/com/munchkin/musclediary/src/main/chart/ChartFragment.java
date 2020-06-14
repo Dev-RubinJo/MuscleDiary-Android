@@ -108,8 +108,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         // 맨 아래 주석에 적어둔 대로 메서드 만들어서 리스트 생성하고 리턴받아서 넣는 플로우 생성하기
         mWeightList = new ArrayList<>();
         mFatList = new ArrayList<>();
-        Calendar c = Calendar.getInstance();
-        tryGetWeight(getRecordDate(c.get(Calendar.DATE)));
+        final Calendar c = Calendar.getInstance();
+        tryGetWeight(getRecordDate(c.get(Calendar.DAY_OF_MONTH)));
+        Log.d("testtest", c.get(Calendar.DAY_OF_MONTH)+"");
+
     }
 
     // 그래프 세팅 메서드
@@ -347,15 +349,15 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         switch (mTerm){
             case 0:
-                if(today > 0 && today < 8){
+                if(today > 0 && today <= 8){
                     calendar.set(Calendar.DATE, 1);
-                } else if(today >=8 && today < 15){
+                } else if(today >8 && today <= 15){
                     calendar.set(Calendar.DATE, 8);
-                } else if(today >= 15 && today < 22){
+                } else if(today > 15 && today <= 22){
                     calendar.set(Calendar.DATE, 15);
-                } else if(today >= 22 && today < 29){
+                } else if(today > 22 && today <= 29){
                     calendar.set(Calendar.DATE, 22);
-                }else if(today >= 29){
+                }else if(today > 29){
                     calendar.set(Calendar.DATE, 29);
                 }
                 recordDate = dateFormat.format(calendar.getTime());
@@ -384,6 +386,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void tryGetWeight(String date){
         showProgressDialog(getActivity());
         final ChartService chartService = new ChartService(this);
+        Log.d("testtest", mTerm+"");
         switch (mTerm){
             case 0:
                 chartService.getWeekWeight(date);
@@ -413,9 +416,10 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
                 ChartItem chartItem = new ChartItem(weight, year, month, date);
                 mWeightItems.add(chartItem);
             }
-            mAdapter.notifyDataSetChanged();
-            addWeightData(mTerm, mWeightItems);
+
         }
+        mAdapter.notifyDataSetChanged();
+        addWeightData(mTerm, mWeightItems);
 
         hideProgressDialog();
     }
