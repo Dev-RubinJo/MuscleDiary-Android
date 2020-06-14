@@ -164,7 +164,7 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
     //그램 shared에 등록하는 함수
     private int getFinalGram(int ratio, int gramRatio){
         int totalKcal = getIntent().getIntExtra("kcal", 0);
-        int kcal = totalKcal * ratio * 5 / 100;
+        int kcal = totalKcal * ratio  / 100;
         int gram = kcal/gramRatio;
         return gram;
     }
@@ -205,8 +205,8 @@ public class RatioGoalActivity extends BaseActivity implements View.OnClickListe
                     intent.putExtra("protein", mRateoArray[1]);
                     intent.putExtra("fat", mRateoArray[2]);
                     mEditor.putInt("carbohydrateGram",getFinalGram(mRateoArray[0],4));
-                    mEditor.putInt("proteinGram",getFinalGram(mRateoArray[0],4));
-                    mEditor.putInt("fatGram",getFinalGram(mRateoArray[0],9));
+                    mEditor.putInt("proteinGram",getFinalGram(mRateoArray[1],4));
+                    mEditor.putInt("fatGram",getFinalGram(mRateoArray[2],9));
                     mEditor.commit();
                     setResult(RESULT_OK, intent);
                     finish();
