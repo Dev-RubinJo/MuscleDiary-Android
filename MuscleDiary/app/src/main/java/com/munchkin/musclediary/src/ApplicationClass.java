@@ -20,7 +20,7 @@ public class ApplicationClass extends Application {
     public static MediaType MEDIA_TYPE_JPEG = MediaType.parse("image/jpeg");
 
     // 서버 API주소(ec2 주소)
-    public static String BASE_URL = "http://13.209.37.229/";
+    public static String BASE_URL = "http://ec2-13-125-224-218.ap-northeast-2.compute.amazonaws.com";
 
     public static SharedPreferences sSharedPreferences = null;
 

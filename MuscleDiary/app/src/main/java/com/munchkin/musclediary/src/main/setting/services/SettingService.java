@@ -1,12 +1,13 @@
 package com.munchkin.musclediary.src.main.setting.services;
 
+import com.munchkin.musclediary.src.main.setting.interfaces.ProfileRetrofitInterface;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.ProfileResponse;
 import com.munchkin.musclediary.src.main.setting.models.UpdateProfileRequest;
 import com.munchkin.musclediary.src.main.setting.models.UpdateProfileResponse;
 import com.munchkin.musclediary.src.main.setting.interfaces.UpdateProfileRetrofitInterface;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,12 +34,36 @@ public class SettingService {
                     return;
                 }
 
-                mSettingFragmentView.validateSuccess(updateProfileResponse.getCode(),
+                mSettingFragmentView.updateProfileSuccess(updateProfileResponse.getCode(),
                         updateProfileResponse.getMessage());
             }
 
             @Override
             public void onFailure(Call<UpdateProfileResponse> call, Throwable t) {
+                mSettingFragmentView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void getProfile(){
+        final ProfileRetrofitInterface profileRetrofitInterface = getRetrofit().create(ProfileRetrofitInterface.class);
+
+        profileRetrofitInterface.getProfile().enqueue(new Callback<ProfileResponse>() {
+            @Override
+            public void onResponse(Call<ProfileResponse> call, Response<ProfileResponse> response) {
+                final ProfileResponse profileResponse = response.body();
+                if (profileResponse == null) {
+                    mSettingFragmentView.validateFailure("null");
+                    return;
+                }
+
+                mSettingFragmentView.profileSuccess(profileResponse.getCode(),
+                        profileResponse.getMessage(),
+                        profileResponse.getResult());
+            }
+
+            @Override
+            public void onFailure(Call<ProfileResponse> call, Throwable t) {
                 mSettingFragmentView.validateFailure("fail");
             }
         });

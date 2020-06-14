@@ -28,11 +28,13 @@ import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeeklyWeightGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
 import com.munchkin.musclediary.src.signin.SignInActivity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
@@ -157,19 +159,28 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mSettintAdapter = new SettingAdapter(getContext(), mItems);
         chartRecyclerView.setAdapter(mSettintAdapter);
 
-        setProfile();
+        tryGetProfile();
     }
 
-    private void setProfile(){
+    private void setProfile(ProfileResult profile){
+        mHeight = profile.getHeight();
+        mWeight = profile.getWeight();
+
+        /*NOTE 나중에 회원가입 때 받아서 입력 되면 수정
+        Date birth = profile.getBirth();
+        SimpleDateFormat dateToStringForm = new SimpleDateFormat("yyyy-MM-dd");
+        String dateToString = dateToStringForm.format(birth); */
+        mGender = profile.getGender();
+
         mBtHeight.setText(String.format("%sCM", mHeight));
         mBtWeight.setText(String.format("%sKG", mWeight));
-        mBtAge.setText("1996-06-03");
+        mBtAge.setText("1997-12-10");
         mBtGender.setText(mGender == 1 ? "남성" : "여성");
 
         editor.putLong("height",Double.doubleToRawLongBits(mHeight));
         editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
-        editor.putString("birth","1996-06-03");
-        editor.putInt("gender",1);
+        editor.putString("birth","1997-12-10");
+        editor.putInt("gender",mGender);
         editor.apply();
     }
 
@@ -487,9 +498,23 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         settingService.postUpdateProfile(height, weight, gender, birth);
     }
 
+    private void tryGetProfile(){
+        showProgressDialog(getActivity());
+        SettingService settingService = new SettingService(this);
+        settingService.getProfile();
+    }
+
+
     @Override
-    public void validateSuccess(int code, String message) {
+    public void updateProfileSuccess(int code, String message) {
         showCustomToast("프로필 변경에 성공했습니다.");
+        hideProgressDialog();
+    }
+
+    @Override
+    public void profileSuccess(int code, String message, ArrayList<ProfileResult> profileResult) {
+        showCustomToast("프로필 불러오기에 성공했습니다.");
+        setProfile(profileResult.get(0));
         hideProgressDialog();
     }
 
