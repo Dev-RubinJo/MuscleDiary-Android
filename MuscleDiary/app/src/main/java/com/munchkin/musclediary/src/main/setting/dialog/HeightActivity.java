@@ -68,7 +68,7 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.bt_select_height_setting:
                 Intent intent = new Intent();
-                double height = mIntPicker.getValue() + (mFloatPicker.getValue() * 0.1);
+                double height = (mIntPicker.getValue()*1.0) + (mFloatPicker.getValue() * 0.1);
                 intent.putExtra("height", height);
                 setResult(RESULT_OK, intent);
                 finish();

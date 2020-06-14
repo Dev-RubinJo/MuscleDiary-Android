@@ -66,7 +66,7 @@ public class WeightActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.bt_select_weight:
                 Intent intent = new Intent();
-                double weight = mIntPicker.getValue() + (mFloatPicker.getValue() * 0.1);
+                double weight = (mIntPicker.getValue()*1.0) + (mFloatPicker.getValue() * 0.1);
                 intent.putExtra("weight", weight);
                 setResult(RESULT_OK, intent);
                 finish();

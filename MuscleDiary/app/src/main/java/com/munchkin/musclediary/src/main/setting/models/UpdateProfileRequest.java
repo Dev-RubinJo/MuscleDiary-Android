@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
 
 public class UpdateProfileRequest {
-    public UpdateProfileRequest(Double height, Double weight, int gender, Date birth) {
+    public UpdateProfileRequest(Double height, Double weight, int gender, String birth) {
         this.height = height;
         this.weight = weight;
         this.gender = gender;
         this.birth = birth;
     }
     @SerializedName("birth")
-    private Date birth;
+    private String birth;
 
     @SerializedName("height")
     private Double height;
