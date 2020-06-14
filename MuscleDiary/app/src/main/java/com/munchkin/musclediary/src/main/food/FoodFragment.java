@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.food;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -74,14 +76,14 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbProtein;
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbFat;
 
+    //그램수 계산을 위한 shared preference
+    SharedPreferences.Editor mEditor = sSharedPreferences.edit();
+
     //캘린더 설정, 날짜 형식 설정
     private MaterialCalendarView mCalendarView;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     //현재 날짜 가져오기
     private Date currentTime = Calendar.getInstance().getTime();
-
-    //그램수 계산을 위한 shared preference
-    SharedPreferences.Editor mEditor = sSharedPreferences.edit();
 
     public void onClick(View v) {
         switch (v.getId()) {
@@ -97,14 +99,33 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_food, container, false);
         setComponentView(view);
+        Log.d("life","food onCreatedView enter");
 
         return view;
     }
 
     @Override
-    public void onDestroyView(){
-        super.onDestroyView();
-        //Log.d("life","onDestroyView enter");
+    public void onStart() {
+        super.onStart();
+
+        Log.d("life","food onStart enter");
+
+//        if(sSharedPreferences.getInt("kcal", 0) != mGoalKcal && mGoalKcal != 0){
+//            mGoalKcal = sSharedPreferences.getInt("kcal", 0);
+//            mTvGoalKcal.setText(mGoalKcal);
+//        }
+        //NOTE 내생각엔 처음에 완전 아무것도 없을때 뭔가 하려고 했는데 없어도 무방
+//        if(sSharedPreferences.getInt("carbohydrateGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
+//                sSharedPreferences.getInt("proteinGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
+//                sSharedPreferences.getInt("fatGram",0) != mGoalCarboGram && mGoalCarboGram != 0){
+//            mGoalCarboGram = sSharedPreferences.getInt("carbohydrateGram",0);
+//            mGoalProteinGram = sSharedPreferences.getInt("proteinGram",0);
+//            mGoalFatGram = sSharedPreferences.getInt("fatGram",0);
+//
+//            progressBarUpdate();
+//        }
+        //무조건 얘는 불러와야 함
+        progressBarUpdate();
     }
 
     // 생성될 음식 프레그먼트에 대한 컴포넌트 세팅
@@ -129,6 +150,9 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
         mCalendarView.setOnDateChangedListener(this);
         mCalendarView.setDateSelected(currentTime,true);
+        final String todayText = String.format(DATE_FORMAT.format(currentTime));
+        mEditor.putString("recordDate", todayText);
+        mEditor.apply();
 
         //목표 칼로리 텍스트뷰 생성
         mTvGoalKcal = v.findViewById(R.id.fragment_food_tv_goal_cal);
@@ -152,30 +176,10 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
 
         //문구 등록
         mTvWarningProtein = v.findViewById(R.id.fragment_food_tv_str_protein_warning);
-
-        progressBarUpdate();
     }
 
-    @Override
-    public void onStart() {
-        if(sSharedPreferences.getInt("kcal", 0) != mGoalKcal && mGoalKcal != 0){
-            mGoalKcal = sSharedPreferences.getInt("kcal", 0);
-            mTvGoalKcal.setText(mGoalKcal);
-        }
-        if(sSharedPreferences.getInt("carbohydrateGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
-                sSharedPreferences.getInt("proteinGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
-                sSharedPreferences.getInt("fatGram",0) != mGoalCarboGram && mGoalCarboGram != 0){
-            mGoalCarboGram = sSharedPreferences.getInt("carbohydrateGram",0);
-            mGoalProteinGram = sSharedPreferences.getInt("proteinGram",0);
-            mGoalFatGram = sSharedPreferences.getInt("fatGram",0);
-
-            progressBarUpdate();
-        }
-        super.onStart();
-    }
-
+    //메뉴추가시, mealItem 업데이트
     public void onCompleteMenuSelect(ArrayList<MenuItem> menuAddList, String mealTitle){
-
         for(int i=0; i<4; i++){
             if(mMealitems.get(i).getMealTitle().equals(mealTitle)){
                 for(int j=0; j<menuAddList.size(); j++){
@@ -189,6 +193,7 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mMealAdapter.notifyDataSetChanged();
     }
 
+    //프로그레스바 업데이트
     public void progressBarUpdate(){
         //progressbar 초기화
         mPbCarbo.setProgress(0);
@@ -248,11 +253,10 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         }
 
         mTvWarningProtein.setText("일일 목표 단백질 섭취까지 "+(mGoalProteinGram-mEatenProteinGram)+"g 남았습니다.\n단백질 쉐이크로 간편하게 채워보세요");
-
     }
 
-    public void kcalUpdate(){
-        //총 칼로리 수정
+    //총 칼로리 업데이트트
+   public void kcalUpdate(){
         mEatenKcal = 0.0;
         mLeftKcal = 0.0;
 
@@ -277,8 +281,8 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
 
     }
 
+    //아침 점심 저녁 기타 끼니란을 입력
     private void initMealList(){
-
         String titleList[] = {"아침","점심","저녁","기타"};
         double kcalList[] = {0.0,0.0,0.0,0.0};
         ArrayList<MenuItem> menuItemsEmptyOne = new ArrayList<>();
@@ -310,7 +314,10 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     //캘린더
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        final String text = String.format("Date"+DATE_FORMAT.format(date.getDate()));
-        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
+        mEditor.putString("recordDate", selectedDay);
+        mEditor.apply();
+        //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+
     }
 }

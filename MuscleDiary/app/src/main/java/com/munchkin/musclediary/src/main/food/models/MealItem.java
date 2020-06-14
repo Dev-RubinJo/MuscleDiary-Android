@@ -1,8 +1,9 @@
 package com.munchkin.musclediary.src.main.food.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MealItem {
+public class MealItem implements Serializable {
 
     private String mealTitle;
     private double mealTotalCalories;

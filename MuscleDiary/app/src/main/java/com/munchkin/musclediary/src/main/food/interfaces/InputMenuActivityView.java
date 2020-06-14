@@ -6,6 +6,7 @@ import com.munchkin.musclediary.src.signin.models.SignInResponse;
 import java.util.ArrayList;
 
 public interface InputMenuActivityView {
-    void validateSuccess(int code, String message, ArrayList<FoodResult> result);
+    void searchFoodListSuccess(int code, String message, ArrayList<FoodResult> result);
+    void addFoodSuccess(int code, String message);
     void validateFailure(String message);
 }

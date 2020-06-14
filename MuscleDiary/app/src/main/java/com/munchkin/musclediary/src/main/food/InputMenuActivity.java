@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +23,14 @@ import com.munchkin.musclediary.src.main.food.adapter.MenuResultAdapter;
 import com.munchkin.musclediary.src.main.food.adapter.SelectedMenuAdapter;
 import com.munchkin.musclediary.src.main.food.interfaces.InputMenuActivityView;
 import com.munchkin.musclediary.src.main.food.interfaces.ResultMenuItemClickListener;
+import com.munchkin.musclediary.src.main.food.models.FoodAddRequest;
 import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
 
 import java.util.ArrayList;
+
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
 public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
 
@@ -41,6 +46,10 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
     //선택한 메뉴를 담을 리스트
     ArrayList<MenuItem> mClickedMenuItem;
     MenuItem mSelectedItem;
+
+    //입력할 날짜와 끼니타입변수
+    String mRecordDate;
+    int mMealType;
 
     ResultMenuItemClickListener mResultMenuItemClickListener = new ResultMenuItemClickListener() {
         @Override
@@ -67,6 +76,22 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         //인텐트 받아오기 (끼니 제목)
         Intent getIntent = getIntent();
         mMealTitle = getIntent.getStringExtra("mealTitle");
+        mRecordDate = sSharedPreferences.getString("recordDate","1999-12-31");
+
+        switch (mMealTitle){
+            case "아침":
+                mMealType=1;
+                break;
+            case "점심":
+                mMealType=2;
+                break;
+            case "저녁":
+                mMealType=3;
+                break;
+            case "기타":
+                mMealType=4;
+                break;
+        }
 
         //선택한 아이템을 담을 리스트와 객체 생성
         mClickedMenuItem = new ArrayList<MenuItem>();
@@ -133,24 +158,17 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         inputMenuService.getFoodList(keyword);
     }
 
-    @Override
-    public void validateSuccess(int code, String message, ArrayList<FoodResult> result) {
-        //성공했을 때만 리스트에 적용(code == 102)
-        if(code == 102){
-            mMenuItems.clear();
-            for(FoodResult item : result){
-                MenuItem menuItem = new MenuItem(item);
-                mMenuItems.add(menuItem);
-            }
-            mMenuResultAdapter.notifyDataSetChanged();
-        }
-        hideProgressDialog();
-    }
+    private void tryAddFood(){
+        InputMenuService inputMenuService = new InputMenuService(this);
+        for(int i=0;i<mClickedMenuItem.size();i++){
+            MenuItem menuItem = mClickedMenuItem.get(i);
 
-    @Override
-    public void validateFailure(String message) {
-        showCustomToast(message);
-        hideProgressDialog();
+            FoodAddRequest foodAddRequest = new FoodAddRequest(menuItem.getFoodName(),
+                    menuItem.getCalorie(),menuItem.getCarbohydrate(),menuItem.getProtein(),
+                    menuItem.getFat(),mRecordDate,mMealType,menuItem.getServing(),menuItem.getFoodRegion());
+            inputMenuService.postAddFood(foodAddRequest);
+        }
+        Toast.makeText(getApplicationContext(),"음식이 추가 되었습니다",Toast.LENGTH_SHORT).show();
     }
 
     private void addEditiorActionListener(){
@@ -187,6 +205,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
                 break;
 
             case R.id.input_menu_btn_complete:
+                tryAddFood();
                 Intent backToMainActivity = new Intent();
                 backToMainActivity.putExtra("selectedMenu",mClickedMenuItem);
                 backToMainActivity.putExtra("mealTitle",mMealTitle);
@@ -204,4 +223,31 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         mClickedMenuItem.add(clickedItem);
         startActivityForResult(intentSending,3000);
     }
+
+    @Override
+    public void searchFoodListSuccess(int code, String message, ArrayList<FoodResult> result) {
+        //성공했을 때만 리스트에 적용(code == 102)
+        if(code == 102){
+            mMenuItems.clear();
+            for(FoodResult item : result){
+                MenuItem menuItem = new MenuItem(item);
+                mMenuItems.add(menuItem);
+            }
+            mMenuResultAdapter.notifyDataSetChanged();
+        }
+        hideProgressDialog();
+    }
+
+    @Override
+    public void addFoodSuccess(int code, String message) {
+        Log.d("jooan", message);
+    }
+
+    @Override
+    public void validateFailure(String message) {
+        showCustomToast(message);
+        hideProgressDialog();
+    }
+
+
 }

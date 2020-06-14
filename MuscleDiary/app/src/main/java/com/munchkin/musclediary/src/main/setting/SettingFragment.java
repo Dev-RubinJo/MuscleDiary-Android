@@ -98,6 +98,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private int mKcal = 2024;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        tryGetProfile();
+        tryGetNutrition();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_setting, container, false);
         setComponentView(view);
@@ -169,9 +177,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //리사이클러뷰 어뎁터 생성, 적용
         mSettintAdapter = new SettingAdapter(getContext(), mItems);
         chartRecyclerView.setAdapter(mSettintAdapter);
-
-        tryGetProfile();
-        tryGetNutrition();
     }
 
     private void setProfile(ProfileResult profile){
