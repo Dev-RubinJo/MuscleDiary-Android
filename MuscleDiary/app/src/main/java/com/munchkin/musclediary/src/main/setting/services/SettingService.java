@@ -1,7 +1,13 @@
 package com.munchkin.musclediary.src.main.setting.services;
 
+import android.util.Log;
+
+import com.munchkin.musclediary.src.main.setting.interfaces.GoalNutritionRetrofitInterface;
 import com.munchkin.musclediary.src.main.setting.interfaces.ProfileRetrofitInterface;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
+import com.munchkin.musclediary.src.main.setting.models.PostNutritionRequest;
+import com.munchkin.musclediary.src.main.setting.models.PostNutritionResponse;
 import com.munchkin.musclediary.src.main.setting.models.ProfileResponse;
 import com.munchkin.musclediary.src.main.setting.models.UpdateProfileRequest;
 import com.munchkin.musclediary.src.main.setting.models.UpdateProfileResponse;
@@ -64,6 +70,51 @@ public class SettingService {
 
             @Override
             public void onFailure(Call<ProfileResponse> call, Throwable t) {
+                mSettingFragmentView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void getNutrition(){
+        final GoalNutritionRetrofitInterface goalNutritionRetrofitInterface = getRetrofit().create(GoalNutritionRetrofitInterface.class);
+        goalNutritionRetrofitInterface.getNutrition().enqueue(new Callback<GetNutritionResponse>() {
+            @Override
+            public void onResponse(Call<GetNutritionResponse> call, Response<GetNutritionResponse> response) {
+                final GetNutritionResponse getNutritionResponse = response.body();
+                if (getNutritionResponse == null) {
+                    mSettingFragmentView.validateFailure("null");
+                    return;
+                }
+                Log.d("inTest", getNutritionResponse.getMessage());
+                mSettingFragmentView.getNutritionSuccess(getNutritionResponse.getCode(),
+                        getNutritionResponse.getMessage(),
+                        getNutritionResponse.getResult().get(0));
+            }
+            @Override
+            public void onFailure(Call<GetNutritionResponse> call, Throwable t) {
+                mSettingFragmentView.validateFailure("fail");
+            }
+        });
+    }
+
+    public void postNutrition(int carboRate, int proteinRate, int fatRate, int goalCalorie) {
+        final GoalNutritionRetrofitInterface goalNutritionRetrofitInterface = getRetrofit().create(GoalNutritionRetrofitInterface.class);
+
+        goalNutritionRetrofitInterface.postNutrition(new PostNutritionRequest(carboRate, proteinRate, fatRate, goalCalorie)).enqueue(new Callback<PostNutritionResponse>() {
+            @Override
+            public void onResponse(Call<PostNutritionResponse> call, Response<PostNutritionResponse> response) {
+                final PostNutritionResponse postNutritionResponse = response.body();
+                if (postNutritionResponse == null) {
+                    mSettingFragmentView.validateFailure("null");
+                    return;
+                }
+
+                mSettingFragmentView.updateProfileSuccess(postNutritionResponse.getCode(),
+                        postNutritionResponse.getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<PostNutritionResponse> call, Throwable t) {
                 mSettingFragmentView.validateFailure("fail");
             }
         });

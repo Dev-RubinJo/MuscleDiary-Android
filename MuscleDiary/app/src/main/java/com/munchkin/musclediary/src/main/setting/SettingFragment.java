@@ -28,6 +28,7 @@ import com.munchkin.musclediary.src.main.setting.dialog.RatioGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeeklyWeightGoalActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
 import com.munchkin.musclediary.src.signin.SignInActivity;
@@ -78,7 +79,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     //임시 프로필 저장 변수
     private double mHeight = 175.2;
     private double mWeight = 65.1;
-    private int mAge = 25;
+    private String mBirth = "1996-06-03";
     private int mGender = 1;
     private int mWeightGoal = 3;
     private int mActivityLevel = 3;
@@ -128,13 +129,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         //영양목표 비율 버튼
         mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
         mBtRatio.setOnClickListener(this);
-        changeRatio();
+        //changeRatio();
 
         //영양목표 칼로리 버튼
         mBtKcal = v.findViewById(R.id.bt_kcal_setting);
         mBtKcal.setOnClickListener(this);
-        mKcal = sSharedPreferences.getInt("kcal", 0);
-        mBtKcal.setText(mKcal + "kcal");
+        //mKcal = sSharedPreferences.getInt("kcal", 0);
+        //mBtKcal.setText(mKcal + "kcal");
 
         //로그아웃 버튼
         mBtLogout = v.findViewById(R.id.bt_logout);
@@ -160,6 +161,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         chartRecyclerView.setAdapter(mSettintAdapter);
 
         tryGetProfile();
+        tryGetNutrition();
     }
 
     private void setProfile(ProfileResult profile){
@@ -184,13 +186,24 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         editor.apply();
     }
 
+    private void setGoalNutrition(int kcal, int carboRate, int proteinRate, int fatRate){
+        mKcal = kcal;
+        Log.d("testtest", mKcal+"");
+        mBtKcal.setText(String.format("%dKCAL", kcal));
+
+        mRatio[0] = carboRate;
+        mRatio[1] = proteinRate;
+        mRatio[2] = fatRate;
+        mBtRatio.setText(String.format("%d:%d:%d", carboRate, proteinRate, fatRate));
+    }
+
     //한번에 실행시키기 위한 함수
     private void updateProfile(){
         Double newHeight = Double.valueOf(sSharedPreferences.getLong("height",0));
         Double newWeight = Double.valueOf(sSharedPreferences.getLong("weight",0));
         Date newBirth = Date.valueOf(sSharedPreferences.getString("birth","1997-12-10"));
         int newGender = sSharedPreferences.getInt("gender",1);
-        tryPostUpdateProfile(newHeight,newWeight,newGender,newBirth);
+        tryPostUpdateProfile(mHeight,mWeight,mGender,Date.valueOf(mBirth));
     }
 
     //리사이클러뷰 리스트 아이템 채우는 함수
@@ -257,6 +270,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case CHANGE_AGE:
                 //생년월일 변경했을 때 코드
                 String newBirth = data.getStringExtra("age");
+                mBirth = newBirth;
                 mBtAge.setText(newBirth);
                 editor.putString("birth",newBirth);
 
@@ -270,7 +284,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
 
                 mBtHeight.setText(String.format("%.1fCM", mHeight));
-                Log.d("testLog", mHeight+"");
                 updateProfile();
                 break;
 
@@ -290,7 +303,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case CHANGE_WEIGHT_GOAL:
                 if(data.getIntExtra("weight_goal", 0) != 0){
                     mWeightGoal = data.getIntExtra("weight_goal", 0);
-                    Log.d("test", Integer.toString(mWeightGoal));
                     if(mWeightGoal == 1){
                         mBtWeightGoal.setText("주간목표 - 주당 0.5kg 감량");
                     }else if(mWeightGoal == 2){
@@ -310,7 +322,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case CHANGE_ACTIVITY_LEVEL:
                 if(data.getIntExtra("activity_level", 0) != 0){
                     mActivityLevel = data.getIntExtra("activity_level", 0);
-                    Log.d("test", Integer.toString(mActivityLevel));
                     switch (mActivityLevel) {
                         case 1:
                             mBtActivity.setText("사무직(아주 약간의 운동)");
@@ -505,6 +516,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         settingService.getProfile();
     }
 
+    private void tryGetNutrition(){
+        showProgressDialog(getActivity());
+        final SettingService settingService = new SettingService(this);
+        settingService.getNutrition();
+    }
+
 
     @Override
     public void updateProfileSuccess(int code, String message) {
@@ -516,6 +533,22 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     public void profileSuccess(int code, String message, ArrayList<ProfileResult> profileResult) {
         showCustomToast("프로필 불러오기에 성공했습니다.");
         setProfile(profileResult.get(0));
+        hideProgressDialog();
+    }
+
+    @Override
+    public void postNutritionSuccess(int code, String message) {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) {
+        Log.d("inTest", message);
+        if(code == 102){
+            setGoalNutrition(result.getGoalCalorie(), result.getCarboRate(), result.getProteinRate(), result.getFatRate());
+        } else {
+            setGoalNutrition(2024, 50, 30, 20);
+        }
         hideProgressDialog();
     }
 
