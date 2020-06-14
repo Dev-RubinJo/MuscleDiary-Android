@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
+import static com.munchkin.musclediary.src.ApplicationClass.X_ACCESS_TOKEN;
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
 
@@ -502,6 +503,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
             case R.id.bt_logout:
 
+                X_ACCESS_TOKEN = "X_ACCESS_TOKEN";
+                editor.putBoolean("isSignIn",false);
+                editor.commit();
                 Intent i = new Intent( getContext() , SignInActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
