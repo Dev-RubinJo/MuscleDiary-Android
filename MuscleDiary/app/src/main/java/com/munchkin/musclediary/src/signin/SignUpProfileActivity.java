@@ -20,6 +20,7 @@ import com.munchkin.musclediary.src.main.setting.dialog.GenderActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.HeightActivity;
 import com.munchkin.musclediary.src.main.setting.dialog.WeightActivity;
 import com.munchkin.musclediary.src.main.setting.interfaces.SettingFragmentView;
+import com.munchkin.musclediary.src.main.setting.models.GetGoalWeightResponse;
 import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
@@ -220,6 +221,13 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     public void postNutritionSuccess(int code, String message) { }
     @Override
     public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) { }
+
+    @Override
+    public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) { }
+
+    @Override
+    public void postGoalWeightSuccess(int code, String message) { }
+
     @Override
     public void validateFailure(String message) {
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
