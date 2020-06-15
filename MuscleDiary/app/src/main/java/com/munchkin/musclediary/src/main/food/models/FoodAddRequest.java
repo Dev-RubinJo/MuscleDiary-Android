@@ -7,8 +7,8 @@ public class FoodAddRequest {
     String foodName;
     @SerializedName("calorie")
     double calorie;
-    @SerializedName("carbohydarte")
-    double carbohydarte;
+    @SerializedName("carbohydrate")
+    double carbohydrate;
     @SerializedName("protein")
     double protein;
     @SerializedName("fat")
@@ -22,10 +22,10 @@ public class FoodAddRequest {
     @SerializedName("foodRegion")
     String foodRegion;
 
-    public FoodAddRequest(String foodName, double calorie, double carbohydarte, double protein, double fat, String recordDate, int mealType, double serving, String foodRegion) {
+    public FoodAddRequest(String foodName, double calorie, double carbohydrate, double protein, double fat, String recordDate, int mealType, double serving, String foodRegion) {
         this.foodName = foodName;
         this.calorie = calorie;
-        this.carbohydarte = carbohydarte;
+        this.carbohydrate = carbohydrate;
         this.protein = protein;
         this.fat = fat;
         this.recordDate = recordDate;
