@@ -102,7 +102,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
 
         tryGetProfile();
-        tryGetNutrition();
+        //tryGetNutrition();
     }
 
     @Override

@@ -22,8 +22,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.food.adapter.MealAdapter;
+import com.munchkin.musclediary.src.main.food.interfaces.InputMenuActivityView;
+import com.munchkin.musclediary.src.main.food.interfaces.MenuItemClickListener;
+import com.munchkin.musclediary.src.main.food.models.DeleteFoodRequest;
+import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
+import com.munchkin.musclediary.src.main.food.models.ReadFoodResult;
+import com.munchkin.musclediary.src.main.food.services.InputMenuService;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -35,14 +41,14 @@ import java.util.Date;
 
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
-public class FoodFragment extends BaseFragment implements View.OnClickListener, OnDateSelectedListener{
+public class FoodFragment extends BaseFragment implements InputMenuActivityView, View.OnClickListener, OnDateSelectedListener, MenuItemClickListener {
 
     private ArrayList<MealItem> mMealitems;
     private MealAdapter mMealAdapter;
 
     private final int WEB_PROTEIN = 0;
 
-    private Button mbtWebProtein;   
+    private Button mbtWebProtein;
 
     //목표영양
     private TextView mTvGoalKcal;
@@ -96,6 +102,15 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //처음시작할때만 날짜 읽어옴
+        final String todayText = String.format(DATE_FORMAT.format(currentTime));
+        mEditor.putString("recordDate", todayText);
+        mEditor.apply();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_food, container, false);
         setComponentView(view);
@@ -107,24 +122,12 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     public void onStart() {
         super.onStart();
-
-        Log.d("life","food onStart enter");
-
-//        if(sSharedPreferences.getInt("kcal", 0) != mGoalKcal && mGoalKcal != 0){
-//            mGoalKcal = sSharedPreferences.getInt("kcal", 0);
-//            mTvGoalKcal.setText(mGoalKcal);
-//        }
         //NOTE 내생각엔 처음에 완전 아무것도 없을때 뭔가 하려고 했는데 없어도 무방
-//        if(sSharedPreferences.getInt("carbohydrateGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
-//                sSharedPreferences.getInt("proteinGram",0) != mGoalCarboGram && mGoalCarboGram != 0 &&
-//                sSharedPreferences.getInt("fatGram",0) != mGoalCarboGram && mGoalCarboGram != 0){
-//            mGoalCarboGram = sSharedPreferences.getInt("carbohydrateGram",0);
-//            mGoalProteinGram = sSharedPreferences.getInt("proteinGram",0);
-//            mGoalFatGram = sSharedPreferences.getInt("fatGram",0);
-//
-//            progressBarUpdate();
-//        }
-        //무조건 얘는 불러와야 함
+        tryReadMeal(1);
+        tryReadMeal(2);
+        tryReadMeal(3);
+        tryReadMeal(4);
+        kcalUpdate();
         progressBarUpdate();
     }
 
@@ -143,16 +146,13 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mealRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        mMealAdapter = new MealAdapter(getContext(),mMealitems);
+        mMealAdapter = new MealAdapter(getContext(),mMealitems,this);
         mealRecyclerView.setAdapter(mMealAdapter);
 
         //달력 xml과 연결
         mCalendarView = v.findViewById(R.id.fragment_food_calendarView);
         mCalendarView.setOnDateChangedListener(this);
         mCalendarView.setDateSelected(currentTime,true);
-        final String todayText = String.format(DATE_FORMAT.format(currentTime));
-        mEditor.putString("recordDate", todayText);
-        mEditor.apply();
 
         //목표 칼로리 텍스트뷰 생성
         mTvGoalKcal = v.findViewById(R.id.fragment_food_tv_goal_cal);
@@ -185,20 +185,20 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
                 for(int j=0; j<menuAddList.size(); j++){
                     mMealitems.get(i).getMenuItemList().add(menuAddList.get(j));
                 }
-                //mMealitems.get(i).setMenuItemList();
             }
         }
+
         kcalUpdate();
         progressBarUpdate();
-        mMealAdapter.notifyDataSetChanged();
+        mMealAdapter.changeDataset(mMealitems);
     }
 
     //프로그레스바 업데이트
     public void progressBarUpdate(){
         //progressbar 초기화
-        mPbCarbo.setProgress(0);
-        mPbProtein.setProgress(0);
-        mPbFat.setProgress(0);
+        mPbCarbo.setProgressWithAnimation(0,(long) 100);
+        mPbProtein.setProgressWithAnimation(0,(long) 100);
+        mPbFat.setProgressWithAnimation(0,(long) 100);
 
         //기존에 저장되어있는 목표 그램수 받아오기
         mGoalCarboGram = sSharedPreferences.getInt("carbohydrateGram",0);
@@ -229,27 +229,33 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         //progressbar 퍼센트에 따른 변경
         if(mGoalFatGram!=0){
             float percent = ((float)mEatenFatGram/ (float)mGoalFatGram *100);
-            mPbFat.setProgress(percent);
+            mPbFat.setProgressWithAnimation(percent, (long) 500);
         }
 
         if(mGoalProteinGram!=0) {
             float percent = ((float)mEatenProteinGram/(float)mGoalProteinGram*100);
-            mPbProtein.setProgress(percent);
+            mPbProtein.setProgressWithAnimation(percent,(long) 500);
         }
 
         if(mGoalCarboGram!=0){
             float percent = ((float)mEatenCarboGram/(float)mGoalCarboGram*100);
-            mPbCarbo.setProgress(percent);
+            mPbCarbo.setProgressWithAnimation(percent,(long) 500);
         }
 
         if(mGoalFatGram<mEatenFatGram){
             mTvFatGram.setTextColor(Color.RED);
+        }else{
+            mTvFatGram.setTextColor(Color.rgb(43,50,82));
         }
         if(mGoalProteinGram<mEatenProteinGram){
             mTvProteinGram.setTextColor(Color.RED);
+        }else{
+            mTvProteinGram.setTextColor(Color.rgb(43,50,82));
         }
         if(mGoalCarboGram<mEatenCarboGram){
             mTvCarboGram.setTextColor(Color.RED);
+        }else{
+            mTvCarboGram.setTextColor(Color.rgb(43,50,82));
         }
 
         mTvWarningProtein.setText("일일 목표 단백질 섭취까지 "+(mGoalProteinGram-mEatenProteinGram)+"g 남았습니다.\n단백질 쉐이크로 간편하게 채워보세요");
@@ -278,7 +284,6 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         mLeftKcal = mGoalKcal - mEatenKcal;
         mTvEatenKcal.setText(String.format("%.2f",mEatenKcal));
         mTvLeftKcal.setText(String.format("%.2f",mLeftKcal)+" kcal");
-
     }
 
     //아침 점심 저녁 기타 끼니란을 입력
@@ -317,7 +322,89 @@ public class FoodFragment extends BaseFragment implements View.OnClickListener, 
         final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
         mEditor.putString("recordDate", selectedDay);
         mEditor.apply();
+        tryReadMeal(1);
+        tryReadMeal(2);
+        tryReadMeal(3);
+        tryReadMeal(4);
         //Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-
     }
+
+    public void tryReadMeal(int mealType){
+        InputMenuService inputMenuService = new InputMenuService(this);
+        String recordDate = sSharedPreferences.getString("recordDate","1999-12-31");
+        inputMenuService.readFoodList(mealType,recordDate);
+    }
+
+    public void tryDeleteMenu(int menuNo){
+        InputMenuService inputMenuService = new InputMenuService(this);
+        DeleteFoodRequest deleteFoodRequest = new DeleteFoodRequest(menuNo);
+        inputMenuService.deleteFood(deleteFoodRequest);
+    }
+
+    @Override
+    public void readMenuSuccess(int code, String message, ArrayList<ReadFoodResult> readFoodResults, int mealType) {
+        if(readFoodResults==null){
+            mMealitems.get(mealType-1).getMenuItemList().clear();
+
+            kcalUpdate();
+            progressBarUpdate();
+            mMealAdapter.changeDataset(mMealitems);
+            return;
+        }
+
+        initMealList();
+        ArrayList<MenuItem> menuItems = new ArrayList<>();
+        for(int i =0; i<readFoodResults.size();i++){
+            ReadFoodResult menuResult = readFoodResults.get(i);
+            mMealitems.get(mealType-1).getMenuItemList().add(new MenuItem(menuResult));
+//            menuItems.add(menuItem);
+        }
+
+        kcalUpdate();
+        progressBarUpdate();
+        mMealAdapter.changeDataset(mMealitems);
+
+//        String mealTitle;
+//        if(mealType==1){
+//            mealTitle = "아침";
+//        }else if(mealType==2){
+//            mealTitle = "점심";
+//        }else if(mealType==3){
+//            mealTitle = "저녁";
+//        }else{
+//            mealTitle = "기타";
+//        }
+//        onCompleteMenuSelect(menuItems,mealTitle);
+    }
+
+    @Override
+    public void deleteFoodSuccess(int code, String message) {
+        tryReadMeal(1);
+        tryReadMeal(2);
+        tryReadMeal(3);
+        tryReadMeal(4);
+
+        kcalUpdate();
+        progressBarUpdate();
+        mMealAdapter.changeDataset(mMealitems);
+    }
+
+    @Override
+    public void onMenuClickListener(View view, int position) { }
+
+    @Override
+    public void onMenuDeleteClicked(int menuNo) {
+        tryDeleteMenu(menuNo);
+    }
+
+    @Override
+    public void validateFailure(String message) { }
+
+    //Note 사용하지 않음
+    @Override
+    public void searchFoodListSuccess(int code, String message, ArrayList<FoodResult> result) { }
+    @Override
+    public void addFoodSuccess(int code, String message) { }
+
+
 }

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.food.FoodFragment;
 import com.munchkin.musclediary.src.main.food.interfaces.MenuItemClickListener;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
@@ -21,10 +22,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<MenuItem> mMenuList;
+    private MenuItemClickListener mCallBackForDelete;
 
-    public MenuAdapter(Context context, ArrayList<MenuItem> menuList) {
+    public MenuAdapter(Context context, ArrayList<MenuItem> menuList, MenuItemClickListener menuItemClickListener) {
         this.mContext = context;
         this.mMenuList = menuList;
+        mCallBackForDelete = menuItemClickListener;
     }
 
     @NonNull
@@ -37,7 +40,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         //이름이 너무 길면 컷
         String title = mMenuList.get(position).getFoodName();
         if(title.length()>9){ title = title.substring(0,9)+".."; }
@@ -49,7 +52,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         holder.btnDeleteMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,mMenuList.get(position).getFoodName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,mMenuList.get(position).getFoodName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+                mCallBackForDelete.onMenuDeleteClicked(mMenuList.get(position).getfoodNo());
             }
         });
 
@@ -57,8 +61,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             @Override
             public void onMenuClickListener(View view, int position) {
                 //TODO : 나중에 클릭시 수정 가능하게 작성 (현재는 그냥 toast)
-                Toast.makeText(mContext,mMenuList.get(position).getFoodName()+"이/가 눌렸습니다",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,mMenuList.get(position).getFoodName()+"이/가 눌렸습니다",Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public void onMenuDeleteClicked(int menuNo) {  }
         });
     }
 

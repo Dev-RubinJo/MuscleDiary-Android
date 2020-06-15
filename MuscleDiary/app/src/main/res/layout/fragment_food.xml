@@ -144,7 +144,7 @@
                 android:layout_height="65dp"
                 app:cpb_background_progressbar_color="@color/colorProgressBarBackground"
                 app:cpb_background_progressbar_width="5dp"
-                app:cpb_progress="30"
+                app:cpb_progress="0"
                 app:cpb_progress_direction="to_left"
                 app:cpb_progressbar_color="@color/colorCarboProgressBar"
                 app:cpb_progressbar_width="7dp"
@@ -165,7 +165,7 @@
                 app:cpb_progressbar_color="@color/colorProteinProgressBar"
                 app:cpb_progressbar_width="7dp"
                 app:cpb_round_border="true"
-                app:cpb_progress="40"
+                app:cpb_progress="0"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_protein"
@@ -182,7 +182,7 @@
                 app:cpb_progressbar_color="@color/colorFatProgressBar"
                 app:cpb_progressbar_width="7dp"
                 app:cpb_round_border="true"
-                app:cpb_progress="80"
+                app:cpb_progress="0"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/fragment_food_tv_str_fat"

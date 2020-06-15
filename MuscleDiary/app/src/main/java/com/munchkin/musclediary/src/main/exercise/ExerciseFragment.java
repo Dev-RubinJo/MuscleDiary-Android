@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.exercise;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
+
 public class ExerciseFragment extends BaseFragment implements OnDateSelectedListener {
 
     private ArrayList<ExercisePartItem> mExercisePartItems;
@@ -35,6 +39,16 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     //현재 날짜 가져오기
     private Date currentTime = Calendar.getInstance().getTime();
+    SharedPreferences.Editor mEditor = sSharedPreferences.edit();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        final String todayText = String.format(DATE_FORMAT.format(currentTime));
+        mEditor.putString("recordDateExercise", todayText);
+        mEditor.apply();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -95,7 +109,8 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        final String text = String.format("Date"+DATE_FORMAT.format(date.getDate()));
-        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
+        mEditor.putString("recordDateExercise", selectedDay);
+        mEditor.apply();
     }
 }

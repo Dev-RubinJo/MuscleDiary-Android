@@ -12,9 +12,14 @@ import android.widget.Toast;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
+import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
+import com.munchkin.musclediary.src.main.exercise.models.AddExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
+import com.munchkin.musclediary.src.main.exercise.services.InputExerciseService;
 
-public class ArrangeExerciseActivity extends BaseActivity {
+import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
+
+public class ArrangeExerciseActivity extends BaseActivity implements InputExerciseActivityView {
     //사용할 객체들 가져오기
     private EditText mEtMinOrWeight;
     private NumberPicker mIntensityOrRepeatPicker;
@@ -120,6 +125,7 @@ public class ArrangeExerciseActivity extends BaseActivity {
                             exerciseItem.setRepeat(mIntensityOrRepeatPicker.getValue());
                             exerciseItem.setWeight(weight);
 
+                            tryAddExercise();
                             backToMainActivity.putExtra("addExercise",exerciseItem);
                             setResult(Activity.RESULT_OK,backToMainActivity);
                             finish();
@@ -140,6 +146,7 @@ public class ArrangeExerciseActivity extends BaseActivity {
                             exerciseItem.setIntensity(mIntensityOrRepeatPicker.getValue());
                             exerciseItem.setMin(time);
 
+                            tryAddExercise();
                             backToMainActivity.putExtra("addExercise",exerciseItem);
                             setResult(Activity.RESULT_OK,backToMainActivity);
                             finish();
@@ -159,5 +166,36 @@ public class ArrangeExerciseActivity extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    public void tryAddExercise(){
+        AddExerciseRequest addExerciseRequest;
+
+        if(mExercisePart=="근력운동"){
+            int weight = Integer.parseInt(mEtMinOrWeight.getText().toString());
+            String recordDate = sSharedPreferences.getString("recordDateExercise","1999-12-31");
+            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),mExercisePart,mSetPicker.getValue(),
+                    mIntensityOrRepeatPicker.getValue(),null,null, weight,
+                    recordDate);
+        }else{
+            int min = Integer.parseInt(mEtMinOrWeight.getText().toString());
+            String recordDate = sSharedPreferences.getString("recordDateExercise","1999-12-31");
+            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),mExercisePart,mSetPicker.getValue(),
+                    null, min ,mIntensityOrRepeatPicker.getValue(), null,
+                    recordDate);
+        }
+
+        InputExerciseService inputExerciseService = new InputExerciseService(this);
+        inputExerciseService.postAddExercise(addExerciseRequest);
+    }
+
+    @Override
+    public void addExerciseSuccess(int code, String message) {
+
+    }
+
+    @Override
+    public void validateFailure(String message) {
+
     }
 }

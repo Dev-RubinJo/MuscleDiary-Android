@@ -16,6 +16,7 @@ import com.munchkin.musclediary.src.signin.interfaces.SignInActivityView;
 import com.munchkin.musclediary.src.signin.models.SignInResponse;
 import com.munchkin.musclediary.src.signin.services.SignInService;
 
+import static com.munchkin.musclediary.src.ApplicationClass.X_ACCESS_TOKEN;
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
 public class SignInActivity extends BaseActivity implements SignInActivityView {
@@ -33,6 +34,8 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
 
         //자동로그인 기능
         if(sSharedPreferences.getBoolean("isSignIn", true)){
+            X_ACCESS_TOKEN = sSharedPreferences.getString("x-access-token","X_ACCESS_TOKEN");
+            Log.d("Debug",X_ACCESS_TOKEN);
             Intent signInIntent = new Intent(this, MainActivity.class);
             startActivity(signInIntent);
             finish();
@@ -93,6 +96,8 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
     public void SignInSuccess(int code, String message, SignInResponse.Jwt jwt) {
         if(code == 101){
             SharedPreferences.Editor editor = sSharedPreferences.edit();
+            X_ACCESS_TOKEN = jwt.getJwt();
+            editor.putString("x-access-token",jwt.getJwt());
             editor.putBoolean("isSignIn",true);
             editor.apply();
             Intent signInIntent = new Intent(this, MainActivity.class);

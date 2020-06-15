@@ -26,6 +26,7 @@ import com.munchkin.musclediary.src.main.food.interfaces.ResultMenuItemClickList
 import com.munchkin.musclediary.src.main.food.models.FoodAddRequest;
 import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
+import com.munchkin.musclediary.src.main.food.models.ReadFoodResult;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
 
 import java.util.ArrayList;
@@ -162,7 +163,6 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         InputMenuService inputMenuService = new InputMenuService(this);
         for(int i=0;i<mClickedMenuItem.size();i++){
             MenuItem menuItem = mClickedMenuItem.get(i);
-
             FoodAddRequest foodAddRequest = new FoodAddRequest(menuItem.getFoodName(),
                     menuItem.getCalorie(),menuItem.getCarbohydrate(),menuItem.getProtein(),
                     menuItem.getFat(),mRecordDate,mMealType,menuItem.getServing(),menuItem.getFoodRegion());
@@ -249,5 +249,10 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
         hideProgressDialog();
     }
 
+    @Override
+    public void readMenuSuccess(int code, String message, ArrayList<ReadFoodResult> readFoodResults, int mealType) { }
+
+    @Override
+    public void deleteFoodSuccess(int code, String message) { }
 
 }

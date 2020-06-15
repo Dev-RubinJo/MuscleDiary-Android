@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.MainActivity;
+import com.munchkin.musclediary.src.main.food.FoodFragment;
 import com.munchkin.musclediary.src.main.food.InputMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
@@ -24,10 +25,12 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<MealItem> mMealItems;
+    private FoodFragment mFoodFragment;
 
-    public MealAdapter(Context context, ArrayList<MealItem> mealItems){
+    public MealAdapter(Context context, ArrayList<MealItem> mealItems, FoodFragment foodFragment){
         mContext = context;
         mMealItems = mealItems;
+        mFoodFragment = foodFragment;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -73,11 +76,16 @@ public class MealAdapter extends RecyclerView.Adapter<MealAdapter.ViewHolder> {
 
         //끼니 리사이클러 뷰 속 메뉴 리사이클러 뷰 정의 - 어뎁터 생성,등록 등등
         ArrayList<MenuItem> menuItems = mMealItems.get(position).getMenuItemList();
-        MenuAdapter menuAdapter = new MenuAdapter(mContext, menuItems);
+        MenuAdapter menuAdapter = new MenuAdapter(mContext, menuItems, mFoodFragment);
         holder.rvMenuList.setHasFixedSize(true);
         holder.rvMenuList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         holder.rvMenuList.setAdapter(menuAdapter);
         holder.rvMenuList.setNestedScrollingEnabled(false); // 중요
+    }
+
+    public void changeDataset(ArrayList<MealItem> newMealItems){
+        this.mMealItems = newMealItems;
+        this.notifyDataSetChanged();
     }
 
     @Override

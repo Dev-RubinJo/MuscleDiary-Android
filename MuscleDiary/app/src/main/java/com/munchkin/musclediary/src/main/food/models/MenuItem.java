@@ -45,6 +45,17 @@ public class MenuItem implements Serializable {
         transFat = foodResult.getTransFat();
     }
 
+    public MenuItem(ReadFoodResult foodResult){
+        foodNo = foodResult.getMenuNo();
+        foodName = foodResult.getFoodName();
+        foodRegion = foodResult.getFoodRegion();
+        calorie = foodResult.getCalorie();
+        carbohydrate = foodResult.getCarbohydrate();
+        protein = foodResult.getProtein();
+        fat = foodResult.getFat();
+        serving = foodResult.getServing();
+    }
+
     public double getServing() {
         return serving;
     }
