@@ -3,10 +3,13 @@ package com.munchkin.musclediary.src.main.exercise.interfaces;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseResponse;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseListResponse;
+import com.munchkin.musclediary.src.main.food.models.DeleteFoodRequest;
+import com.munchkin.musclediary.src.main.food.models.DeleteFoodResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -16,4 +19,7 @@ public interface ExerciseRetrofitInterface {
 
     @GET("/user/exercise")
     Call<ExerciseListResponse> getReadExercise(@Query("recordDate")String recordDate);
+
+//    @HTTP(method = "DELETE", path = "/user/exercise", hasBody = true)
+//    Call<DeleteFoodResponse> deleteExercise(@Body DeleteFoodRequest deleteFoodRequest);
 }

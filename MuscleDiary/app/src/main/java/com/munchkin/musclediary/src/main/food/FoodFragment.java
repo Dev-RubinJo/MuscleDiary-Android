@@ -123,6 +123,7 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
     public void onStart() {
         super.onStart();
         //NOTE 내생각엔 처음에 완전 아무것도 없을때 뭔가 하려고 했는데 없어도 무방
+        initMealList();
         tryReadMeal(1);
         tryReadMeal(2);
         tryReadMeal(3);
@@ -322,6 +323,7 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
         final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
         mEditor.putString("recordDate", selectedDay);
         mEditor.apply();
+        initMealList();
         tryReadMeal(1);
         tryReadMeal(2);
         tryReadMeal(3);
@@ -351,8 +353,6 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
             mMealAdapter.changeDataset(mMealitems);
             return;
         }
-
-        initMealList();
         ArrayList<MenuItem> menuItems = new ArrayList<>();
         for(int i =0; i<readFoodResults.size();i++){
             ReadFoodResult menuResult = readFoodResults.get(i);
@@ -379,6 +379,7 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
 
     @Override
     public void deleteFoodSuccess(int code, String message) {
+        initMealList();
         tryReadMeal(1);
         tryReadMeal(2);
         tryReadMeal(3);
