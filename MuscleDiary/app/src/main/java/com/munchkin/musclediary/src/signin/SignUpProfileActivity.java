@@ -194,7 +194,11 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     //로그인 성공시
     @Override
     public void SignInSuccess(int code, String message, SignInResponse.Jwt jwt) {
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
         X_ACCESS_TOKEN = jwt.getJwt();
+        editor.putString("x-access-token",jwt.getJwt());
+        editor.putBoolean("isSignIn",true);
+        editor.apply();
         tryPostUpdateProfile(mHeight,mWeight,mGender,mBirth);
     }
 
