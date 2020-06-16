@@ -233,6 +233,11 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     public void postGoalWeightSuccess(int code, String message) { }
 
     @Override
+    public void getGoalWeightFailure(String message) {
+
+    }
+
+    @Override
     public void validateFailure(String message) {
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
         return;

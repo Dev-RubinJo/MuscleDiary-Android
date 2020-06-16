@@ -89,10 +89,14 @@ public class SettingService {
                     mSettingFragmentView.validateFailure("null");
                     return;
                 }
-                Log.d("inTest", getNutritionResponse.getMessage());
-                mSettingFragmentView.getNutritionSuccess(getNutritionResponse.getCode(),
-                        getNutritionResponse.getMessage(),
-                        getNutritionResponse.getResult().get(0));
+                if(getNutritionResponse.getCode() == 102){
+                    mSettingFragmentView.getNutritionSuccess(getNutritionResponse.getCode(),
+                            getNutritionResponse.getMessage(),
+                            getNutritionResponse.getResult().get(0));
+                } else {
+                    mSettingFragmentView.getGoalWeightFailure(getNutritionResponse.getMessage());
+                }
+
             }
             @Override
             public void onFailure(Call<GetNutritionResponse> call, Throwable t) {

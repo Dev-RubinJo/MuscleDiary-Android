@@ -102,7 +102,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
 
         tryGetProfile();
-        //tryGetNutrition();
+        tryGetNutrition();
     }
 
     @Override
@@ -589,7 +589,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         if(code == 102){
             setGoalNutrition(result.getGoalCalorie(), result.getCarboRate(), result.getProteinRate(), result.getFatRate());
         } else {
-            setGoalNutrition(2024, 50, 30, 20);
+            setGoalNutrition(0, 0, 0, 0);
         }
         hideProgressDialog();
     }
@@ -601,6 +601,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void postGoalWeightSuccess(int code, String message) {
+        hideProgressDialog();
+    }
+
+    @Override
+    public void getGoalWeightFailure(String message) {
+        showCustomToast(message);
+        setGoalNutrition(0, 0, 0, 0);
         hideProgressDialog();
     }
 
