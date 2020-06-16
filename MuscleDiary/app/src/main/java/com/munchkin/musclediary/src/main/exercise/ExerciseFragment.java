@@ -57,7 +57,7 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
     public void onStart() {
         super.onStart();
         tryReadExercise();
-        
+
     }
 
     @Override
