@@ -1,35 +1,46 @@
 package com.munchkin.musclediary.src.main.exercise.models;
 
+import android.widget.DatePicker;
+
 import java.io.Serializable;
 
 public class ExerciseItem implements Serializable {
 
+    private int exerciseNo;
     private String exerciseName;
     private String exercisePart;
-    private int set;
-    private int repeat;
-    private int min;
-    private int intensity;
-    private double weight;
+    private Integer set;
+    private Integer repeat;
+    private Integer min;
+    private Integer intensity;
+    private Double weight;
 
     public ExerciseItem(String exerciseName, String exercisePart) {
         this.exerciseName = exerciseName;
         this.exercisePart = exercisePart;
     }
 
-    public int getMin() {
+    public int getExerciseNo() {
+        return exerciseNo;
+    }
+
+    public void setExerciseNo(int exerciseNo) {
+        this.exerciseNo = exerciseNo;
+    }
+
+    public Integer getMin() {
         return min;
     }
 
-    public void setMin(int min) {
+    public void setMin(Integer min) {
         this.min = min;
     }
 
-    public int getIntensity() {
+    public Integer getIntensity() {
         return intensity;
     }
 
-    public void setIntensity(int intensity) {
+    public void setIntensity(Integer intensity) {
         this.intensity = intensity;
     }
 
@@ -49,27 +60,27 @@ public class ExerciseItem implements Serializable {
         this.exercisePart = exercisePart;
     }
 
-    public int getSet() {
+    public Integer getSet() {
         return set;
     }
 
-    public void setSet(int set) {
+    public void setSet(Integer set) {
         this.set = set;
     }
 
-    public int getRepeat() {
+    public Integer getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(int repeat) {
+    public void setRepeat(Integer repeat) {
         this.repeat = repeat;
     }
 
-    public double getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 }

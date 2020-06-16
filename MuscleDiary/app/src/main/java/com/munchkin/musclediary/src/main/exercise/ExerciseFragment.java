@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.exercise.adapter.ExercisePartAdapter;
+import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExercisePartItem;
+import com.munchkin.musclediary.src.main.exercise.models.ExerciseResult;
+import com.munchkin.musclediary.src.main.exercise.services.InputExerciseService;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -29,7 +32,7 @@ import java.util.Date;
 
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
-public class ExerciseFragment extends BaseFragment implements OnDateSelectedListener {
+public class ExerciseFragment extends BaseFragment implements OnDateSelectedListener, InputExerciseActivityView {
 
     private ArrayList<ExercisePartItem> mExercisePartItems;
     private ExercisePartAdapter mExercisePartAdapter;
@@ -48,6 +51,13 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         final String todayText = String.format(DATE_FORMAT.format(currentTime));
         mEditor.putString("recordDateExercise", todayText);
         mEditor.apply();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        tryReadExercise();
+        
     }
 
     @Override
@@ -107,10 +117,61 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         }
     }
 
+    public void tryReadExercise(){
+        InputExerciseService inputExerciseService = new InputExerciseService(this);
+        String recordDate = sSharedPreferences.getString("recordDateExercise","1999-12-31");
+        inputExerciseService.getReadExercise(recordDate);
+    }
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
         mEditor.putString("recordDateExercise", selectedDay);
         mEditor.apply();
+
+        tryReadExercise();
+    }
+
+    @Override
+    public void readExerciseSuccess(int code, String message, ArrayList<ExerciseResult> exerciseResults) {
+        initExerciseList();
+        if(exerciseResults==null){
+            mExercisePartAdapter.changeDataset(mExercisePartItems);
+            return;
+        }
+        for(int i=0;i<exerciseResults.size();i++){
+            ExerciseResult exerciseResult = new ExerciseResult();
+            exerciseResult = exerciseResults.get(i);
+
+            if(exerciseResult.getExercisePart()==1){
+                ExerciseItem newExerciseItem = new ExerciseItem(exerciseResult.getExerciseName(),"근력운동");
+                newExerciseItem.setSet(0);
+                newExerciseItem.setRepeat(0);
+                newExerciseItem.setWeight(0.0);
+                newExerciseItem.setSet(exerciseResult.getSetNo());
+                newExerciseItem.setRepeat(exerciseResult.getRepeatNo());
+                newExerciseItem.setWeight(exerciseResult.getWeight());
+                mExercisePartItems.get(0).getExerciseItemList().add(newExerciseItem);
+            }else{
+                ExerciseItem newExerciseItem = new ExerciseItem(exerciseResult.getExerciseName(),"유산소운동");
+                newExerciseItem.setSet(0);
+                newExerciseItem.setIntensity(0);
+                newExerciseItem.setMin(0);
+                newExerciseItem.setSet(exerciseResult.getSetNo());
+                newExerciseItem.setIntensity(exerciseResult.getIntensity());
+                newExerciseItem.setMin(exerciseResult.getMin());
+                mExercisePartItems.get(1).getExerciseItemList().add(newExerciseItem);
+            }
+        }
+
+        mExercisePartAdapter.changeDataset(mExercisePartItems);
+    }
+
+    @Override
+    public void addExerciseSuccess(int code, String message) { }
+
+    @Override
+    public void validateFailure(String message) {
+
     }
 }

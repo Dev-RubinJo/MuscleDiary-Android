@@ -15,7 +15,10 @@ import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
+import com.munchkin.musclediary.src.main.exercise.models.ExerciseResult;
 import com.munchkin.musclediary.src.main.exercise.services.InputExerciseService;
+
+import java.util.ArrayList;
 
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
@@ -173,14 +176,16 @@ public class ArrangeExerciseActivity extends BaseActivity implements InputExerci
 
         if(mExercisePart=="근력운동"){
             int weight = Integer.parseInt(mEtMinOrWeight.getText().toString());
+            int exercisePart = ( mExercisePart.equals("근력운동") ? 1 : 2);
             String recordDate = sSharedPreferences.getString("recordDateExercise","1999-12-31");
-            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),mExercisePart,mSetPicker.getValue(),
+            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),exercisePart,mSetPicker.getValue(),
                     mIntensityOrRepeatPicker.getValue(),null,null, weight,
                     recordDate);
         }else{
             int min = Integer.parseInt(mEtMinOrWeight.getText().toString());
+            int exercisePart = ( mExercisePart.equals("근력운동") ? 1 : 2);
             String recordDate = sSharedPreferences.getString("recordDateExercise","1999-12-31");
-            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),mExercisePart,mSetPicker.getValue(),
+            addExerciseRequest = new AddExerciseRequest(mEtExerciseName.getText().toString(),exercisePart,mSetPicker.getValue(),
                     null, min ,mIntensityOrRepeatPicker.getValue(), null,
                     recordDate);
         }
@@ -191,6 +196,11 @@ public class ArrangeExerciseActivity extends BaseActivity implements InputExerci
 
     @Override
     public void addExerciseSuccess(int code, String message) {
+
+    }
+
+    @Override
+    public void readExerciseSuccess(int code, String message, ArrayList<ExerciseResult> exerciseResults) {
 
     }
 

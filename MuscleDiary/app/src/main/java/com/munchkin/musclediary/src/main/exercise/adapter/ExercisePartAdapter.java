@@ -81,4 +81,9 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
     public int getItemCount() {
         return mExercisePartItems.size();
     }
+
+    public void changeDataset(ArrayList<ExercisePartItem> newExerciseItems){
+        this.mExercisePartItems = newExerciseItems;
+        this.notifyDataSetChanged();
+    }
 }

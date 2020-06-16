@@ -4,6 +4,8 @@ import com.munchkin.musclediary.src.main.exercise.interfaces.ExerciseRetrofitInt
 import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseResponse;
+import com.munchkin.musclediary.src.main.exercise.models.ExerciseListResponse;
+import com.munchkin.musclediary.src.main.exercise.models.ExerciseResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +38,28 @@ public class InputExerciseService {
 
             @Override
             public void onFailure(Call<AddExerciseResponse> call, Throwable t) {
+                mInputExerciseActivityView.validateFailure("null");
+            }
+        });
+    }
+
+    public void getReadExercise(final String recordDate){
+        final ExerciseRetrofitInterface exerciseRetrofitInterface = getRetrofit().create(ExerciseRetrofitInterface.class);
+
+        exerciseRetrofitInterface.getReadExercise(recordDate).enqueue(new Callback<ExerciseListResponse>() {
+            @Override
+            public void onResponse(Call<ExerciseListResponse> call, Response<ExerciseListResponse> response) {
+                final ExerciseListResponse exerciseListResponse = response.body();
+                if(exerciseListResponse == null){
+                    mInputExerciseActivityView.validateFailure("null");
+                    return;
+                }
+                    mInputExerciseActivityView.readExerciseSuccess(exerciseListResponse.getCode(),
+                            exerciseListResponse.getMessage(),exerciseListResponse.getResult());
+            }
+
+            @Override
+            public void onFailure(Call<ExerciseListResponse> call, Throwable t) {
                 mInputExerciseActivityView.validateFailure("null");
             }
         });

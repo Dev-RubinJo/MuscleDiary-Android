@@ -6,7 +6,7 @@ public class AddExerciseRequest {
     @SerializedName("exerciseName")
     String exerciseName;
     @SerializedName("exercisePart")
-    String exercisePart;
+    int exercisePart;
     @SerializedName("setNo")
     Integer setNo;
     @SerializedName("repeatNo")
@@ -20,7 +20,7 @@ public class AddExerciseRequest {
     @SerializedName("recordDate")
     String recordDate;
 
-    public AddExerciseRequest(String exerciseName, String exercisePart, Integer setNo,
+    public AddExerciseRequest(String exerciseName, int exercisePart, Integer setNo,
                               Integer repeatNo, Integer min,
                               Integer intensity, Integer weight,
                               String recordDate) {
