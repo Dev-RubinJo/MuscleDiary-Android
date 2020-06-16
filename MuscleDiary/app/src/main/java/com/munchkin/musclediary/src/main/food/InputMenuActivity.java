@@ -28,12 +28,13 @@ import com.munchkin.musclediary.src.main.food.models.FoodResult;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.food.models.ReadFoodResult;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 
 import java.util.ArrayList;
 
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
-public abstract class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
+public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
 
     String mMealTitle;
     TextView mTvMealTitle;
@@ -259,5 +260,15 @@ public abstract class InputMenuActivity extends BaseActivity implements InputMen
 
     @Override
     public void deleteFoodSuccess(int code, String message) { }
+
+    @Override
+    public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) {
+
+    }
+
+    @Override
+    public void getGoalWeightFailure(String message) {
+
+    }
 
 }
