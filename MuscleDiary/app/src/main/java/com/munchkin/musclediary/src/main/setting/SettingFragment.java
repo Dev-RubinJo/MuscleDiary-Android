@@ -283,7 +283,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     editor.putInt("gender",mGender);//만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
                     editor.apply();
 
-                    Log.d("test", Integer.toString(mGender));
                     if(mGender == 1){
                         mBtGender.setText("남성");
                     } else if(mGender == 2){
@@ -616,7 +615,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) {
-        Log.d("testLog", result.getGoalWeight()+"");
         setGoalWeight(result.getStartWeight(), result.getCurrentWeight(), result.getGoalWeight());
         showCustomToast("체중목표 성공");
         hideProgressDialog();

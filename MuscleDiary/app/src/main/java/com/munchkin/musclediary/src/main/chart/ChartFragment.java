@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -55,6 +56,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private ArrayList<ChartItem> mWeightItems;
     private ArrayList<ChartItem> mFatItems;
     private ImageButton mBtnAddData;
+    private ArrayList<String> xLabel;
 
     //그래프 생성
     List<Entry> mWeightList;
@@ -76,6 +78,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     // 생성될 차트 프레그먼트에 대한 컴포넌트 세팅
     @Override
     public void setComponentView(View v) {
+        xLabel = new ArrayList<>();
         mLineChart = (LineChart)v.findViewById(R.id.line_chart);
         mBtnAddData =  v.findViewById(R.id.bt_add_list_chart);
 
@@ -110,12 +113,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         mFatList = new ArrayList<>();
         final Calendar c = Calendar.getInstance();
         tryGetWeight(getRecordDate(c.get(Calendar.DAY_OF_MONTH)));
-        Log.d("testtest", c.get(Calendar.DAY_OF_MONTH)+"");
 
     }
 
     // 그래프 세팅 메서드
-    private void setmLineChart(List<Entry> list, String label, final ArrayList<String> xLabel) {
+    private void setmLineChart(List<Entry> list, String label, final ArrayList<String> xrLabel) {
+        Log.d("testLog", xLabel.size()+" = size");
         LineDataSet lineDataSet = new LineDataSet(list, label);
         lineDataSet.setLineWidth(2);
         lineDataSet.setCircleRadius(6);
@@ -127,14 +130,56 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         lineDataSet.setDrawHighlightIndicators(false);
         lineDataSet.setDrawValues(true);
 
+
         LineData lineData = new LineData(lineDataSet);
         mLineChart.setData(lineData);
+
 
         ValueFormatter formatter = new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
                 if (value >= 0) {
-                    Log.d("testLog", value+"");
+                    return xLabel.get((int) value);
+                } else {
+                    return "";
+                }
+
+            }
+        };
+
+        XAxis xAxis = mLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextColor(Color.BLACK);
+        xAxis.enableGridDashedLine(8, 24, 0);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(formatter);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setEnabled(true);
+        YAxis yLAxis = mLineChart.getAxisLeft();
+        yLAxis.setTextColor(Color.BLACK);
+
+        YAxis yRAxis = mLineChart.getAxisRight();
+        yRAxis.setDrawLabels(false);
+        yRAxis.setDrawAxisLine(false);
+        yRAxis.setDrawGridLines(false);
+
+        Description description = new Description();
+        description.setText("");
+
+        mLineChart.getAxisRight().setEnabled(false);
+        mLineChart.getAxisLeft().setEnabled(false);
+        mLineChart.setDoubleTapToZoomEnabled(false);
+        mLineChart.setDrawGridBackground(false);
+        mLineChart.setDescription(description);
+        mLineChart.setAutoScaleMinMaxEnabled(true);
+        mLineChart.invalidate();
+        /*
+
+        ValueFormatter formatter = new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                Log.d("testLog", "value = " + value);
+                if (value >= 0) {
                     return xLabel.get((int) value % xLabel.size());
                 } else {
                     return "";
@@ -148,11 +193,9 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextColor(Color.BLACK);
         xAxis.enableGridDashedLine(8, 24, 0);
-        xAxis.removeAllLimitLines();
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(formatter);
         xAxis.setGranularityEnabled(true);
-        xAxis.setXOffset(5f);
         YAxis yLAxis = mLineChart.getAxisLeft();
         yLAxis.setTextColor(Color.BLACK);
 
@@ -176,6 +219,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         mLineChart.setDescription(description);
         //lineChart.animateY(2000, Easing.EasingOption.EaseInCubic);
         mLineChart.invalidate();
+
+         */
     }
 
     // 분석 종류, 기간에 따라 리스트 만들고 리턴해주기
@@ -219,24 +264,24 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void addFatData(ArrayList<ChartItem> items){
         mFatList.clear();
         int count = 0;
-        ArrayList<String> labelList = new ArrayList<>();
+        xLabel.clear();
         for(ChartItem item : items){
-            labelList.add(item.getDate()+"");
+            xLabel.add(item.getDate()+"");
             mFatList.add(new Entry(count++, item.getLevel()));
         }
-        setmLineChart(mFatList, "체지방률 변화", labelList);
+        setmLineChart(mFatList, "체지방률 변화", xLabel);
     }
 
     private void addWeightData(int term, ArrayList<ChartItem> items){
         mWeightList.clear();
         int date = 0;
         float count = 0f;
-        ArrayList<String> labelList = new ArrayList<>();
+        xLabel.clear();
         for(ChartItem item : items){
-            labelList.add(item.getDate()+"");
+            xLabel.add(String.format("%d월 %d일", item.getMonth(), item.getDate()));
             mWeightList.add(new Entry(count++, item.getLevel()));
         }
-        setmLineChart(mWeightList, "체중 변화", labelList);
+        setmLineChart(mWeightList, "체중 변화", xLabel);
     }
     @Override
     public void onClick(View v) {
@@ -386,7 +431,6 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private void tryGetWeight(String date){
         showProgressDialog(getActivity());
         final ChartService chartService = new ChartService(this);
-        Log.d("testtest", mTerm+"");
         switch (mTerm){
             case 0:
                 chartService.getWeekWeight(date);
@@ -420,12 +464,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         }
         mAdapter.notifyDataSetChanged();
         addWeightData(mTerm, mWeightItems);
-
         hideProgressDialog();
     }
 
     @Override
     public void postWeightSuccess(int code, String message) {
+        Calendar c = Calendar.getInstance();
+        tryGetWeight(getRecordDate(c.get(Calendar.DAY_OF_MONTH)));
         hideProgressDialog();
     }
 
