@@ -205,6 +205,11 @@ public class ArrangeExerciseActivity extends BaseActivity implements InputExerci
     }
 
     @Override
+    public void deleteExerciseSuccess(int code, String message) {
+
+    }
+
+    @Override
     public void validateFailure(String message) {
 
     }

@@ -9,12 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.main.MainActivity;
 import com.munchkin.musclediary.src.main.exercise.ArrangeExerciseActivity;
+import com.munchkin.musclediary.src.main.exercise.ExerciseFragment;
+import com.munchkin.musclediary.src.main.exercise.interfaces.ResultExerciseItemClickListener;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExercisePartItem;
 
@@ -24,10 +27,12 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
 
     private Context mContext;
     private ArrayList<ExercisePartItem> mExercisePartItems;
+    private ExerciseFragment mExercisefragment;
 
-    public ExercisePartAdapter(Context context, ArrayList<ExercisePartItem> exercisePartItems){
+    public ExercisePartAdapter(Context context, ArrayList<ExercisePartItem> exercisePartItems, ExerciseFragment exerciseFragment){
         mContext = context;
         mExercisePartItems = exercisePartItems;
+        mExercisefragment = exerciseFragment;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -70,7 +75,7 @@ public class ExercisePartAdapter extends RecyclerView.Adapter<ExercisePartAdapte
 
         //끼니 리사이클러 뷰 속 메뉴 리사이클러 뷰 정의 - 어뎁터 생성,등록 등등
         ArrayList<ExerciseItem> exerciseItems = mExercisePartItems.get(position).getExerciseItemList();
-        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(mContext, exerciseItems);
+        ExerciseAdapter exerciseAdapter = new ExerciseAdapter(mContext, exerciseItems, mExercisefragment);
         holder.rvExeciseList.setHasFixedSize(true);
         holder.rvExeciseList.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
         holder.rvExeciseList.setAdapter(exerciseAdapter);

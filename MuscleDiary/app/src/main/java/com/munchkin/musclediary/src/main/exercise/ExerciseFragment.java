@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.exercise;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,8 @@ import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.exercise.adapter.ExercisePartAdapter;
 import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
+import com.munchkin.musclediary.src.main.exercise.interfaces.ResultExerciseItemClickListener;
+import com.munchkin.musclediary.src.main.exercise.models.DeleteExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExercisePartItem;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseResult;
@@ -78,7 +81,7 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         //리사이클러뷰 어뎁터 생성, 적용
-        mExercisePartAdapter = new ExercisePartAdapter(getContext(),mExercisePartItems);
+        mExercisePartAdapter = new ExercisePartAdapter(getContext(),mExercisePartItems, this);
         exerciseRecyclerView.setAdapter(mExercisePartAdapter);
 
         //달력 xml과 연결
@@ -123,6 +126,12 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         inputExerciseService.getReadExercise(recordDate);
     }
 
+    public void tryDeleteExercise(int exerciseNo) {
+        InputExerciseService inputExerciseService = new InputExerciseService(this);
+        DeleteExerciseRequest deleteExerciseRequest = new DeleteExerciseRequest(exerciseNo);
+        inputExerciseService.deleteExercise(deleteExerciseRequest);
+    }
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         final String selectedDay = String.format(DATE_FORMAT.format(date.getDate()));
@@ -145,6 +154,7 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
 
             if(exerciseResult.getExercisePart()==1){
                 ExerciseItem newExerciseItem = new ExerciseItem(exerciseResult.getExerciseName(),"근력운동");
+                newExerciseItem.setExerciseNo(exerciseResult.getExerciseNo());
                 newExerciseItem.setSet(0);
                 newExerciseItem.setRepeat(0);
                 newExerciseItem.setWeight(0.0);
@@ -154,6 +164,7 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
                 mExercisePartItems.get(0).getExerciseItemList().add(newExerciseItem);
             }else{
                 ExerciseItem newExerciseItem = new ExerciseItem(exerciseResult.getExerciseName(),"유산소운동");
+                newExerciseItem.setExerciseNo(exerciseResult.getExerciseNo());
                 newExerciseItem.setSet(0);
                 newExerciseItem.setIntensity(0);
                 newExerciseItem.setMin(0);
@@ -165,6 +176,15 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
         }
 
         mExercisePartAdapter.changeDataset(mExercisePartItems);
+    }
+
+    public void onExerciseDeleteClicked(int exerciseNo) {
+        tryDeleteExercise(exerciseNo);
+    }
+
+    @Override
+    public void deleteExerciseSuccess(int code, String message) {
+        tryReadExercise();
     }
 
     @Override

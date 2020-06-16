@@ -4,8 +4,11 @@ import com.munchkin.musclediary.src.main.exercise.interfaces.ExerciseRetrofitInt
 import com.munchkin.musclediary.src.main.exercise.interfaces.InputExerciseActivityView;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseRequest;
 import com.munchkin.musclediary.src.main.exercise.models.AddExerciseResponse;
+import com.munchkin.musclediary.src.main.exercise.models.DeleteExerciseRequest;
+import com.munchkin.musclediary.src.main.exercise.models.DeleteExerciseResponse;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseListResponse;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseResult;
+import com.munchkin.musclediary.src.main.food.models.DeleteFoodResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +63,30 @@ public class InputExerciseService {
 
             @Override
             public void onFailure(Call<ExerciseListResponse> call, Throwable t) {
+                mInputExerciseActivityView.validateFailure("null");
+            }
+        });
+    }
+
+    public void deleteExercise(final DeleteExerciseRequest deleteExerciseRequest){
+        final ExerciseRetrofitInterface exerciseRetrofitInterface = getRetrofit().create(ExerciseRetrofitInterface.class);
+
+        exerciseRetrofitInterface.deleteExercise(deleteExerciseRequest).enqueue(new Callback<DeleteExerciseResponse>() {
+            @Override
+            public void onResponse(Call<DeleteExerciseResponse> call, Response<DeleteExerciseResponse> response) {
+                final DeleteExerciseResponse deleteExerciseResponse = response.body();
+                if(deleteExerciseResponse == null){
+                    mInputExerciseActivityView.validateFailure("null");
+                    return;
+                }
+
+                mInputExerciseActivityView.deleteExerciseSuccess(deleteExerciseResponse.getCode(),
+                        deleteExerciseResponse.getMessage());
+
+            }
+
+            @Override
+            public void onFailure(Call<DeleteExerciseResponse> call, Throwable t) {
                 mInputExerciseActivityView.validateFailure("null");
             }
         });

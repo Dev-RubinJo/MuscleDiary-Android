@@ -5,5 +5,6 @@ import android.content.Intent;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 public interface ResultExerciseItemClickListener {
-    public void onResultItemClicked(Intent arrangeExerciseIntent, ExerciseItem clickedItem);
+    void onResultItemClicked(Intent arrangeExerciseIntent, ExerciseItem clickedItem);
+    void onExerciseDeleteClicked(int exerciseNo);
 }

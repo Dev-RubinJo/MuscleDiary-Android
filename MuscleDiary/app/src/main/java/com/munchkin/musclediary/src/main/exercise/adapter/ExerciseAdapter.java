@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.exercise.ExerciseFragment;
+import com.munchkin.musclediary.src.main.exercise.interfaces.ResultExerciseItemClickListener;
 import com.munchkin.musclediary.src.main.exercise.models.ExerciseItem;
 
 import java.util.ArrayList;
@@ -20,10 +22,12 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
 
     private Context mContext;
     private ArrayList<ExerciseItem> mExerciseList;
+    private ExerciseFragment mExerciseFragment;
 
-    public ExerciseAdapter(Context context, ArrayList<ExerciseItem> exerciseList){
+    public ExerciseAdapter(Context context, ArrayList<ExerciseItem> exerciseList, ExerciseFragment exerciseFragment){
         this.mContext = context;
         this.mExerciseList = exerciseList;
+        mExerciseFragment = exerciseFragment;
     }
 
     @NonNull
@@ -53,7 +57,8 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ViewHo
         holder.btnDeleteExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,mExerciseList.get(position).getExerciseName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mContext,mExerciseList.get(position).getExerciseName()+"을/를 삭제합니다",Toast.LENGTH_SHORT).show();
+                mExerciseFragment.onExerciseDeleteClicked(mExerciseList.get(position).getExerciseNo());
             }
         });
     }

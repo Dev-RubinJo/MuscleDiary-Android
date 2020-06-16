@@ -52,6 +52,11 @@ public class decrypted_InputExerciseActivity extends BaseActivity implements Vie
             mSelectedItem = clickedItem;
             startActivityForResult(intentSending,4000);
         }
+
+        @Override
+        public void onExerciseDeleteClicked(int exerciseNo) {
+
+        }
     };
 
     @Override
@@ -175,5 +180,10 @@ public class decrypted_InputExerciseActivity extends BaseActivity implements Vie
     public void onResultItemClicked(Intent intentSending, ExerciseItem clickedItem) {
         mClickedExerciseItem.add(clickedItem);
         startActivityForResult(intentSending,4000);
+    }
+
+    @Override
+    public void onExerciseDeleteClicked(int exerciseNo) {
+
     }
 }

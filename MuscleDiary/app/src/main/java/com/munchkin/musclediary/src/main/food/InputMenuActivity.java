@@ -115,7 +115,7 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
 
         //추가 메뉴 리사이클러뷰 레이아웃 매니저 적용
         mSelectedMenuRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.HORIZONTAL,false));
-        mSelectedMenuAdapter = new SelectedMenuAdapter(getApplicationContext(),mClickedMenuItem);
+        mSelectedMenuAdapter = new SelectedMenuAdapter(getApplicationContext(),mClickedMenuItem,this);
         mSelectedMenuRecyclerView.setAdapter(mSelectedMenuAdapter);
 
         //검색버튼 생성, 클릭이벤트 적용
@@ -236,6 +236,11 @@ public class InputMenuActivity extends BaseActivity implements InputMenuActivity
             mMenuResultAdapter.notifyDataSetChanged();
         }
         hideProgressDialog();
+    }
+
+    public void onSelectedItemDelete(int position){
+        mClickedMenuItem.remove(position);
+        mSelectedMenuAdapter.changeDataset(mClickedMenuItem);
     }
 
     @Override

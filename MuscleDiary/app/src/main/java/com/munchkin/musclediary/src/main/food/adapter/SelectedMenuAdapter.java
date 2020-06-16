@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.munchkin.musclediary.R;
+import com.munchkin.musclediary.src.main.food.InputMenuActivity;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 
 import java.util.ArrayList;
@@ -20,17 +21,19 @@ public class SelectedMenuAdapter extends RecyclerView.Adapter<SelectedMenuAdapte
 
     Context mContext;
     ArrayList<MenuItem> mSelectedMenu;
+    InputMenuActivity mInputMenuActivity;
 
-    public SelectedMenuAdapter(Context context, ArrayList<MenuItem> selectedMenu){
+    public SelectedMenuAdapter(Context context, ArrayList<MenuItem> selectedMenu, InputMenuActivity inputMenuActivity){
         mContext = context;
         mSelectedMenu = selectedMenu;
+        mInputMenuActivity = inputMenuActivity;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView menuTitle;
         Button btnDelete;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull final View itemView) {
             super(itemView);
             menuTitle = (TextView) itemView.findViewById(R.id.input_menu_item_tv_menu_add_list);
             btnDelete = (Button) itemView.findViewById(R.id.input_menu_item_btn_del_menu);
@@ -38,8 +41,7 @@ public class SelectedMenuAdapter extends RecyclerView.Adapter<SelectedMenuAdapte
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO interface로 activity에서 DATA SET 바꿔주고 NOTIFY하기
-                    Log.d("jooan","delete");
+                    mInputMenuActivity.onSelectedItemDelete(getAdapterPosition());
                 }
             });
         }
@@ -65,5 +67,10 @@ public class SelectedMenuAdapter extends RecyclerView.Adapter<SelectedMenuAdapte
     @Override
     public int getItemCount() {
         return mSelectedMenu.size();
+    }
+
+    public void changeDataset(ArrayList<MenuItem> newMenuItems){
+        this.mSelectedMenu = newMenuItems;
+        this.notifyDataSetChanged();
     }
 }
