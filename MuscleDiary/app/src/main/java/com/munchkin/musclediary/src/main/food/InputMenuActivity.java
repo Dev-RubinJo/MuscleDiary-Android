@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
 
-public class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
+public abstract class InputMenuActivity extends BaseActivity implements InputMenuActivityView, View.OnClickListener, ResultMenuItemClickListener {
 
     String mMealTitle;
     TextView mTvMealTitle;

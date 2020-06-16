@@ -10,6 +10,8 @@ import com.munchkin.musclediary.src.main.food.models.FoodAddRequest;
 import com.munchkin.musclediary.src.main.food.models.FoodAddResponse;
 import com.munchkin.musclediary.src.main.food.models.FoodListResponse;
 import com.munchkin.musclediary.src.main.food.models.ReadFoodResponse;
+import com.munchkin.musclediary.src.main.setting.interfaces.GoalNutritionRetrofitInterface;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -114,6 +116,32 @@ public class InputMenuService {
             @Override
             public void onFailure(Call<DeleteFoodResponse> call, Throwable t) {
                 mInputMenuActivityView.validateFailure("null");
+            }
+        });
+    }
+
+    public void getNutrition(){
+        final GoalNutritionRetrofitInterface goalNutritionRetrofitInterface = getRetrofit().create(GoalNutritionRetrofitInterface.class);
+        goalNutritionRetrofitInterface.getNutrition().enqueue(new Callback<GetNutritionResponse>() {
+            @Override
+            public void onResponse(Call<GetNutritionResponse> call, Response<GetNutritionResponse> response) {
+                final GetNutritionResponse getNutritionResponse = response.body();
+                if (getNutritionResponse == null) {
+                    mInputMenuActivityView.validateFailure("null");
+                    return;
+                }
+                if(getNutritionResponse.getCode() == 102){
+                    mInputMenuActivityView.getNutritionSuccess(getNutritionResponse.getCode(),
+                            getNutritionResponse.getMessage(),
+                            getNutritionResponse.getResult().get(0));
+                } else {
+                    mInputMenuActivityView.getGoalWeightFailure(getNutritionResponse.getMessage());
+                }
+
+            }
+            @Override
+            public void onFailure(Call<GetNutritionResponse> call, Throwable t) {
+                mInputMenuActivityView.validateFailure("fail");
             }
         });
     }

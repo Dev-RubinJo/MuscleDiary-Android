@@ -33,13 +33,16 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
         setContentView(R.layout.activity_sign_in);
 
         //자동로그인 기능
-        if(sSharedPreferences.getBoolean("isSignIn", true)){
+
+        if(sSharedPreferences.getBoolean("isSignIn", false)){
             X_ACCESS_TOKEN = sSharedPreferences.getString("x-access-token","X_ACCESS_TOKEN");
             Log.d("Debug",X_ACCESS_TOKEN);
             Intent signInIntent = new Intent(this, MainActivity.class);
             startActivity(signInIntent);
             finish();
         }
+
+
 
         // set UI Component
         mSignInButton = findViewById(R.id.login_btn_login);

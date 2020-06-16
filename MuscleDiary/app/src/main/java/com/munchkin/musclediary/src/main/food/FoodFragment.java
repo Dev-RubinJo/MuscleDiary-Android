@@ -30,6 +30,7 @@ import com.munchkin.musclediary.src.main.food.models.MealItem;
 import com.munchkin.musclediary.src.main.food.models.MenuItem;
 import com.munchkin.musclediary.src.main.food.models.ReadFoodResult;
 import com.munchkin.musclediary.src.main.food.services.InputMenuService;
+import com.munchkin.musclediary.src.main.setting.models.GetNutritionResponse;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -343,6 +344,12 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
         inputMenuService.deleteFood(deleteFoodRequest);
     }
 
+    private void tryGetNutrition(){
+        showProgressDialog(getActivity());
+        final InputMenuService inputMenuService = new InputMenuService(this);
+        inputMenuService.getNutrition();
+    }
+
     @Override
     public void readMenuSuccess(int code, String message, ArrayList<ReadFoodResult> readFoodResults, int mealType) {
         if(readFoodResults==null){
@@ -388,6 +395,26 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
         kcalUpdate();
         progressBarUpdate();
         mMealAdapter.changeDataset(mMealitems);
+    }
+
+    @Override
+    public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) {
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putInt("carbohydrateGram", result.getCarboRate());
+        editor.putInt("proteinGram", result.getProteinRate());
+        editor.putInt("fatGram", result.getFatRate());
+        editor.apply();
+        progressBarUpdate();
+    }
+
+    @Override
+    public void getGoalWeightFailure(String message) {
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+        editor.putInt("carbohydrateGram", 0);
+        editor.putInt("proteinGram", 0);
+        editor.putInt("fatGram", 0);
+        editor.apply();
+        progressBarUpdate();
     }
 
     @Override
