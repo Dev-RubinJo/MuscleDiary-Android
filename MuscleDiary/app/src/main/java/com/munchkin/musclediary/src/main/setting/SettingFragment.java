@@ -507,9 +507,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case R.id.bt_logout:
-
                 X_ACCESS_TOKEN = "X_ACCESS_TOKEN";
-                editor.putBoolean("isSignIn",false);
+                editor.clear();
                 editor.commit();
                 Intent i = new Intent( getContext() , SignInActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
