@@ -12,7 +12,7 @@ public interface SettingFragmentView {
     void postNutritionSuccess(int code, String message);
     void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result);
     void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result);
-    void postGoalWeightSuccess(int code, String message);
+    void postGoalWeightSuccess(int code, String message, double goalWeight);
     void getGoalWeightFailure(String message);
     void validateFailure(String message);
 }

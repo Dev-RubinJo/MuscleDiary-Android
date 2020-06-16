@@ -230,7 +230,9 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) { }
 
     @Override
-    public void postGoalWeightSuccess(int code, String message) { }
+    public void postGoalWeightSuccess(int code, String message, double goalWeight) {
+
+    }
 
     @Override
     public void getGoalWeightFailure(String message) {

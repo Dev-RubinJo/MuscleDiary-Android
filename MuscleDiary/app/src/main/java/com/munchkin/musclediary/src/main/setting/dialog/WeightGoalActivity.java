@@ -2,6 +2,7 @@ package com.munchkin.musclediary.src.main.setting.dialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,6 +68,7 @@ public class WeightGoalActivity extends BaseActivity implements View.OnClickList
             case R.id.bt_select_weight_goal:
                 Intent intent = new Intent();
                 double weight = (mIntPicker.getValue()*1.0) + (mFloatPicker.getValue() * 0.1);
+                Log.d("testLog", weight+"");
                 intent.putExtra("goalWeight", weight);
                 setResult(RESULT_OK, intent);
                 finish();

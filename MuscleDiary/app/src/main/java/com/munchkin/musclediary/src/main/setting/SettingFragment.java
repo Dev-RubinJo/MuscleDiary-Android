@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -72,6 +73,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //주간 체중목표버튼
     private Button mBtWeightGoal;
+    private TextView mTvStartWeight;
+    private TextView mTvNowWeight;
 
     //영양목표 변경 버튼
     private Button mBtRatio;
@@ -82,7 +85,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private ArrayList<SettingItem> mItems;
 
     //임시 프로필 저장 변수
-    private double mGoalWeight = 0;
+    private double mGoalWeight = 0.0;
+    private double mStartWeight = 0.0;
+    private double mNowWeight = 0.0;
     private double mHeight = 175.2;
     private double mWeight = 65.1;
     private String mBirth = "1996-06-03";
@@ -103,6 +108,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         tryGetProfile();
         tryGetNutrition();
+
+        tryGetGoalWeight();
     }
 
     @Override
@@ -144,6 +151,10 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mBtWeekWeight = v.findViewById(R.id.bt_goal_weight);
         mBtWeekWeight.setOnClickListener(this);
 
+        //시작체중, 현재 체중 TextView생성
+        mTvNowWeight = v.findViewById(R.id.tv_now_weight);
+        mTvStartWeight = v.findViewById(R.id.tv_start_weight);
+
         //영양목표 비율 버튼
         mBtRatio = v.findViewById(R.id.bt_ntRatio_setting);
         mBtRatio.setOnClickListener(this);
@@ -179,10 +190,19 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         chartRecyclerView.setAdapter(mSettintAdapter);
     }
 
+    private void setGoalWeight(double startWeight, double nowWeight, double goalWeight){
+        if(startWeight >= 0.0){
+            mTvStartWeight.setText(String.format("%.1fKG",startWeight));
+        }
+        if(nowWeight >= 0.0){
+            mTvNowWeight.setText(String.format("%.1fKG", nowWeight));
+        }
+        mBtWeekWeight.setText(String.format("%.1fKG", goalWeight));
+    }
+
     private void setProfile(ProfileResult profile){
         mHeight = profile.getHeight();
         mWeight = profile.getWeight();
-        Log.d("testLog", mHeight + " " + mWeight + " " + profile.getBirth().toString());
 
         /*NOTE 나중에 회원가입 때 받아서 입력 되면 수정
         Date birth = profile.getBirth();
@@ -327,8 +347,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 break;
 
             case CHANGE_GOAL_WEIGHT:
-                mGoalWeight = data.getDoubleExtra("goalWeight", 0);
-                mBtWeekWeight.setText(String.format("목표체중 - %.1fKG", mGoalWeight));
+                double goalWeight = data.getDoubleExtra("goalWeight", 0);
+                tryPostGoalWeight(goalWeight);
                 break;
 
             case CHANGE_ACTIVITY_LEVEL:
@@ -596,11 +616,15 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) {
+        Log.d("testLog", result.getGoalWeight()+"");
+        setGoalWeight(result.getStartWeight(), result.getCurrentWeight(), result.getGoalWeight());
+        showCustomToast("체중목표 성공");
         hideProgressDialog();
     }
 
     @Override
-    public void postGoalWeightSuccess(int code, String message) {
+    public void postGoalWeightSuccess(int code, String message, double goalWeight) {
+        setGoalWeight(-1.0, -1.0, goalWeight);
         hideProgressDialog();
     }
 

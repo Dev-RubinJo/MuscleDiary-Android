@@ -27,11 +27,25 @@ public class GetGoalWeightResponse {
     }
 
     public class Result {
-        @SerializedName("weight")
-        private int weight;
+        @SerializedName("goalWeight")
+        private double goalWeight;
 
-        public int getWeight() {
-            return weight;
+        @SerializedName("startWeight")
+        private double startWeight;
+
+        @SerializedName("currentWeight")
+        private double currentWeight;
+
+        public double getGoalWeight() {
+            return goalWeight;
+        }
+
+        public double getStartWeight() {
+            return startWeight;
+        }
+
+        public double getCurrentWeight() {
+            return currentWeight;
         }
     }
 }

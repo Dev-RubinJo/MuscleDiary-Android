@@ -149,7 +149,7 @@ public class SettingService {
         });
     }
 
-    public void postGoalWeight(Double weight) {
+    public void postGoalWeight(final Double weight) {
         final GoalWeightRetrofitInterface goalWeightRetrofitInterface = getRetrofit().create(GoalWeightRetrofitInterface.class);
 
         goalWeightRetrofitInterface.postGoalWeight(new PostGoalWeightRequest(weight)).enqueue(new Callback<PostGoalWeightResponse>() {
@@ -162,7 +162,7 @@ public class SettingService {
                 }
 
                 mSettingFragmentView.postGoalWeightSuccess(postGoalWeightResponse.getCode(),
-                        postGoalWeightResponse.getMessage());
+                        postGoalWeightResponse.getMessage(), weight);
             }
 
             @Override
