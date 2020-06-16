@@ -15,7 +15,7 @@ public class ProfileResult {
     private int gender;
 
     @SerializedName("birth")
-    private Date birth;
+    private String birth;
 
     public double getHeight() {
         return height;
@@ -29,7 +29,7 @@ public class ProfileResult {
         return gender;
     }
 
-    public Date getBirth() {
+    public String getBirth() {
         return birth;
     }
 }

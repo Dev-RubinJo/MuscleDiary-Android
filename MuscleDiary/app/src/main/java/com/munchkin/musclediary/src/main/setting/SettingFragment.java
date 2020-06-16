@@ -182,6 +182,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private void setProfile(ProfileResult profile){
         mHeight = profile.getHeight();
         mWeight = profile.getWeight();
+        Log.d("testLog", mHeight + " " + mWeight + " " + profile.getBirth().toString());
 
         /*NOTE 나중에 회원가입 때 받아서 입력 되면 수정
         Date birth = profile.getBirth();
@@ -189,14 +190,14 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         String dateToString = dateToStringForm.format(birth); */
         mGender = profile.getGender();
 
-        mBtHeight.setText(String.format("%sCM", mHeight));
-        mBtWeight.setText(String.format("%sKG", mWeight));
-        mBtAge.setText("1997-12-10");
+        mBtHeight.setText(String.format("%.1fCM", mHeight));
+        mBtWeight.setText(String.format("%.1fKG", mWeight));
+        mBtAge.setText(profile.getBirth().toString());
         mBtGender.setText(mGender == 1 ? "남성" : "여성");
 
         editor.putLong("height",Double.doubleToRawLongBits(mHeight));
         editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
-        editor.putString("birth","1997-12-10");
+        editor.putString("birth",profile.getBirth().toString());
         editor.putInt("gender",mGender);
         editor.apply();
     }
@@ -578,7 +579,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void postNutritionSuccess(int code, String message) {
         hideProgressDialog();
-        Log.d("testtest", "isSuccess");
         if(code == 104){
             setGoalNutrition(mKcal, mRatio[0], mRatio[1], mRatio[2]);
         }
