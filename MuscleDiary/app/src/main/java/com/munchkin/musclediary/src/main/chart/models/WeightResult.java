@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeightResult {
     @SerializedName("weight")
-    private int weight;
+    private float weight;
 
     @SerializedName("recordDate")
     private String recordDate;
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 
