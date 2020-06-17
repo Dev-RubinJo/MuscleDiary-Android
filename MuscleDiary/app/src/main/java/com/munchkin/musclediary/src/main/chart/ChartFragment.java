@@ -139,7 +139,13 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public String getFormattedValue(float value) {
                 if (value >= 0) {
-                    return xLabel.get((int) value);
+                    try {
+                        return xLabel.get((int) value);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return xLabel.get(0);
+                    }
+
                 } else {
                     return "";
                 }
