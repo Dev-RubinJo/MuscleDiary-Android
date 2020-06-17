@@ -23,19 +23,6 @@
             android:textStyle="bold"
             android:textSize="16sp"/>
 
-        <TextView
-            android:id="@+id/input_menu_tv_my_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="my음식"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="13sp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
