@@ -106,10 +106,17 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+    }
+
+    @Override
+    public void onStart() {
+
         tryGetProfile();
         tryGetNutrition();
 
         tryGetGoalWeight();
+        super.onStart();
     }
 
     @Override
@@ -189,6 +196,8 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mSettintAdapter = new SettingAdapter(getContext(), mItems);
         chartRecyclerView.setAdapter(mSettintAdapter);
     }
+
+
 
     private void setGoalWeight(double startWeight, double nowWeight, double goalWeight){
         if(startWeight >= 0.0){
