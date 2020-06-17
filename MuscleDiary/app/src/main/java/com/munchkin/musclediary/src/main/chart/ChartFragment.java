@@ -56,6 +56,7 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     private ArrayList<ChartItem> mWeightItems;
     private ArrayList<ChartItem> mFatItems;
     private ImageButton mBtnAddData;
+    private Button mBtTerm;
     private ArrayList<String> xLabel;
 
     //그래프 생성
@@ -90,8 +91,8 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         btType.setOnClickListener(this);
 
         //기간설정 버튼 생성 및 리스너 적용용
-        Button btTerm = v.findViewById(R.id.bt_term_chart);
-        btTerm.setOnClickListener(this);
+        mBtTerm = v.findViewById(R.id.bt_term_chart);
+        mBtTerm.setOnClickListener(this);
 
         //더미데이터 넣는 함수 실행
         addWeightRecyclerList();
@@ -121,9 +122,9 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         Log.d("testLog", xLabel.size()+" = size");
         LineDataSet lineDataSet = new LineDataSet(list, label);
         lineDataSet.setLineWidth(2);
-        lineDataSet.setCircleRadius(6);
-        lineDataSet.setCircleColor(Color.parseColor("#FFA1B4DC"));
-        lineDataSet.setColor(Color.parseColor("#FFA1B4DC"));
+        lineDataSet.setCircleRadius(5);
+        lineDataSet.setCircleColor(Color.parseColor("#2B3252"));
+        lineDataSet.setColor(Color.parseColor("#F9D643"));
         lineDataSet.setDrawCircleHole(true);
         lineDataSet.setDrawCircles(true);
         lineDataSet.setDrawHorizontalHighlightIndicator(false);
@@ -344,20 +345,23 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
 
             case CHANGE_TERM:
                 mTerm = data.getIntExtra("term", 0);
-                showCustomToast(Integer.toString(mTerm));
+                //showCustomToast(Integer.toString(mTerm));
                 String recordDate;
                 switch(mTerm){
                     case 0:
                         recordDate = getRecordDate(today);
                         tryGetWeight(recordDate);
+                        mBtTerm.setText("주간차트");
                         break;
                     case 1:
                         recordDate = getRecordDate(today);
                         tryGetWeight(recordDate);
+                        mBtTerm.setText("월간차트");
                         break;
                     case 2:
                         recordDate = getRecordDate(today);
                         tryGetWeight(recordDate);
+                        mBtTerm.setText("연간차트");
                         break;
                     default:
                         break;
@@ -429,13 +433,12 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void tryPostWeight(float weight, String recordDate){
-        showProgressDialog(getActivity());
         final ChartService chartService = new ChartService(this);
         chartService.postWeight(weight, recordDate);
     }
 
     private void tryGetWeight(String date){
-        showProgressDialog(getActivity());
+        //showProgressDialog(getActivity());
         final ChartService chartService = new ChartService(this);
         switch (mTerm){
             case 0:
@@ -470,7 +473,6 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
         }
         mAdapter.notifyDataSetChanged();
         addWeightData(mTerm, mWeightItems);
-        hideProgressDialog();
     }
 
     @Override

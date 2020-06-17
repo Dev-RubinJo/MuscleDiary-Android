@@ -3,7 +3,7 @@
 
     <!-- SignIn -->
     <string name="login_enter_password">비밀번호를 입력하세요</string>
-    <string name="login_enter_email">이메일을 입력하세요</string>
+    <string name="login_enter_email">아이디를 입력하세요</string>
     <string name="login_str_login_btn">로그인</string>
     <string name="login_str_description_sign_up">아직 그뉵일기의 회원이 아니신가요?</string>
     <string name="login_str_sign_up">회원가입</string>
@@ -11,9 +11,9 @@
     <!-- SignUp-->
     <string name="sign_up_action_bar_title">회원가입</string>
     <string name="sign_up_str_title_id">아이디</string>
-    <string name="sign_up_str_input_id">이메일 주소 입력</string>
+    <string name="sign_up_str_input_id">영문, 숫자 혼합 6-10자</string>
     <string name="sign_up_str_title_password">비밀번호</string>
-    <string name="sign_up_str_input_password">비밀번호 입력</string>
+    <string name="sign_up_str_input_password">영문, 숫자 혼합 8-14자(연속된 4자리 불가)</string>
     <string name="sign_up_str_title_password_re">비밀번호 재입력</string>
     <string name="sign_up_str_input_password_re">비밀번호 재입력</string>
     <string name="sign_up_btn_title">입력 완료</string>

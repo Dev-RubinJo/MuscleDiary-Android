@@ -27,61 +27,54 @@
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/line_chart"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="280dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/colorPrimaryDark"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal">
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"/>
                 <Button
-                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/chart_button_back"
                     android:id="@+id/bt_type_chart"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="5dp"
                     android:gravity="center"
                     android:text="@string/chart_type"
                     android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:clickable="true"
                     android:focusable="true"/>
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"/>
+
                 <Button
-                    style="?android:attr/borderlessButtonStyle"
+                    android:background="@drawable/chart_button_back"
                     android:id="@+id/bt_term_chart"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
                     android:gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+
                     android:text="@string/chart_term"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
                     android:textSize="15sp"
                     android:clickable="true"
                     android:focusable="true"/>
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimaryDark"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="match_parent"
                 android:background="@color/colorPrimaryDark"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -93,13 +86,14 @@
 
     <ImageButton
         android:id="@+id/bt_add_list_chart"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
+        android:elevation="25dp"
         android:src="@drawable/icon_plus"
         android:visibility="visible" />
 </FrameLayout>

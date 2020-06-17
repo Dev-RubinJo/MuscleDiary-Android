@@ -51,6 +51,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/sign_up_str_title_id"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark" />
 
             <LinearLayout
@@ -81,6 +82,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/sign_up_str_title_password"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"/>
 
             <LinearLayout
@@ -111,6 +113,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/sign_up_str_title_password_re"
+                android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"/>
 
             <LinearLayout

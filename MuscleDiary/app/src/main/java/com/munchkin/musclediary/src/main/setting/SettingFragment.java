@@ -91,6 +91,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     private double mHeight = 175.2;
     private double mWeight = 65.1;
     private String mBirth = "1996-06-03";
+    private int mYear = 0;
+    private int mMonth = 0;
+    private int mDay = 0;
     private int mGender = 1;
     private int mWeightGoal = 3;
     private int mActivityLevel = 3;
@@ -201,12 +204,13 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     private void setGoalWeight(double startWeight, double nowWeight, double goalWeight){
         if(startWeight >= 0.0){
-            mTvStartWeight.setText(String.format("%.1fKG",startWeight));
+            mTvStartWeight.setText(String.format("시작체중 : %.1fkg",startWeight));
         }
         if(nowWeight >= 0.0){
-            mTvNowWeight.setText(String.format("%.1fKG", nowWeight));
+            mTvNowWeight.setText(String.format("현재체중 : %.1fkg", nowWeight));
         }
-        mBtWeekWeight.setText(String.format("%.1fKG", goalWeight));
+        mBtWeekWeight.setText(String.format("목표체중 : %.1fkg", goalWeight));
+        mGoalWeight = goalWeight;
     }
 
     private void setProfile(ProfileResult profile){
@@ -219,34 +223,38 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         String dateToString = dateToStringForm.format(birth); */
         mGender = profile.getGender();
 
-        mBtHeight.setText(String.format("%.1fCM", mHeight));
-        mBtWeight.setText(String.format("%.1fKG", mWeight));
-        mBtAge.setText(profile.getBirth().toString());
-        mBtGender.setText(mGender == 1 ? "남성" : "여성");
+        mBtHeight.setText(String.format("%.1fcm", mHeight));
+        mBtWeight.setText(String.format("%.1fkg", mWeight));
 
+        mYear = Integer.parseInt(profile.getBirth().substring(0,4));
+        mMonth = Integer.parseInt(profile.getBirth().substring(5,7));
+        mDay = Integer.parseInt(profile.getBirth().substring(8,10));
+
+        mBtAge.setText(String.format("%d년 %d월 %d일",mYear,mMonth,mDay));
+        mBtGender.setText(mGender == 1 ? "남성" : "여성");
         editor.putLong("height",Double.doubleToRawLongBits(mHeight));
         editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
-        editor.putString("birth",profile.getBirth().toString());
+        editor.putString("birth",profile.getBirth());
         editor.putInt("gender",mGender);
         editor.apply();
     }
 
     private void setGoalNutrition(int kcal, int carboRate, int proteinRate, int fatRate){
         mKcal = kcal;
-        mBtKcal.setText(String.format("%dKCAL", kcal));
+        mBtKcal.setText(String.format("일일목표섭취칼로리\n%dkcal", kcal));
 
         mRatio[0] = carboRate;
         mRatio[1] = proteinRate;
         mRatio[2] = fatRate;
-        mBtRatio.setText(String.format("%d:%d:%d", carboRate, proteinRate, fatRate));
+        mBtRatio.setText(String.format("목표영양비율 (탄:단:지)\n%d : %d : %d", carboRate, proteinRate, fatRate));
     }
 
     //한번에 실행시키기 위한 함수
     private void updateProfile(){
-        Double newHeight = Double.valueOf(sSharedPreferences.getLong("height",0));
-        Double newWeight = Double.valueOf(sSharedPreferences.getLong("weight",0));
-        Date newBirth = Date.valueOf(sSharedPreferences.getString("birth","1997-12-10"));
-        int newGender = sSharedPreferences.getInt("gender",1);
+//        Double newHeight = Double.valueOf(sSharedPreferences.getLong("height",0));
+//        Double newWeight = Double.valueOf(sSharedPreferences.getLong("weight",0));
+//        Date newBirth = Date.valueOf(sSharedPreferences.getString("birth","1997-12-10"));
+//        int newGender = sSharedPreferences.getInt("gender",1);
         tryPostUpdateProfile(mHeight,mWeight,mGender, mBirth);
     }
 
@@ -305,8 +313,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             case CHANGE_AGE:
                 //생년월일 변경했을 때 코드
                 String newBirth = data.getStringExtra("age");
+                mYear = data.getIntExtra("ageYear",1997);
+                mMonth = data.getIntExtra("ageMonth",12);
+                mDay = data.getIntExtra("ageDay",10);
                 mBirth = newBirth;
-                mBtAge.setText(newBirth);
+                mBtAge.setText(String.format("%d년 %d월 %d일",mYear,mMonth,mDay));
                 editor.putString("birth",newBirth);
 
                 updateProfile();
@@ -318,7 +329,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 editor.putLong("height",Double.doubleToRawLongBits(mHeight));
                 editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
 
-                mBtHeight.setText(String.format("%.1fCM", mHeight));
+                mBtHeight.setText(String.format("%.1fcm", mHeight));
                 updateProfile();
                 break;
 
@@ -329,7 +340,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                 editor.putLong("weight",Double.doubleToRawLongBits(mWeight));
                 editor.apply(); //만약 apply가 늦어서 서버에 입력이 기존 값으로 되면 commit으로 바꿀 것
 
-                mBtWeight.setText(String.format("%.1fKG", mWeight));
+                mBtWeight.setText(String.format("%.1fkg", mWeight));
                 updateProfile();
                 break;
 
@@ -441,9 +452,9 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
             //생일 변경 버튼 클릭이벤트
             case R.id.bt_age_setting:
                 Intent ageIntent = new Intent(getActivity(), AgeActivity.class);
-                ageIntent.putExtra("year", 1996);
-                ageIntent.putExtra("month", 6);
-                ageIntent.putExtra("date", 3);
+                ageIntent.putExtra("year", mYear);
+                ageIntent.putExtra("month", mMonth);
+                ageIntent.putExtra("date", mDay);
                 startActivityForResult(ageIntent, CHANGE_AGE);
                 break;
 
@@ -599,7 +610,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void profileSuccess(int code, String message, ArrayList<ProfileResult> profileResult) {
-        showCustomToast("프로필 불러오기에 성공했습니다.");
+        //showCustomToast("프로필 불러오기에 성공했습니다.");
         setProfile(profileResult.get(0));
         hideProgressDialog();
     }
@@ -625,7 +636,7 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void getGoalWeightSuccess(int code, String message, GetGoalWeightResponse.Result result) {
         setGoalWeight(result.getStartWeight(), result.getCurrentWeight(), result.getGoalWeight());
-        showCustomToast("체중목표 성공");
+        //showCustomToast("체중목표 성공");
         hideProgressDialog();
     }
 
