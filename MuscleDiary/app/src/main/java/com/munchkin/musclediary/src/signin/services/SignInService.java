@@ -50,8 +50,9 @@ public class SignInService {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 final SignUpResponse signUpResponse = response.body();
-                if (signUpResponse == null); {
+                if (signUpResponse == null) {
                     mSignInActivityView.validateFailure("null");
+                    return;
                 }
 
                 mSignInActivityView.SignUpSuccess(signUpResponse.getCode(),

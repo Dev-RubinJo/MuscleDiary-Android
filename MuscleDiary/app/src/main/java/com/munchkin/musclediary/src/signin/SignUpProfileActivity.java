@@ -28,10 +28,12 @@ import com.munchkin.musclediary.src.signin.interfaces.SignInActivityView;
 import com.munchkin.musclediary.src.signin.models.SignInResponse;
 import com.munchkin.musclediary.src.signin.services.SignInService;
 
-import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.munchkin.musclediary.src.ApplicationClass.X_ACCESS_TOKEN;
 import static com.munchkin.musclediary.src.ApplicationClass.sSharedPreferences;
@@ -55,6 +57,12 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     private String mBirth;
     private double mHeight= -1.0;
     private double mWeight= -1.0;
+
+    //현재년도를 받아오기
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy");
+    //현재 날짜 가져오기
+    private Date currentTime = Calendar.getInstance().getTime();
+    String mCurrentYear = DATE_FORMAT.format(currentTime);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -191,6 +199,34 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
         settingService.postUpdateProfile(height, weight, gender, birth);
     }
 
+    private void tryPostNutrition(Double height, Double weight, int gender, String birth){
+        int birthYear = Integer.parseInt(birth.substring(0,4));
+        int age = Integer.parseInt(mCurrentYear) - birthYear;
+        int calories;
+
+        SharedPreferences.Editor editor = sSharedPreferences.edit();
+
+        if(gender == 1){
+            calories = (int)((66 + (13.7 * weight) + (5 * height) - (6.8 * age))*1.55);
+            editor.putInt("standardCalorie",calories);
+        }else{
+            calories = (int)((655 + (9.6 * weight) + (1.8 * height) - (4.7 * age))*1.55);
+            editor.putInt("standardCalorie",calories);
+        }
+        editor.putInt("goalWeightState",3);
+
+        editor.putInt("goalWeightState1Done",(int)(calories*0.8));
+        editor.putInt("goalWeightState2Done",(int)(calories*0.9));
+        editor.putInt("goalWeightState3Done",calories);
+        editor.putInt("goalWeightState4Done",(int)(calories*1.1));
+        editor.putInt("goalWeightState5Done",(int)(calories*1.2));
+
+        editor.apply();
+
+        SettingService settingService = new SettingService(this);
+        settingService.postNutrition(50,25,25, calories);
+    }
+
     //로그인 성공시
     @Override
     public void SignInSuccess(int code, String message, SignInResponse.Jwt jwt) {
@@ -212,17 +248,22 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     //프로파일 수정 성공시
     @Override
     public void updateProfileSuccess(int code, String message) {
+        tryPostNutrition(mHeight,mWeight,mGender,mBirth);
+    }
+
+    @Override
+    public void postNutritionSuccess(int code, String message) {
         Intent gotoMain = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(gotoMain);
         hideProgressDialog();
+        showCustomToast("설정 탭으로 이동하여 나머지 설정을 완료해 주세요");
         finish();
     }
 
     //NOTE implements 받아왔지만 실질적으로 사용하지 않는 부분
     @Override
     public void profileSuccess(int code, String message, ArrayList<ProfileResult> profileResult) { }
-    @Override
-    public void postNutritionSuccess(int code, String message) { }
+
     @Override
     public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) { }
 

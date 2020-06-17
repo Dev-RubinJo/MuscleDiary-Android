@@ -36,10 +36,11 @@ import com.munchkin.musclediary.src.main.setting.models.ProfileResult;
 import com.munchkin.musclediary.src.main.setting.services.SettingService;
 import com.munchkin.musclediary.src.signin.SignInActivity;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
 import static com.munchkin.musclediary.src.ApplicationClass.X_ACCESS_TOKEN;
@@ -105,6 +106,12 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     //목표영양 임시 칼로리
     private int mKcal = 2024;
 
+    //현재년도를 받아오기
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy");
+    //현재 날짜 가져오기
+    private Date currentTime = Calendar.getInstance().getTime();
+    String mCurrentYear = DATE_FORMAT.format(currentTime);
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +124,23 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
         tryGetProfile();
         tryGetNutrition();
+        switch (sSharedPreferences.getInt("goalWeightState",3)){
+            case 1:
+                mBtWeightGoal.setText("주간목표 - 주당 0.5kg 감량");
+                break;
+            case 2:
+                mBtWeightGoal.setText("주간목표 - 주당 0.2kg 감량");
+                break;
+            case 3:
+                mBtWeightGoal.setText("주간목표 - 주당 체중 유지");
+                break;
+            case 4:
+                mBtWeightGoal.setText("주간목표 - 주당 0.2kg 증량");
+                break;
+            case 5:
+                mBtWeightGoal.setText("주간목표 - 주당 0.5kg 증량");
+                break;
+        }
 
         tryGetGoalWeight();
         super.onStart();
@@ -351,17 +375,31 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
                     mWeightGoal = data.getIntExtra("weight_goal", 0);
                     if(mWeightGoal == 1){
                         mBtWeightGoal.setText("주간목표 - 주당 0.5kg 감량");
+                        editor.putInt("goalWeightState",1);
+                        setGoalNutrition(sSharedPreferences.getInt("goalWeightState1Done",mKcal),mRatio[0],mRatio[1],mRatio[2]);
+                        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],sSharedPreferences.getInt("goalWeightState1Done",mKcal));
                     }else if(mWeightGoal == 2){
                         mBtWeightGoal.setText("주간목표 - 주당 0.2kg 감량");
+                        editor.putInt("goalWeightState",2);
+                        setGoalNutrition(sSharedPreferences.getInt("goalWeightState2Done",mKcal),mRatio[0],mRatio[1],mRatio[2]);
+                        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],sSharedPreferences.getInt("goalWeightState2Done",mKcal));
                     }else if(mWeightGoal == 3){
                         mBtWeightGoal.setText("주간목표 - 주당 체중 유지");
+                        editor.putInt("goalWeightState",3);
+                        setGoalNutrition(sSharedPreferences.getInt("goalWeightState3Done",mKcal),mRatio[0],mRatio[1],mRatio[2]);
+                        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],sSharedPreferences.getInt("goalWeightState3Done",mKcal));
                     }else if(mWeightGoal == 4){
                         mBtWeightGoal.setText("주간목표 - 주당 0.2kg 증량");
-                    }
-                    else if(mWeightGoal == 5){
+                        editor.putInt("goalWeightState",4);
+                        setGoalNutrition(sSharedPreferences.getInt("goalWeightState4Done",mKcal),mRatio[0],mRatio[1],mRatio[2]);
+                        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],sSharedPreferences.getInt("goalWeightState4Done",mKcal));
+                    }else if(mWeightGoal == 5){
                         mBtWeightGoal.setText("주간목표 - 주당 0.5kg 증량");
+                        editor.putInt("goalWeightState",5);
+                        setGoalNutrition(sSharedPreferences.getInt("goalWeightState5Done",mKcal),mRatio[0],mRatio[1],mRatio[2]);
+                        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],sSharedPreferences.getInt("goalWeightState5Done",mKcal));
                     }
-
+                    editor.apply();
                 }
                 break;
 
@@ -601,11 +639,53 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         settingService.getGoalWeight();
     }
 
-
     @Override
     public void updateProfileSuccess(int code, String message) {
         showCustomToast("프로필 변경에 성공했습니다.");
+        updateStandardCalorie();
         hideProgressDialog();
+    }
+
+    private void updateStandardCalorie() {
+        int calories;
+        int birthYear = Integer.parseInt(mBirth.substring(0,4));
+        int age = Integer.parseInt(mCurrentYear) - birthYear;
+        int kcal=mKcal;
+
+        if(mGender == 1){
+            calories = (int)((66 + (13.7 * mWeight) + (5 * mHeight) - (6.8 * age))*1.55);
+            editor.putInt("standardCalorie",calories);
+        }else{
+            calories = (int)((655 + (9.6 * mWeight) + (1.8 * mHeight) - (4.7 * age))*1.55);
+            editor.putInt("standardCalorie",calories);
+        }
+
+        editor.putInt("goalWeightState1Done",(int)(calories*0.8));
+        editor.putInt("goalWeightState2Done",(int)(calories*0.9));
+        editor.putInt("goalWeightState3Done",calories);
+        editor.putInt("goalWeightState4Done",(int)(calories*1.1));
+        editor.putInt("goalWeightState5Done",(int)(calories*1.2));
+        editor.apply();
+
+        switch (sSharedPreferences.getInt("goalWeightState",3)){
+            case 1:
+                kcal = sSharedPreferences.getInt("goalWeightState1Done",mKcal);
+                break;
+            case 2:
+                kcal = sSharedPreferences.getInt("goalWeightState2Done",mKcal);
+                break;
+            case 3:
+                kcal = sSharedPreferences.getInt("goalWeightState3Done",mKcal);
+                break;
+            case 4:
+                kcal = sSharedPreferences.getInt("goalWeightState4Done",mKcal);
+                break;
+            case 5:
+                kcal = sSharedPreferences.getInt("goalWeightState5Done",mKcal);
+                break;
+        }
+        mKcal = kcal;
+        tryPostNutrition(mRatio[0],mRatio[1],mRatio[2],kcal);
     }
 
     @Override
