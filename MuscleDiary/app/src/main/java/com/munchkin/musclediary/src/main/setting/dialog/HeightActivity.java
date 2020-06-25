@@ -42,7 +42,7 @@ public class HeightActivity extends BaseActivity implements View.OnClickListener
     private void createPickers(){
         Intent intent = getIntent();
 
-        double height = intent.getDoubleExtra("height", 0);
+        double height = intent.getDoubleExtra("height", 160);
 
         //정수부분 picker
         mIntPicker = findViewById(R.id.picker_integer_height_setting);

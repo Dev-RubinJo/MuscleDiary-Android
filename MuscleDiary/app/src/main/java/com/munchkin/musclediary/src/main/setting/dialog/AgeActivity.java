@@ -166,6 +166,9 @@ public class AgeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.bt_select_age:
                 Intent intent = new Intent();
                 intent.putExtra("age", mDateFormat);
+                intent.putExtra("ageYear", mYear);
+                intent.putExtra("ageMonth", mMonth);
+                intent.putExtra("ageDay", mDay);
                 setResult(RESULT_OK, intent);
                 finish();
                 break;

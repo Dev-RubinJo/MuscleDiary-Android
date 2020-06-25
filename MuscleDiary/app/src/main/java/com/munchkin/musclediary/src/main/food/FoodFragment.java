@@ -146,8 +146,9 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
         tryReadMeal(2);
         tryReadMeal(3);
         tryReadMeal(4);
-        kcalUpdate();
-        progressBarUpdate();
+        tryGetNutrition();
+//        kcalUpdate();
+//        progressBarUpdate();
     }
 
     // 생성될 음식 프레그먼트에 대한 컴포넌트 세팅
@@ -175,10 +176,7 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
 
         //목표 칼로리 텍스트뷰 생성
         mTvGoalKcal = v.findViewById(R.id.fragment_food_tv_goal_cal);
-        mGoalKcal = sSharedPreferences.getInt("kcal", 0);
-        if(mGoalKcal != 0){
-            mTvGoalKcal.setText(String.format("%d", mGoalKcal));
-        }
+
 
         //섭취칼로리 텍스트뷰 생성
         mTvEatenKcal = v.findViewById(R.id.fragment_food_tv_eaten_cal);
@@ -300,6 +298,8 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
 
         }
 
+        mGoalKcal = sSharedPreferences.getInt("kcal", 0);
+        mTvGoalKcal.setText(String.format("%.2f", (double)mGoalKcal));
         mLeftKcal = mGoalKcal - mEatenKcal;
         mTvEatenKcal.setText(String.format("%.2f",mEatenKcal));
         mTvLeftKcal.setText(String.format("%.2f",mLeftKcal)+" kcal");
@@ -417,21 +417,46 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
     @Override
     public void getNutritionSuccess(int code, String message, GetNutritionResponse.NutritionResult result) {
         SharedPreferences.Editor editor = sSharedPreferences.edit();
-        editor.putInt("carbohydrateGram", result.getCarboRate());
-        editor.putInt("proteinGram", result.getProteinRate());
-        editor.putInt("fatGram", result.getFatRate());
+        editor.putInt("kcal", result.getGoalCalorie());
+        editor.putInt("carbohydrate", result.getCarboRate());
+        editor.putInt("protein", result.getProteinRate());
+        editor.putInt("fat", result.getFatRate());
+        Log.d("testLog", "isSuccess");
+        editor.commit();
+
+        editor.putInt("carbohydrateGram",getFinalGram(sSharedPreferences.getInt("carbohydrate",0),4));
+        editor.putInt("proteinGram",getFinalGram(sSharedPreferences.getInt("protein",0),4));
+        editor.putInt("fatGram",getFinalGram(sSharedPreferences.getInt("fat",0),9));
         editor.apply();
+        kcalUpdate();
         progressBarUpdate();
+        hideProgressDialog();
     }
 
     @Override
     public void getGoalWeightFailure(String message) {
         SharedPreferences.Editor editor = sSharedPreferences.edit();
-        editor.putInt("carbohydrateGram", 0);
-        editor.putInt("proteinGram", 0);
-        editor.putInt("fatGram", 0);
+        editor.putInt("kcal", 0);
+        editor.putInt("carbohydrate", 0);
+        editor.putInt("protein", 0);
+        editor.putInt("fat", 0);
         editor.apply();
+        Log.d("testLog", "isFail");
+
+        editor.putInt("carbohydrateGram",getFinalGram(sSharedPreferences.getInt("carbohydrate",0),4));
+        editor.putInt("proteinGram",getFinalGram(sSharedPreferences.getInt("protein",0),4));
+        editor.putInt("fatGram",getFinalGram(sSharedPreferences.getInt("fat",0),9));
+        editor.apply();
+        kcalUpdate();
         progressBarUpdate();
+        hideProgressDialog();
+    }
+
+    private int getFinalGram(int ratio, int gramRatio){
+        int totalKcal = sSharedPreferences.getInt("kcal",0);
+        int kcal = totalKcal * ratio  / 100;
+        int gram = kcal/gramRatio;
+        return gram;
     }
 
     @Override

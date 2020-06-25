@@ -41,7 +41,7 @@ public class WeightGoalActivity extends BaseActivity implements View.OnClickList
     //picker 생성, 초기값 설정해주는 함수
     private void createPickers(){
         Intent intent = getIntent();
-        double weight = intent.getDoubleExtra("weight", 0);
+        double weight = intent.getDoubleExtra("goalWeight", 0);
 
         //정수부분 picker
         mIntPicker = findViewById(R.id.picker_integer_weight_goal);

@@ -29,6 +29,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="목표체중 설정"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
             android:textSize="23sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"/>

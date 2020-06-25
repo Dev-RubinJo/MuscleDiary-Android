@@ -29,6 +29,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="주간 체중 변화 목표"
+            android:textStyle="bold"
+            android:layout_marginStart="5dp"
             android:textSize="23sp"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -48,6 +50,7 @@
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
                 android:text="주당 0.5kg 감량"
+                android:layout_marginStart="15dp"
                 android:textColor="@color/colorPrimaryDark"/>
             <RadioButton
                 android:id="@+id/radio_m200g_setting"
@@ -55,6 +58,7 @@
                 android:layout_height="match_parent"
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
+                android:layout_marginStart="15dp"
                 android:text="주당 0.2kg 감량"
                 android:textColor="@color/colorPrimaryDark"/>
             <RadioButton
@@ -63,6 +67,7 @@
                 android:layout_height="match_parent"
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
+                android:layout_marginStart="15dp"
                 android:text="주당 체중 유지"
                 android:textColor="@color/colorPrimaryDark"/>
             <RadioButton
@@ -71,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
+                android:layout_marginStart="15dp"
                 android:text="주당 0.2kg 증량"
                 android:textColor="@color/colorPrimaryDark"/>
             <RadioButton
@@ -79,6 +85,7 @@
                 android:layout_height="match_parent"
                 android:padding="3dp"
                 android:buttonTint="@color/colorPrimaryDark"
+                android:layout_marginStart="15dp"
                 android:text="주당 0.5kg 증량"
                 android:textColor="@color/colorPrimaryDark"/>
 
