@@ -108,7 +108,6 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
     //목표영양 임시 칼로리
     private int mKcal = 2024;
 
-<<<<<<< HEAD
     FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
@@ -118,13 +117,11 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 
-=======
     //현재년도를 받아오기
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy");
     //현재 날짜 가져오기
     private Date currentTime = Calendar.getInstance().getTime();
     String mCurrentYear = DATE_FORMAT.format(currentTime);
->>>>>>> 3a45bb79a0c265c489fd09f2be01f3dc3f0a7861
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
