@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.MainActivity;
@@ -26,14 +27,20 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
     //Sign up button
     TextView mSignUpText;
 
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        //자동로그인 기능
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
+        Bundle params = new Bundle();
+        params.putString("req", "sign_in_Android");
+        mFirebaseAnalytics.logEvent("sign_in_Android", params);
+
+        //자동로그인 기능
         if(sSharedPreferences.getBoolean("isSignIn", false)){
             X_ACCESS_TOKEN = sSharedPreferences.getString("x-access-token","X_ACCESS_TOKEN");
             Log.d("Debug",X_ACCESS_TOKEN);
@@ -59,6 +66,11 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Bundle params = new Bundle();
+                params.putString("req", "press_sign_in_button_Android");
+                mFirebaseAnalytics.logEvent("press_sign_in_button_Android", params);
+
                 //editText 생성
                 EditText etId = findViewById(R.id.login_id);
                 EditText etPassword = findViewById(R.id.login_password);
@@ -82,6 +94,10 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
         mSignUpText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle params = new Bundle();
+                params.putString("req", "press_sign_up_button_Android");
+                mFirebaseAnalytics.logEvent("press_sign_up_button_Android", params);
+
                 startActivity(signUpIntent);
             }
         });
@@ -103,6 +119,11 @@ public class SignInActivity extends BaseActivity implements SignInActivityView {
             editor.putString("x-access-token",jwt.getJwt());
             editor.putBoolean("isSignIn",true);
             editor.apply();
+
+            Bundle params = new Bundle();
+            params.putString("req", "auto_sign_in_Android");
+            mFirebaseAnalytics.logEvent("auto_sign_in_Android", params);
+
             Intent signInIntent = new Intent(this, MainActivity.class);
             startActivity(signInIntent);
             finish();

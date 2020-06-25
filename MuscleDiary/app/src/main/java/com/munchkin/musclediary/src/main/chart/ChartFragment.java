@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.chart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.chart.dialog.TermActivity;
@@ -68,6 +70,15 @@ public class ChartFragment extends BaseFragment implements View.OnClickListener,
     //0 = 주간, 1 = 월간, 3 = 년간
     private int mTerm = 0;
     private ChartAdapter mAdapter;
+
+    FirebaseAnalytics mFirebaseAnalytics;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){

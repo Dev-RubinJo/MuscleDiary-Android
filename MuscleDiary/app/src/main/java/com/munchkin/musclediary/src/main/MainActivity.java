@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.chart.ChartFragment;
@@ -34,10 +35,14 @@ public class MainActivity extends BaseActivity {
     private int mProtein = 30;
     private int mFat = 20;
 
+    FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //SharedPreferences에 영양목표, 탄단지 비율 저장
         SharedPreferences.Editor editor = sSharedPreferences.edit();

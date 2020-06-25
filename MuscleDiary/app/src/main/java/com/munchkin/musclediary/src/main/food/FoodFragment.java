@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.food;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.food.adapter.MealAdapter;
@@ -83,6 +85,8 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbProtein;
     private com.mikhaellopez.circularprogressbar.CircularProgressBar mPbFat;
 
+    FirebaseAnalytics mFirebaseAnalytics;
+
     //그램수 계산을 위한 shared preference
     SharedPreferences.Editor mEditor = sSharedPreferences.edit();
 
@@ -105,6 +109,7 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //처음시작할때만 날짜 읽어옴
         final String todayText = String.format(DATE_FORMAT.format(currentTime));
         mEditor.putString("recordDate", todayText);
@@ -112,10 +117,22 @@ public class FoodFragment extends BaseFragment implements InputMenuActivityView,
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         final View view = inflater.inflate(R.layout.fragment_food, container, false);
         setComponentView(view);
-        Log.d("life","food onCreatedView enter");
+
+        Bundle params = new Bundle();
+        params.putString("req", "food_Android");
+        mFirebaseAnalytics.logEvent("food_Android", params);
+
+//        Log.d("life","food onCreatedView enter");
 
         return view;
     }

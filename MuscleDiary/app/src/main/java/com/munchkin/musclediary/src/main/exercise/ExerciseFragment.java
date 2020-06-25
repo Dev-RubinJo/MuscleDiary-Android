@@ -1,5 +1,6 @@
 package com.munchkin.musclediary.src.main.exercise;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseFragment;
 import com.munchkin.musclediary.src.main.exercise.adapter.ExercisePartAdapter;
@@ -46,6 +48,16 @@ public class ExerciseFragment extends BaseFragment implements OnDateSelectedList
     //현재 날짜 가져오기
     private Date currentTime = Calendar.getInstance().getTime();
     SharedPreferences.Editor mEditor = sSharedPreferences.edit();
+
+    FirebaseAnalytics mFirebaseAnalytics;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

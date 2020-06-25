@@ -1,6 +1,7 @@
 package com.munchkin.musclediary.src.main.setting;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.BaseFragment;
@@ -101,6 +103,16 @@ public class SettingFragment extends BaseFragment implements View.OnClickListene
 
     //목표영양 임시 칼로리
     private int mKcal = 2024;
+
+    FirebaseAnalytics mFirebaseAnalytics;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

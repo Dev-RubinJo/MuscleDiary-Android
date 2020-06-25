@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 
@@ -25,10 +26,19 @@ public class SignUpActivity extends BaseActivity {
     private EditText mEtPassword;
     private EditText mEtPasswordCheck;
 
+    FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle params = new Bundle();
+        params.putString("req", "sign_up_basic_Android");
+        mFirebaseAnalytics.logEvent("sign_up_basic_Android", params);
+
         // set UI Component
         mBtnComplete = findViewById(R.id.sign_up_btn_complete);
         mBtnBack = findViewById(R.id.sign_up_btn_back);
@@ -66,6 +76,10 @@ public class SignUpActivity extends BaseActivity {
             public void onClick(View v) {
                 boolean idCheck, pwCheck;
                 String id = mEtEmail.getText().toString();
+
+                Bundle params = new Bundle();
+                params.putString("req", "press_sign_up_button_basic_Android");
+                mFirebaseAnalytics.logEvent("press_sign_up_button_basic_Android", params);
 
                 if(id.isEmpty()){
                     idCheck = false;

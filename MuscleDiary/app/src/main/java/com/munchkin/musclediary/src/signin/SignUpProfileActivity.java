@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.munchkin.musclediary.R;
 import com.munchkin.musclediary.src.BaseActivity;
 import com.munchkin.musclediary.src.main.MainActivity;
@@ -56,10 +57,18 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
     private double mHeight= -1.0;
     private double mWeight= -1.0;
 
+    FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_profile);
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+        Bundle params = new Bundle();
+        params.putString("req", "sign_up_profile_Android");
+        mFirebaseAnalytics.logEvent("sign_up_profile_Android", params);
 
         Intent getIntent = getIntent();
         mEmail = getIntent.getStringExtra("email");
@@ -150,6 +159,11 @@ public class SignUpProfileActivity extends BaseActivity implements SignInActivit
         mBtnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Bundle params = new Bundle();
+                params.putString("req", "press_sign_up_button_profile_Android");
+                mFirebaseAnalytics.logEvent("press_sign_up_button_profile_Android", params);
+
                 //TODO 로그인 완료되면 바로 로그인 오류나면 오류 메세지로 연결
                 if(allEnteredcheck()){
                     Intent doneIntent = new Intent();
